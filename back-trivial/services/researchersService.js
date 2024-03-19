@@ -15,6 +15,19 @@ researchersService = {
             throw errores;
         }
         return researchers;
+    }, 
+    getResearchersRelation: async (relacion) => {
+        let errores = [];
+        let researchers = await researchersRepository.getResearchersRelation(relacion);
+        
+        if (researchers==null) {
+            errores.push(new LogicError("Error al acceder a los investigadores"));
+        }
+
+        if (errores.length>0) {
+            throw errores;
+        }
+        return researchers;
     }
 }
 
