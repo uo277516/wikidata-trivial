@@ -10,6 +10,7 @@
     "mysql": "^2.18.1",
     "sharp": "^0.32.6",
     "util": "^0.12.5",
+    "wikibase-edit": "^5.3.3",
     "wikibase-sdk": "^8.1.1"
   },
   "scripts": {
