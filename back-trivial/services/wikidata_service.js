@@ -1,5 +1,14 @@
-const { SparqlEndpointFetcher } = require('fetch-sparql-endpoint');
 
+
+const  WBK = require('wikibase-sdk');
+
+const wdk = WBK({
+  instance: 'https://www.wikidata.org',
+  sparqlEndpoint: 'https://query.wikidata.org/sparql'
+})
+
+
+const { SparqlEndpointFetcher } = require('fetch-sparql-endpoint');
 
 const express = require('express');
 const cors = require('cors');
@@ -95,6 +104,56 @@ app.post('/wikidata_add', async (req, res) => {
     console.error('Error al agregar datos a Wikidata:', error);
     res.status(500).json({ error: 'Error al agregar datos a Wikidata' });
   }
+});
+
+
+
+//---con la api--- para seleccionar
+
+app.get('/no_nacimiento', async (req, res) => {
+  const authorQid = 'Q535';
+  const sparql = `
+  SELECT ?investigador ?investigadorLabel 
+    WHERE 
+    {
+      ?investigador wdt:P106 wd:Q1650915.  
+      OPTIONAL { ?investigador wdt:P19 ?lugarNacimiento. }  
+      FILTER (!BOUND(?lugarNacimiento)) 
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
+    }
+    LIMIT 10
+    `;
+  const url = wdk.sparqlQuery(sparql);
+
+  const response = await axios.get(url);
+
+  //respuesta
+  res.json(response.data);
+
+});
+
+
+
+app.get('/no_estudio', async (req, res) => {
+  const authorQid = 'Q535';
+  const sparql = `
+  SELECT ?investigador ?investigadorLabel 
+    WHERE 
+    {
+      ?investigador wdt:P106 wd:Q1650915.  
+      OPTIONAL { ?investigador wdt:P69 ?lugarEstudiar. }  
+      FILTER (!BOUND(?lugarEstudiar))  
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
+    }
+    LIMIT 10
+    `;
+  const url = wdk.sparqlQuery(sparql);
+
+  const response = await axios.get(url);
+
+  //respuesta
+  res.json(response.data);
+
 });
 
 

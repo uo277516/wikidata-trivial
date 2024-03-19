@@ -9,9 +9,10 @@
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "sharp": "^0.32.6",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "wikibase-sdk": "^8.1.1"
   },
   "scripts": {
-    "start": "node service/wikidata_service.js"
+    "start": "node app.js"
   }
 }
