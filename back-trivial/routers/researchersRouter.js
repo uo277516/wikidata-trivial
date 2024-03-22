@@ -10,5 +10,7 @@ researchersRouter.get("/", researchersController.getResearchers);
 //P19 es no sitio de lugar de nacimiento
 researchersRouter.get("/:relacion", researchersController.getResearchersRelation);
 
+//editar
+researchersRouter.get("/editar", researchersController.editResearcherById);
 
 module.exports = researchersRouter
