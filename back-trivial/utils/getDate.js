@@ -3,9 +3,12 @@ function getDate() {
 
     const año = fechaActual.getFullYear();
     const mes = fechaActual.getMonth() + 1; 
-    const día = fechaActual.getDate();
+    const dia = fechaActual.getDate();
 
-    return `${año}-${mes < 10 ? '0' + mes : mes}-${día < 10 ? '0' + día : día}`;
+    const mesFormateado = mes < 10 ? '0' + mes : mes;
+    const diaFormateado = dia < 10 ? '0' + dia : dia;
+
+    return `${año}-${mesFormateado}-${diaFormateado}`;
 }
 
 module.exports = {getDate};

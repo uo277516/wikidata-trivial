@@ -149,7 +149,7 @@ const researchersRepository = {
         property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
         value: 'bulgroz', //valor de la propiedad (oviedo, ucm) --> "value"
         references: [
-          { P4656: referenceURL, P813: fecha }
+          { P854: referenceURL, P813: fecha }
         ]
       });
       console.log(claim);

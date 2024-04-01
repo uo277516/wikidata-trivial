@@ -23,6 +23,10 @@ researchersService = {
         if (referenceURL == undefined) {
             errores.push(new InputError("referenceURL", "URL de referencia no definida"));
         }
+        console.log("hola!!!!  " + referenceURL);
+        if (referenceURL ==! null && !referenceURL.startsWith("https://")) {
+            errores.push(new InputError("referenceURL", "URL de referencia no sigue un esquema 'https://'"));
+        }
         
 
         let info = await researchersRepository.editResearcherById(researcherId, property, value, referenceURL);
