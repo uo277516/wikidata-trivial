@@ -11,6 +11,7 @@ const wdk = WBK({
 
 
 
+/*
 const generalConfig = {
   // A Wikibase instance is required
   instance: 'https://www.wikidata.org',
@@ -35,6 +36,24 @@ const generalConfig = {
     }
   }
 };
+*/
+
+/*
+const generalConfig = {
+  instance: 'https://www.wikidata.org',
+  credentials: {
+    username: 'Natalia Fernandez Riego',
+    password: 'Semellones02'
+  }
+}
+*/
+
+//funciona pro asi no se deberia de hacer
+const generalConfig = {
+  // Note that it will only work for domains on HTTPS
+  instance: 'https://www.wikidata.org',
+  anonymous: true
+}
 
 const wbEdit = WBEdit(generalConfig)
 
@@ -119,7 +138,7 @@ const researchersRepository = {
 
 
   editResearcherById: async () => { //aqui despues añadiria dos parametros, la propiedad y el valor
-    const claim = null;
+    let claim = null;
     try {
       console.log(wbEdit);
       claim = wbEdit.claim.create({
@@ -127,7 +146,7 @@ const researchersRepository = {
         property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...)
         value: 'bulgroz' //valor de la propiedad (oviedo, ucm)
       });
-      console.log("hola!!\n"+claim);
+      console.log(claim);
     } catch (error) {
       console.error('Error al hacer la solicitud:', error);
     }

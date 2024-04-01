@@ -10,7 +10,8 @@ researchersController = {
             }, 3000);
         }
         catch (errors) {
-            return res.status(errors[0].code).json({ errors: errors} )
+            //return res.status(errors[0].code).json({ errors: errors} )
+            return res.json({ errors: errors} )
         }
 
     },
