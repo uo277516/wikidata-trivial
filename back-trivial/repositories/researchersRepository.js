@@ -137,14 +137,15 @@ const researchersRepository = {
   },
 
 
-  editResearcherById: async () => { //aqui despues añadiria dos parametros, la propiedad y el valor
+  editResearcherById: async (researcherId, property, value) => { 
     let claim = null;
     try {
       console.log(wbEdit);
+      //los valores no son sobre eso, es en una de prueba
       claim = wbEdit.claim.create({
-        id: 'Q4115189', //id del investigador
-        property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...)
-        value: 'bulgroz' //valor de la propiedad (oviedo, ucm)
+        id: 'Q4115189', //id del investigador --> "researcherId"
+        property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
+        value: 'bulgroz' //valor de la propiedad (oviedo, ucm) --> "value"
       });
       console.log(claim);
     } catch (error) {

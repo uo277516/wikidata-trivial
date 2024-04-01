@@ -8,7 +8,7 @@ researchersRouter.get("/", researchersController.getResearchers);
 
 
 //editar, supongo q tendra q ser un post o algo despues
-researchersRouter.get("/editar", researchersController.editResearcherById);
+researchersRouter.post("/", researchersController.editResearcherById);
 
 //P69 es no sitio donde estudiar
 //P19 es no sitio de lugar de nacimiento
