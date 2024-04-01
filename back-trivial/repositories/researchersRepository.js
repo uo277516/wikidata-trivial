@@ -3,6 +3,7 @@ const WBEdit = require('wikibase-edit');
 
 const axios = require('axios');
 const transformJSON = require('../utils/transformJSON');
+const getDate = require('../utils/getDate');
 
 const wdk = WBK({
   instance: 'https://www.wikidata.org',
@@ -137,15 +138,19 @@ const researchersRepository = {
   },
 
 
-  editResearcherById: async (researcherId, property, value) => { 
+  editResearcherById: async (researcherId, property, value, referenceURL) => { 
     let claim = null;
+    let fecha = getDate.getDate();
     try {
       console.log(wbEdit);
       //los valores no son sobre eso, es en una de prueba
       claim = wbEdit.claim.create({
         id: 'Q4115189', //id del investigador --> "researcherId"
         property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
-        value: 'bulgroz' //valor de la propiedad (oviedo, ucm) --> "value"
+        value: 'bulgroz', //valor de la propiedad (oviedo, ucm) --> "value"
+        references: [
+          { P4656: referenceURL, P813: fecha }
+        ]
       });
       console.log(claim);
     } catch (error) {

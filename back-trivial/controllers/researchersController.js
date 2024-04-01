@@ -4,12 +4,15 @@ researchersController = {
 
     editResearcherById: async (req, res) => {
         try {
-			let { researcherId, property, value } = req.query; //o req.body?
+			let { researcherId, property, value, referenceURL } = req.query; 
+            //req.query -> url
+            //req.body -> formulario html (deberán ser req.body el value, los demas no se)
 
-			const result = await researchersService.editResearcherById(researcherId, property, value);
+			const result = await researchersService.editResearcherById(researcherId, property, value, referenceURL);
 			return res.json({"result": result})
 		}
 		catch (errors) {
+            console.log(errors);
 			return res.status(errors[0].code).json({ errors: errors} )
 		}
 

@@ -5,12 +5,11 @@ const InputError = require("../errors/inputError");
 //aqui controlaria errores tipo si fueran d meter cosas el usuario
 researchersService = {
 
-    editResearcherById: async(researcherId, property, value) => {
+    editResearcherById: async(researcherId, property, value, referenceURL) => {
         let errores = [];
 
-        console.log('researcherId:', researcherId);
-        console.log('property:', property);
-        console.log('value:', value);
+        console.log("hola",referenceURL);
+
 
         if (researcherId == undefined) {
             errores.push(new InputError("researcherId", "Id del investigador no válido"));
@@ -21,9 +20,12 @@ researchersService = {
         if (value == undefined) {
             errores.push(new InputError("value", "Valor no definido"));
         }
+        if (referenceURL == undefined) {
+            errores.push(new InputError("referenceURL", "URL de referencia no definida"));
+        }
         
 
-        let info = await researchersRepository.editResearcherById(researcherId, property, value);
+        let info = await researchersRepository.editResearcherById(researcherId, property, value, referenceURL);
         
         if (info==null) {
             errores.push(new LogicError("Error al editar el investigador"));
