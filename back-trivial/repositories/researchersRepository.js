@@ -97,7 +97,7 @@ const researchersRepository = {
 
       return transformJSON.transformJSON(response.data); //devolver datos parseados
     } catch (error) {
-      console.error('Error al hacer la solicitud:', error);
+      console.error('Something went wrong while processing your request: ', error);
     }
   }
   ,
@@ -133,7 +133,7 @@ const researchersRepository = {
 
       return transformJSON.transformJSON(response.data); //devolver datos parseados
     } catch (error) {
-      console.error('Error al hacer la solicitud:', error);
+      console.error('Something went wrong while processing your request: ', error);
     }
   },
 
@@ -154,7 +154,7 @@ const researchersRepository = {
       });
       console.log(claim);
     } catch (error) {
-      console.error('Error al hacer la solicitud:', error);
+      console.error('Something went wrong while processing your request: ', error);
     }
 
     return claim;

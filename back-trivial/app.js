@@ -13,5 +13,5 @@ app.use(express.json());
 initRouters(app);
 
 app.listen(PORT, () => {
-    console.log("Escuchando en el puerto 3001");
+    console.log("Listening on port 3001");
 })

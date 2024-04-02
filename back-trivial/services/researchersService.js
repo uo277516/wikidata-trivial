@@ -2,70 +2,65 @@ const researchersRepository = require("../repositories/researchersRepository");
 const LogicError = require("../errors/logicError");
 const InputError = require("../errors/inputError");
 
-//aqui controlaria errores tipo si fueran d meter cosas el usuario
 researchersService = {
 
     editResearcherById: async(researcherId, property, value, referenceURL) => {
-        let errores = [];
-
-        console.log("hola",referenceURL);
-
+        let errors = [];
 
         if (researcherId == undefined) {
-            errores.push(new InputError("researcherId", "Id del investigador no válido"));
+            errors.push(new InputError("researcherId", "Invalid researcher ID"));
         }
         if (property == undefined) {
-            errores.push(new InputError("property", "Propiedad de relación no definida"));
+            errors.push(new InputError("property", "Undefined relationship property"));
         }
         if (value == undefined) {
-            errores.push(new InputError("value", "Valor no definido"));
+            errors.push(new InputError("value", "Undefined value"));
         }
         if (referenceURL == undefined) {
-            errores.push(new InputError("referenceURL", "URL de referencia no definida"));
+            errors.push(new InputError("referenceURL", "Undefined reference URL"));
         }
-        console.log("hola!!!!  " + referenceURL);
-        if (referenceURL ==! null && !referenceURL.startsWith("https://")) {
-            errores.push(new InputError("referenceURL", "URL de referencia no sigue un esquema 'https://'"));
+        if (referenceURL !== null && !referenceURL.startsWith("https://")) {
+            errors.push(new InputError("referenceURL", "Reference URL does not follow 'https://' scheme"));
         }
         
 
         let info = await researchersRepository.editResearcherById(researcherId, property, value, referenceURL);
         
-        if (info==null) {
-            errores.push(new LogicError("Error al editar el investigador"));
+        if (info == null) {
+            errors.push(new LogicError("Error editing researcher"));
         }
 
-        if (errores.length>0) {
-            throw errores;
+        if (errors.length > 0) {
+            throw errors;
         }
         return true;
     },
     getResearchers: async () => {
-        let errores = [];
+        let errors = [];
         let researchers = await researchersRepository.getResearchers();
         
-        if (researchers==null) {
-            errores.push(new LogicError("Error al acceder a los investigadores"));
+        if (researchers == null) {
+            errors.push(new LogicError("Error accessing researchers"));
         }
 
-        if (errores.length>0) {
-            throw errores;
+        if (errors.length > 0) {
+            throw errors;
         }
         return researchers;
     }, 
-    getResearchersRelation: async (relacion) => {
-        let errores = [];
-        let researchers = await researchersRepository.getResearchersRelation(relacion);
+    getResearchersRelation: async (relation) => {
+        let errors = [];
+        let researchers = await researchersRepository.getResearchersRelation(relation);
         
-        if (researchers==null) {
-            errores.push(new LogicError("Error al acceder a los investigadores"));
+        if (researchers == null) {
+            errors.push(new LogicError("Error accessing researchers"));
         }
 
-        if (errores.length>0) {
-            throw errores;
+        if (errors.length > 0) {
+            throw errors;
         }
         return researchers;
     }
 }
 
-module.exports=researchersService;
+module.exports = researchersService;

@@ -1,1 +1,1 @@
-Aplicación web basada en la realización de preguntas y respuestas tipo Trivial con el fin de enriquecer Wikidata
+Web application based on the creation of trivia-style questions and answers aimed at enriching Wikidata.

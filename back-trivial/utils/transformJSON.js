@@ -1,10 +1,10 @@
 function transformJSON(originalJSON) {
     const transformedBindings = originalJSON.results.bindings.map(item => {
-        const investigadorValue = item.investigador.value.split('/').pop(); 
-        if (!investigadorValue.startsWith('Q')) return null; 
+        const researcherValue = item.investigador.value.split('/').pop(); 
+        if (!researcherValue.startsWith('Q')) return null; 
         
         return {
-            investigador: investigadorValue,
+            investigador: researcherValue,
             investigadorLabel: item.investigadorLabel.value
         };
     }).filter(item => item !== null); 
@@ -19,16 +19,16 @@ function transformJSON(originalJSON) {
     return transformedJSON;
 }
 
-//devuelve los nombres
-function getInvestigadorLabelValues(originalJSON) {
+//returns the names of the researchers
+function getResearcherLabelValues(originalJSON) {
     return originalJSON.results.bindings.map(item => item.investigadorLabel.value);
 }
 
-//devuelve los ids (Q..)
-function getInvestigadorIds(originalJSON) {
+//returns the ids of the researchers
+function getResearcherIds(originalJSON) {
     return originalJSON.results.bindings
         .map(item => item.investigador.value.split('/').pop())
         .filter(value => value.startsWith('Q'));
 }
 
-module.exports = {transformJSON, getInvestigadorLabelValues, getInvestigadorIds};
+module.exports = {transformJSON, getResearcherLabelValues, getResearcherIds};
