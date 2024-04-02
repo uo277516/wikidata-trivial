@@ -140,7 +140,7 @@ const researchersRepository = {
 
   editResearcherById: async (researcherId, property, value, referenceURL) => { 
     let claim = null;
-    let fecha = getDate.getDate();
+    let date = getDate.getDate();
     try {
       console.log(wbEdit);
       //los valores no son sobre eso, es en una de prueba
@@ -149,8 +149,8 @@ const researchersRepository = {
         property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
         value: 'bulgroz', //valor de la propiedad (oviedo, ucm) --> "value"
         references: [
-          { P854: referenceURL, P813: fecha }
-        ]
+          { P854: referenceURL, P813: date }
+        ]   
       });
       console.log(claim);
     } catch (error) {
