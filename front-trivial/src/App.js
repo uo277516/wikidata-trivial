@@ -1,5 +1,5 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 const {Title, Paragraph, Link} = Typography;
@@ -63,38 +63,69 @@ let App = () => {
     fontSize: '40px'
   };
 
+  const [questionSelected, setQuestionSelected] = useState("");
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
 
-  const [investigatorData, setInvestigatorData] = useState([]);
 
 
 
-  const fetchData = async () => {
-    try {
-      console.log("Realizando solicitud al backend:", process.env.REACT_APP_BACKEND_BASE_URL);
-      let response = await fetch(
-        process.env.REACT_APP_BACKEND_BASE_URL + "/researchers/P19",
-        {
+  //Manejar seleccionar pregunta
+  useEffect(() => {
+    const fetchData = async (endpoint) => {
+      try {
+        console.log("tan cargando...")
+
+        let response = await fetch(
+          process.env.REACT_APP_BACKEND_BASE_URL + "/researchers" + endpoint,
+          {
             method: "GET"
-        });
-
-      if (response.ok) {
+          }
+        );
+  
+        if (response.ok) {
           let jsonData = await response.json();
-          setInvestigatorData(jsonData.results.bindings);
-          console.log(jsonData);
-      } else {
-          let responseBody = await response.json();
-          let serverErrors = responseBody.errors;
-          serverErrors.forEach(e => {
-              console.log("Error: " + e.msg)
-          })
+          return jsonData.results.bindings;
+        } else {
+          if (response.status === 500) {
+            throw new Error("Error en el servidor");
+          } else {
+            let responseBody = await response.json();
+            let serverErrors = responseBody.errors;
+            serverErrors.forEach(e => {
+                console.log("Error: " + e.msg)
+            })
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-        console.error("Error fetching data:",error);
-    }
     };
   
-  useEffect(() => {
-    fetchData();
+    const fetchQuestions = async () => {
+      try {
+        const investigatorDataBorn = await fetchData("/P19");
+        const investigatorDataStudy = await fetchData("/P69");
+  
+        const bornQuestions = investigatorDataBorn.map((item) => `¿Dónde nació el investigador ${item.investigadorLabel}?`);
+        const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
+  
+        const questionsArray = [...bornQuestions, ...studyQuestions];
+  
+        const newQuestionSelected = getRandomItem(questionsArray);
+        setQuestionSelected(newQuestionSelected);
+        //console.log("Pregunta seleccionada:", questionSelected);
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+        //mandar al return algo
+      }
+    };
+  
+    const getRandomItem = (array) => {
+      const randomIndex = Math.floor(Math.random() * array.length);
+      return array[randomIndex];
+    };
+  
+    fetchQuestions();
   }, []);
 
 
@@ -141,19 +172,20 @@ let App = () => {
               <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
               Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
             </Paragraph>
-
-               {/*para poner lo de las preguntas, lo de arriba es prueba de como seria ya con la base de datos pero no va*/}
-               <Content style={{ textAlign: 'left', paddingLeft: '20px', minHeight: 120, lineHeight: '120px', color: 'black', backgroundColor: 'white' }}>
-                  {investigatorData.map((item, index) => (
-                    <Paragraph key={index}>{item.investigadorLabel}</Paragraph>
-                  ))}
-               </Content>
-
-                
             
             <Content >
               
-                <Paragraph style={{fontSize:"20px", marginBottom:"25px", marginTop:"50px"}}> ¿Ejemplo de pregunta? </Paragraph>
+            {questionSelected ? ( //si pregunta ya cargo pregunta si no spin
+              <Paragraph style={{ fontSize: "20px", marginBottom: "25px", marginTop: "50px" }}>{questionSelected}</Paragraph>
+            ) : (
+              <Spin spinning={true} delay={500} style={{marginBottom:"20px", width:700}}>
+                <Alert style={{marginBottom:"20px", width:700}}
+                  type="info"
+                  message="Cargando pregunta"
+                  description="Por favor espere. Se está cargando la pregunta."
+                />
+              </Spin>
+            )}
                 <Form
                 
                   name="basic"
