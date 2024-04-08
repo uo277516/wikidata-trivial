@@ -64,21 +64,22 @@ let App = () => {
   };
 
 
-  const [investigatorLabels, setInvestigatorLabels] = useState([]);
+  const [investigatorData, setInvestigatorData] = useState([]);
+
 
 
   const fetchData = async () => {
     try {
+      console.log("Realizando solicitud al backend:", process.env.REACT_APP_BACKEND_BASE_URL);
       let response = await fetch(
-        process.env.REACT_APP_BACKEND_BASE_URL + "/P19",
+        process.env.REACT_APP_BACKEND_BASE_URL + "/researchers/P19",
         {
             method: "GET"
         });
 
       if (response.ok) {
           let jsonData = await response.json();
-          const labels = jsonData.map(item => item.investigatorLabel);
-          setInvestigatorLabels(labels);
+          setInvestigatorData(jsonData.results.bindings);
           console.log(jsonData);
       } else {
           let responseBody = await response.json();
@@ -141,13 +142,14 @@ let App = () => {
               Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
             </Paragraph>
 
-               {/*para poner lo de las preguntas, lo de arriba es prueba de como seria ya con la base de datos pero no va
-            <Content style={{ textAlign: 'left', paddingLeft: '20px', minHeight: 120, lineHeight: '120px', color: 'black', backgroundColor: 'white' }}>
-              {investigatorLabels.map((label, index) => (
-                <Paragraph key={index}>{label}</Paragraph>
-              ))}
-            </Content>
-                */}
+               {/*para poner lo de las preguntas, lo de arriba es prueba de como seria ya con la base de datos pero no va*/}
+               <Content style={{ textAlign: 'left', paddingLeft: '20px', minHeight: 120, lineHeight: '120px', color: 'black', backgroundColor: 'white' }}>
+                  {investigatorData.map((item, index) => (
+                    <Paragraph key={index}>{item.investigadorLabel}</Paragraph>
+                  ))}
+               </Content>
+
+                
             
             <Content >
               
@@ -196,7 +198,7 @@ let App = () => {
                 message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}
                 type="success"
                 showIcon
-                style={{ width: 700 }} 
+                style={{ width: 700, textAlign: 'center' }} 
               />
             )}
           </Content>

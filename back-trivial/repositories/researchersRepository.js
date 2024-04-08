@@ -130,7 +130,7 @@ const researchersRepository = {
 
       //en json
       console.log(response.data);
-
+      
       return transformJSON.transformJSON(response.data); //devolver datos parseados
     } catch (error) {
       console.error('Something went wrong while processing your request: ', error);
