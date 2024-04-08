@@ -1,14 +1,15 @@
 import './App.css';
-import {Layout, Flex, Typography, Image} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
-
+const {Title, Paragraph, Link} = Typography;
+const { Header, Footer, Sider, Content } = Layout;
 
 let App = () => {
 
+  //Para el número de respuestas seguidas
+  const [answeredQuestions, setAnsweredQuestions] = useState(0); 
 
-  const {Text, Title, Paragraph, Link} = Typography;
-  const { Header, Footer, Sider, Content } = Layout;
 
   const headerStyle = {
     textAlign: 'center',
@@ -47,9 +48,7 @@ let App = () => {
     color: '#fff',
     backgroundColor: '#4096ff',
   };
-  const questionsStyle = {
-
-  };
+  
   const titleOneStyle = {
     marginTop: '20px', 
     fontSize: '50px' ,
@@ -58,6 +57,10 @@ let App = () => {
   const titleTwoStyle = {
     marginTop: '5px', 
     fontSize: '40px' 
+  };
+  const formStyle= {
+    marginBottom: '35px',
+    fontSize: '40px'
   };
 
 
@@ -95,6 +98,14 @@ let App = () => {
 
 
 
+  //Manejar el número de respuestas seguidas
+  const handleFormSubmit = async (values) => {
+    if (values.respuesta && values.urldereferencia) {
+      setAnsweredQuestions(answeredQuestions + 1);
+    } else {
+      console.error("Alguno o varios campos están sin completar");
+    }
+  };
 
 
   return (
@@ -122,7 +133,7 @@ let App = () => {
       <Content style={contentStyle}>
 
         <Layout>
-          <Content width="60%" style={contentStyle}>   {/*para poner las preguntas y eso*/}
+          <Content width="100%" style={contentStyle}>   {/*para poner las preguntas y eso*/}
           
             <Paragraph style={{fontSize:"20px"}}>
               La información de las siguientes preguntas se ha recogido de 
@@ -130,17 +141,69 @@ let App = () => {
               Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
             </Paragraph>
 
+               {/*para poner lo de las preguntas, lo de arriba es prueba de como seria ya con la base de datos pero no va
             <Content style={{ textAlign: 'left', paddingLeft: '20px', minHeight: 120, lineHeight: '120px', color: 'black', backgroundColor: 'white' }}>
               {investigatorLabels.map((label, index) => (
                 <Paragraph key={index}>{label}</Paragraph>
               ))}
             </Content>
+                */}
+            
+            <Content >
+              
+                <Paragraph style={{fontSize:"20px", marginBottom:"25px", marginTop:"50px"}}> ¿Ejemplo de pregunta? </Paragraph>
+                <Form
+                
+                  name="basic"
+                  style={{ maxWidth: 700 }}
+                  initialValues={{ remember: true }}
+                  autoComplete="off"
+                  onFinish={handleFormSubmit}
+                >
+                  <Form.Item style={formStyle}
+                    label="Respuesta"
+                    name="respuesta"
+                    rules={[{required:true, message: 'Debes de introducir la respuesta a la pregunta' }]}
+                  >
+                    <Input placeholder='Aquí va tu respuesta'></Input>
+                  </Form.Item>
+
+                  <Form.Item style={formStyle}
+                    label="URL de referencia"
+                    name="urldereferencia"
+                    rules={[
+                      {required:true, message: 'Debes de introducir una URL' },
+                      { type: 'url', message: 'Por favor, introduce una URL válida' }
+                    ]}
+                  >
+                    <Input placeholder='https://ejemplodeurl.com'></Input>
+                  </Form.Item>
+
+                  <Form.Item >
+                    <Button type="primary" htmlType="submit">
+                      Enviar respuesta
+                    </Button>
+                  </Form.Item>
+
+                </Form>
+
+
+            </Content>
+
+            <Content >
+            {answeredQuestions > 0 && (
+              <Alert
+                message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}
+                type="success"
+                showIcon
+                style={{ width: 700 }} 
+              />
+            )}
+          </Content>
 
           
           </Content>
-          <Sider width="40%" style={siderStyle}>      {/*para poner lo de la racha*/}
-            
-          </Sider>
+          
         </Layout>
 
         
