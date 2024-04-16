@@ -3,6 +3,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin} from 'antd'
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
+import OAuthLoginContainer from './components/OAuthLoginContainer';
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -224,7 +225,7 @@ let App = () => {
           </Content>
 
               <RedirectButton></RedirectButton>
-          
+              <OAuthLoginContainer></OAuthLoginContainer>
           </Content>
           
         </Layout>
