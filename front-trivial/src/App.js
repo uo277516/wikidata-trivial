@@ -106,7 +106,7 @@ let App = () => {
     return array[randomIndex];
   };
 
-  //cuando envío
+  //manejar botón cuando envío
   const handleSendButton = async () => {
     try {
       const values = await form.validateFields(); //validar campos
@@ -129,19 +129,6 @@ let App = () => {
     fetchQuestions();
   }, []);
 
-
-
-  //Manejar el número de respuestas seguidas
-  const handleFormSubmit = async (values) => {
-    console.log("patata");
-    if (values.respuesta && values.urldereferencia) {
-      
-    } else {
-      console.error("Alguno o varios campos están sin completar");
-    }
-    //vaciar valores del form
-    form.resetFields();
-  };
 
 
   return (
@@ -188,7 +175,7 @@ let App = () => {
                 />
               </Spin>
             ) : (
-              questionSelected && ( // Mostrar la pregunta si está seleccionada
+              questionSelected && ( //pregunta
                 <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
                   {questionSelected}
                 </Paragraph>
