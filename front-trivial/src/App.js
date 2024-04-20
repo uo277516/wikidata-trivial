@@ -1,7 +1,8 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, ConfigProvider} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
+import { TinyColor } from '@ctrl/tinycolor';
 import RedirectButton from './components/RedirectButton';
 import OAuthLoginContainer from './components/OAuthLoginContainer';
 const {Title, Paragraph, Link} = Typography;
@@ -9,8 +10,11 @@ const { Header, Footer, Sider, Content } = Layout;
 
 let App = () => {
 
-  //Para el número de respuestas seguidas
-  const [answeredQuestions, setAnsweredQuestions] = useState(0); 
+  const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
+  const [questionSelected, setQuestionSelected] = useState(null);
+  const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
+  const [form] = Form.useForm();
+  const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
 
 
   const headerStyle = {
@@ -64,10 +68,6 @@ let App = () => {
     marginBottom: '35px',
     fontSize: '40px'
   };
-
-  const [questionSelected, setQuestionSelected] = useState(null);
-  const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
-  const [form] = Form.useForm();
 
 
   const fetchData = async (endpoint) => {
@@ -128,6 +128,11 @@ let App = () => {
   useEffect(() => {
     fetchQuestions();
   }, []);
+
+  //botón de rendirse
+  const handleGiveUp = async () => {
+    setGiveUp(true);
+  }
 
 
 
@@ -209,12 +214,22 @@ let App = () => {
                   </Form.Item>
 
                   <Form.Item >
-                    <Button type="primary" htmlType="submit" onClick={handleSendButton}>
+                    <Button type="primary" htmlType="submit" onClick={handleSendButton} 
+                      style={{ marginRight: '20px'}}>
                       Enviar respuesta
+                    </Button>
+                    <Button type="primary" onClick={handleGiveUp}
+                      style={{ backgroundColor: '#607d8b' }}>
+                      Rendirse
                     </Button>
                   </Form.Item>
 
                 </Form>
+
+
+              
+
+               
 
 
             </Content>
