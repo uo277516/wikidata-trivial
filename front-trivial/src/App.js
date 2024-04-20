@@ -1,5 +1,5 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Segmented} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
@@ -14,6 +14,16 @@ let App = () => {
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
   const [form] = Form.useForm();
   const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
+
+  //Categorias
+  const [selectedCategory, setSelectedCategory] = useState("investigadores");
+  const categories = ['investigadores', 'geografía', 'deportistas']; 
+
+  let selCategory = "investigadores";
+
+  const setSelCategory = (cc) => {
+    selCategory= cc;
+  };
 
   const headerStyle = {
     textAlign: 'center',
@@ -84,7 +94,7 @@ let App = () => {
     }
   };
 
-  const fetchQuestions = async () => {
+  const fetchQuestionsResearchers = async () => {
     setLoading(true); //empieza a cargar
     const investigatorDataBorn = await fetchData("/P19");
     const investigatorDataStudy = await fetchData("/P69");
@@ -98,6 +108,13 @@ let App = () => {
       setLoading(false); //carga
     }
   };
+
+  const fetchQuestions = (cat) => {
+    if (cat==="investigadores") {
+      fetchQuestionsResearchers();
+    }
+  };
+  
 
   const getRandomItem = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -114,7 +131,7 @@ let App = () => {
         form.resetFields();
 
         //vuelvo a cargar
-        fetchQuestions();
+        fetchQuestions(selCategory);
       } else {
         console.error("Alguno o varios campos están sin completar");
       }
@@ -124,7 +141,7 @@ let App = () => {
   };
 
   useEffect(() => {
-    fetchQuestions();
+    fetchQuestions(selCategory);
   }, []);
 
   //botón de rendirse
@@ -135,8 +152,20 @@ let App = () => {
   const handleRestart = () => {
     setAnsweredQuestions(0);
     setGiveUp(false);
-    fetchQuestions();
+    fetchQuestions(selCategory);
   };
+
+  //Categorias
+  const handleCategoryChange = (value) => {
+    //Para el segmented
+    setSelectedCategory(value);
+
+    //Para cogerlo para el fetch
+    setSelCategory(value);
+    console.log(selCategory);
+    //llamar fetch
+  };
+
 
 
 
@@ -168,13 +197,23 @@ let App = () => {
 
         <Layout>
           <Content width="100%" style={contentStyle}>   {/*para poner las preguntas y eso*/}
+
+            <Segmented
+              options={categories.map((category) => ({
+                label: category,
+                value: category,
+                selected: selectedCategory === category,
+              }))}
+              onChange={handleCategoryChange}
+            />
           
-            <Paragraph style={{fontSize:"20px"}}>
-              La información de las siguientes preguntas se ha recogido de 
+            {!giveup && (<Paragraph style={{fontSize:"20px"}} >
+              La información de las siguientes preguntas sobre {selectedCategory} se ha recogido de 
               <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
               Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
             </Paragraph>
-            
+            )}
+
             <Content >
               
               
