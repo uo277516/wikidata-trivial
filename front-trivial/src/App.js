@@ -67,6 +67,7 @@ let App = () => {
 
   const [questionSelected, setQuestionSelected] = useState(null);
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
+  const [form] = Form.useForm();
 
 
   const fetchData = async (endpoint) => {
@@ -117,11 +118,14 @@ let App = () => {
 
   //Manejar el número de respuestas seguidas
   const handleFormSubmit = async (values) => {
+    console.log("patata");
     if (values.respuesta && values.urldereferencia) {
       setAnsweredQuestions(answeredQuestions + 1);
     } else {
       console.error("Alguno o varios campos están sin completar");
     }
+    //vaciar valores del form
+    form.resetFields();
   };
 
 
@@ -176,7 +180,7 @@ let App = () => {
               )
             )}
                 <Form
-                
+                  form={form}
                   name="basic"
                   style={{ maxWidth: 700 }}
                   initialValues={{ remember: true }}
@@ -223,9 +227,10 @@ let App = () => {
               />
             )}
           </Content>
-
+              {/* lo comento de momento xq no va
               <RedirectButton></RedirectButton>
               <OAuthLoginContainer></OAuthLoginContainer>
+            */}
           </Content>
           
         </Layout>
