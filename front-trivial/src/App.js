@@ -1,8 +1,7 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, ConfigProvider} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { TinyColor } from '@ctrl/tinycolor';
 import RedirectButton from './components/RedirectButton';
 import OAuthLoginContainer from './components/OAuthLoginContainer';
 const {Title, Paragraph, Link} = Typography;
@@ -15,7 +14,6 @@ let App = () => {
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
   const [form] = Form.useForm();
   const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
-
 
   const headerStyle = {
     textAlign: 'center',
@@ -130,9 +128,17 @@ let App = () => {
   }, []);
 
   //botón de rendirse
-  const handleGiveUp = async () => {
+  const handleGiveUp = () => {
     setGiveUp(true);
   }
+
+  const handleRestart = () => {
+    setAnsweredQuestions(0);
+    setGiveUp(false);
+    fetchQuestions();
+  };
+
+
 
 
 
@@ -171,7 +177,8 @@ let App = () => {
             
             <Content >
               
-            {loading ? ( 
+              
+            {loading && !giveup ? ( 
               <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
                 <Alert style={{ marginBottom: "20px", width: 700 }}
                   type="info"
@@ -180,13 +187,27 @@ let App = () => {
                 />
               </Spin>
             ) : (
-              questionSelected && ( //pregunta
+              questionSelected && !giveup && ( //pregunta
                 <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
                   {questionSelected}
                 </Paragraph>
               )
             )}
-                <Form
+
+
+            {giveup ? (
+              <Result
+              status="success"
+              title="¡Te has rendido!"
+              subTitle={`Número de preguntas acertadas seguidas: ${answeredQuestions}`}
+              extra={[
+                <Button type="primary" key="console" onClick={handleRestart}>
+                  Volver a empezar
+                </Button>,
+              ]}
+            />
+            ): (
+              <Form
                   form={form}
                   name="basic"
                   style={{ maxWidth: 700 }}
@@ -225,17 +246,12 @@ let App = () => {
                   </Form.Item>
 
                 </Form>
-
-
-              
-
-               
-
+            )}
 
             </Content>
 
             <Content >
-            {answeredQuestions > 0 && (
+            {!giveup && answeredQuestions > 0 && (
               <Alert
                 message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}
                 type="success"
@@ -243,7 +259,7 @@ let App = () => {
                 style={{ width: 700, textAlign: 'center' }} 
               />
             )}
-          </Content>
+            </Content>
               {/* lo comento de momento xq no va
               <RedirectButton></RedirectButton>
               <OAuthLoginContainer></OAuthLoginContainer>
