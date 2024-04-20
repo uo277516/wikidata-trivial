@@ -106,8 +106,23 @@ let App = () => {
     return array[randomIndex];
   };
 
-  const handleSendButton = () => {
-    fetchQuestions();
+  //cuando envío
+  const handleSendButton = async () => {
+    try {
+      const values = await form.validateFields(); //validar campos
+      if (values.respuesta && values.urldereferencia) {
+        //sumo respuestas y vacío
+        setAnsweredQuestions(answeredQuestions + 1);
+        form.resetFields();
+
+        //vuelvo a cargar
+        fetchQuestions();
+      } else {
+        console.error("Alguno o varios campos están sin completar");
+      }
+    } catch (error) {
+      console.error('Error en la validación del formulario:', error);
+    }
   };
 
   useEffect(() => {
@@ -120,7 +135,7 @@ let App = () => {
   const handleFormSubmit = async (values) => {
     console.log("patata");
     if (values.respuesta && values.urldereferencia) {
-      setAnsweredQuestions(answeredQuestions + 1);
+      
     } else {
       console.error("Alguno o varios campos están sin completar");
     }
@@ -185,7 +200,7 @@ let App = () => {
                   style={{ maxWidth: 700 }}
                   initialValues={{ remember: true }}
                   autoComplete="off"
-                  onFinish={handleFormSubmit}
+                  disabled={loading}
                 >
                   <Form.Item style={formStyle}
                     label="Respuesta"
