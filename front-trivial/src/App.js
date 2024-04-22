@@ -90,6 +90,7 @@ let App = () => {
         return jsonData.results.bindings;
       } else {
         console.error("Error fetching data:", response.statusText);
+        //aqui algo para que salga pantalla?
         return null;
       }
     } catch (error) {
@@ -108,14 +109,23 @@ let App = () => {
       const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
 
       const questionsArray = [...bornQuestions, ...studyQuestions];
-      setQuestionSelected(getRandomItem(questionsArray));
+      console.log(questionsArray);
+      console.log("deberia ser null"+questionSelected);
+      //const question = getRandomItem(questionsArray);
+      const question = questionsArray[2];
+      console.log("vamos a ver"+question);
+      setQuestionSelected(question);
+      console.log("deberia ser algo"+questionSelected);
+
       setLoading(false); //carga
     }
   };
 
-  const fetchQuestions = (cat) => {
-    if (cat==="investigadores") {
+  const fetchQuestions = () => {
+    if (selCategory==="investigadores") {
       fetchQuestionsResearchers();
+    } else {
+      console.log("todo mal");
     }
     //if..con los demas
   };
@@ -123,6 +133,7 @@ let App = () => {
 
   const getRandomItem = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
+    console.log(array[randomIndex]);
     return array[randomIndex];
   };
 
@@ -146,7 +157,7 @@ let App = () => {
   };
 
   useEffect(() => {
-    fetchQuestions(selCategory);
+    fetchQuestions();
   }, []);
 
   //botón de rendirse
