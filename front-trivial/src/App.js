@@ -1,5 +1,5 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Segmented, Modal} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
@@ -222,14 +222,13 @@ let App = () => {
         <Layout>
           <Content width="100%" style={contentStyle}>   {/*para poner las preguntas y eso*/}
 
-            <Segmented
-              options={categories.map((category) => ({
-                label: category,
-                value: category,
-                selected: selectedCategory === category,
-              }))}
-              onChange={handleCategoryChange}
-            />
+          <Radio.Group value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)}>
+            {categories.map((category) => (
+              <Radio.Button key={category} value={category}>
+                {category}
+              </Radio.Button>
+            ))}
+          </Radio.Group>
           
             {!giveup && (<Paragraph style={{fontSize:"20px"}} >
               La información de las siguientes preguntas sobre {selectedCategory} se ha recogido de 
