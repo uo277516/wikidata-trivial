@@ -23,7 +23,6 @@ let App = () => {
 
   let selCategory = "investigadores";
 
-
   const setSelCategory = (cc) => {
     selCategory= cc;
   };
@@ -116,6 +115,7 @@ let App = () => {
     if (cat==="investigadores") {
       fetchQuestionsResearchers();
     }
+    //if..con los demas
   };
   
 
@@ -149,7 +149,7 @@ let App = () => {
 
   //botón de rendirse
   const handleGiveUp = () => {
-    //modal para qe esté seguro?
+    //modal para qe esté seguro?¿
     setGiveUp(true);
   }
 
@@ -177,7 +177,7 @@ let App = () => {
         console.log(selCategory);
       },
       onCancel: () => {
-        //nada
+        
       },
       footer: (_, { CancelBtn, OkBtn }) => (
         <>
