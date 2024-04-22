@@ -177,6 +177,7 @@ let App = () => {
   }
 
   const handleRestart = () => {
+    form.resetFields();
     setAnsweredQuestions(0);
     setGiveUp(false);
     fetchQuestions(selCategory);
