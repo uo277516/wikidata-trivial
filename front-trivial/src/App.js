@@ -1,11 +1,13 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Segmented} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Segmented, Modal} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
 import OAuthLoginContainer from './components/OAuthLoginContainer';
+import { SmileOutlined } from '@ant-design/icons';
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
+
 
 let App = () => {
 
@@ -20,6 +22,7 @@ let App = () => {
   const categories = ['investigadores', 'geografía', 'deportistas']; 
 
   let selCategory = "investigadores";
+
 
   const setSelCategory = (cc) => {
     selCategory= cc;
@@ -146,6 +149,7 @@ let App = () => {
 
   //botón de rendirse
   const handleGiveUp = () => {
+    //modal para qe esté seguro?
     setGiveUp(true);
   }
 
@@ -157,13 +161,33 @@ let App = () => {
 
   //Categorias
   const handleCategoryChange = (value) => {
-    //Para el segmented
-    setSelectedCategory(value);
+    //Avisar que se cambia de categoría para que salte mensaje
+    //si le da a que si quiere cambiar, hace todo esto. Si no, nada
+    Modal.confirm({
+      title: 'Vas a rendirte',
+      content: 'Estás a punto de rendirte. Si te rindes, tu racha de preguntas acertadas seguidas volverá a 0.',
+      onOk: () => {
+        handleRestart();
+        setGiveUp(true);
 
-    //Para cogerlo para el fetch
-    setSelCategory(value);
-    console.log(selCategory);
-    //llamar fetch
+        setSelectedCategory(value);
+
+        //Para cogerlo para el fetch
+        setSelCategory(value);
+        console.log(selCategory);
+      },
+      onCancel: () => {
+        //nada
+      },
+      footer: (_, { CancelBtn, OkBtn }) => (
+        <>
+          <CancelBtn/>
+          <OkBtn/>
+        </>
+      ),
+    });
+    
+
   };
 
 
@@ -236,7 +260,7 @@ let App = () => {
 
             {giveup ? (
               <Result
-              status="success"
+              icon={<SmileOutlined />}
               title="¡Te has rendido!"
               subTitle={`Número de preguntas acertadas seguidas: ${answeredQuestions}`}
               extra={[
