@@ -23,6 +23,8 @@ let App = () => {
 
   let selCategory = "investigadores";
 
+  const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
+
   const setSelCategory = (cc) => {
     selCategory= cc;
   };
@@ -150,6 +152,7 @@ let App = () => {
   //botón de rendirse
   const handleGiveUp = () => {
     //modal para qe esté seguro?¿
+    setMsgChangeGiveUp("");
     setGiveUp(true);
   }
 
@@ -175,6 +178,8 @@ let App = () => {
         //Para cogerlo para el fetch
         setSelCategory(value);
         console.log(selCategory);
+
+        setMsgChangeGiveUp("Has cambiado de categoría, y por lo tanto tu racha de preguntas empieza de 0.")
       },
       onCancel: () => {
         
@@ -220,55 +225,63 @@ let App = () => {
       <Content style={contentStyle}>
 
         <Layout>
+
+          
           <Content width="100%" style={contentStyle}>   {/*para poner las preguntas y eso*/}
 
-          <Radio.Group value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)}>
-            {categories.map((category) => (
-              <Radio.Button key={category} value={category}>
-                {category}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
+            
           
-            {!giveup && (<Paragraph style={{fontSize:"20px"}} >
-              La información de las siguientes preguntas sobre {selectedCategory} se ha recogido de 
-              <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
-              Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
-            </Paragraph>
-            )}
+            {!giveup && (
+              <div>
+                <Radio.Group value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)}>
+                  {categories.map((category) => (
+                    <Radio.Button key={category} value={category}>
+                      {category}
+                    </Radio.Button>
+                  ))}
+                </Radio.Group>
 
-            <Content >
-              
-              
-            {loading && !giveup ? ( 
-              <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
-                <Alert style={{ marginBottom: "20px", width: 700 }}
-                  type="info"
-                  message="Cargando pregunta"
-                  description="Por favor espere. Se está cargando la pregunta."
-                />
-              </Spin>
-            ) : (
-              questionSelected && !giveup && ( //pregunta
-                <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
-                  {questionSelected}
+                <Paragraph style={{fontSize:"20px"}}>
+                  La información de las siguientes preguntas sobre {selectedCategory} se ha recogido de 
+                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
+                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
                 </Paragraph>
-              )
-            )}
 
+
+                {loading ? ( 
+                  <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
+                    <Alert style={{ marginBottom: "20px", width: 700 }}
+                      type="info"
+                      message="Cargando pregunta"
+                      description="Por favor espere. Se está cargando la pregunta."
+                    />
+                  </Spin>
+                ) : (
+                  questionSelected && ( //pregunta
+                    <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
+                      {questionSelected}
+                    </Paragraph>
+                  )
+                )}
+
+              </div>
+            )}
+              
+            
 
             {giveup ? (
               <Result
               icon={<SmileOutlined />}
               title="¡Te has rendido!"
-              subTitle={`Número de preguntas acertadas seguidas: ${answeredQuestions}`}
+              subTitle={`${msgChangeGiveUp} Número de preguntas acertadas seguidas: ${answeredQuestions}`}
               extra={[
                 <Button type="primary" key="console" onClick={handleRestart}>
                   Volver a empezar
                 </Button>,
               ]}
-            />
-            ): (
+              />
+              ): (              
+
               <Form
                   form={form}
                   name="basic"
@@ -310,7 +323,6 @@ let App = () => {
                 </Form>
             )}
 
-            </Content>
 
             <Content >
             {!giveup && answeredQuestions > 0 && (
