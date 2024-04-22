@@ -1,5 +1,5 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, message} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
@@ -12,7 +12,7 @@ const { Header, Footer, Sider, Content } = Layout;
 let App = () => {
 
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
-  const [questionSelected, setQuestionSelected] = useState(null);
+  let [questionSelected, setQuestionSelected] = useState(null);
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
   const [form] = Form.useForm();
   const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
@@ -90,11 +90,13 @@ let App = () => {
         return jsonData.results.bindings;
       } else {
         console.error("Error fetching data:", response.statusText);
-        //aqui algo para que salga pantalla?
+        //aqui algo para que salga pantalla? lo de abajo no está probado
+        message.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
         return null;
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      message.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
       return null;
     }
   };
@@ -109,33 +111,30 @@ let App = () => {
       const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
 
       const questionsArray = [...bornQuestions, ...studyQuestions];
-      console.log(questionsArray);
-      console.log("deberia ser null"+questionSelected);
-      //const question = getRandomItem(questionsArray);
-      const question = questionsArray[2];
-      console.log("vamos a ver"+question);
+      const randomNumber = Math.floor(Math.random() * questionsArray.length+1);
+      const question = questionsArray[randomNumber];
       setQuestionSelected(question);
-      console.log("deberia ser algo"+questionSelected);
 
+      console.log(question);
+      console.log(questionSelected);
       setLoading(false); //carga
     }
   };
 
   const fetchQuestions = () => {
-    if (selCategory==="investigadores") {
+    console.log("a cargar preguntas de..." + selectedCategory);
+    if (selectedCategory==="investigadores") {
       fetchQuestionsResearchers();
-    } else {
-      console.log("todo mal");
+    } else if (selectedCategory==="geografía") {
+      //aqui iria llamada otro metodo
+      console.log("preguntas geografía");
+    } else if (selectedCategory==="deportistas") {
+      //aqui iria llamada otro metodo
+      console.log("preguntas deportistas");
     }
     //if..con los demas
   };
   
-
-  const getRandomItem = (array) => {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    console.log(array[randomIndex]);
-    return array[randomIndex];
-  };
 
   //manejar botón cuando envío
   const handleSendButton = async () => {
