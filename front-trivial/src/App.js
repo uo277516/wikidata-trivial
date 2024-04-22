@@ -134,6 +134,10 @@ let App = () => {
     }
     //if..con los demas
   };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
   
 
   //manejar botón cuando envío
@@ -155,9 +159,7 @@ let App = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
+  
 
   //botón de rendirse
   const handleGiveUp = () => {
