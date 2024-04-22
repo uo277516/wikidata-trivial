@@ -8,9 +8,11 @@ import { SmileOutlined } from '@ant-design/icons';
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
+let hasCalledPatatita = false;
 
 let App = () => {
 
+ 
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
   let [questionSelected, setQuestionSelected] = useState(null);
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
@@ -135,9 +137,15 @@ let App = () => {
     //if..con los demas
   };
 
-  useEffect(() => {
-    fetchQuestions();
+   useEffect(() => {
+    if (!hasCalledPatatita) {
+      fetchQuestions();
+      console.log("holi!")
+      hasCalledPatatita=true;
+    }
   }, []);
+
+  
   
 
   //manejar botón cuando envío
