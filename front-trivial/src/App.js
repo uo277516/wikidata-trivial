@@ -1,7 +1,7 @@
 import './App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal} from 'antd';
 import logo from './logo.png'; 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useCallback} from 'react';
 import RedirectButton from './components/RedirectButton';
 import OAuthLoginContainer from './components/OAuthLoginContainer';
 import { SmileOutlined } from '@ant-design/icons';
@@ -98,27 +98,32 @@ let App = () => {
     }
   };
 
-  const fetchQuestionsResearchers = async () => {
-    setLoading(true); //empieza a cargar
-    const investigatorDataBorn = await fetchData("/P19");
-    const investigatorDataStudy = await fetchData("/P69");
-
-    if (investigatorDataBorn && investigatorDataStudy) {
-      const bornQuestions = investigatorDataBorn.map((item) => `¿Dónde nació el investigador ${item.investigadorLabel}?`);
-      const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
-
-      const questionsArray = [...bornQuestions, ...studyQuestions];
-      setQuestionSelected(getRandomItem(questionsArray));
-      setLoading(false); //carga
-    }
-  };
-
-  const fetchQuestions = (cat) => {
-    if (cat==="investigadores") {
+  const fetchQuestions = useCallback((cat) => {
+    const fetchQuestionsResearchers = async () => {
+      setLoading(true); //empieza a cargar
+      const investigatorDataBorn = await fetchData("/P19");
+      const investigatorDataStudy = await fetchData("/P69");
+  
+      if (investigatorDataBorn && investigatorDataStudy) {
+        const bornQuestions = investigatorDataBorn.map((item) => `¿Dónde nació el investigador ${item.investigadorLabel}?`);
+        const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
+  
+        const questionsArray = [...bornQuestions, ...studyQuestions];
+        console.log(questionsArray);
+        console.log("1"+questionSelected);
+        setQuestionSelected(getRandomItem(questionsArray));
+        console.log("2"+questionSelected);
+        setLoading(false); //carga
+      }
+    };
+  
+    if (cat === "investigadores") {
       fetchQuestionsResearchers();
     }
-    //if..con los demas
-  };
+    // Agrega más lógica para otras categorías si es necesario
+  }, []);
+  
+  
   
 
   const getRandomItem = (array) => {
@@ -147,7 +152,7 @@ let App = () => {
 
   useEffect(() => {
     fetchQuestions(selCategory);
-  }, []);
+  }, [fetchQuestions, selCategory]);
 
   //botón de rendirse
   const handleGiveUp = () => {
