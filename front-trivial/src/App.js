@@ -1,5 +1,5 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, message} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, message, notification} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
@@ -8,7 +8,6 @@ import { SmileOutlined } from '@ant-design/icons';
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
-let hasCalledPatatita = false;
 
 let App = () => {
 
@@ -87,18 +86,19 @@ let App = () => {
   const fetchData = async (endpoint) => {
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/researchers" + endpoint);
+      //provocar error 500 para mirar que va
+      //const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "d/reseasrchers" + endpoint);
       if (response.ok) {
         const jsonData = await response.json();
         return jsonData.results.bindings;
       } else {
         console.error("Error fetching data:", response.statusText);
         //aqui algo para que salga pantalla? lo de abajo no está probado
-        message.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
         return null;
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-      message.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
+      
       return null;
     }
   };
@@ -118,8 +118,12 @@ let App = () => {
       setQuestionSelected(question);
 
       console.log(question);
-      console.log(questionSelected);
+      //console.log(questionSelected); como no renderiza justo esto devuelve el anterior pero va bien en la realidad
       setLoading(false); //carga
+    } else {
+      //message.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
+      notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
+
     }
   };
 
@@ -137,14 +141,12 @@ let App = () => {
     //if..con los demas
   };
 
-   useEffect(() => {
-    if (!hasCalledPatatita) {
-      fetchQuestions();
-      console.log("holi!")
-      hasCalledPatatita=true;
-    }
-  }, []);
 
+  //para que no saliera dos veces quite StrictMode en index.js, supuestamente cuando lo lanzas funciona
+  //de momento lo quito, aunque salta warning dependencias
+  useEffect(() => {
+      fetchQuestions();
+  }, []);
   
   
 
@@ -156,6 +158,12 @@ let App = () => {
         //sumo respuestas y vacío
         setAnsweredQuestions(answeredQuestions + 1);
         form.resetFields();
+
+        //aqui deberia enviar a la api y tal
+        //....
+        console.log("la pregunta es "+questionSelected);
+        console.log("la respuesta "+values.respuesta);
+        console.log("y la referencia "+values.urldereferencia);
 
         //vuelvo a cargar
         fetchQuestions(selCategory);
@@ -172,7 +180,7 @@ let App = () => {
   //botón de rendirse
   const handleGiveUp = () => {
     //modal para qe esté seguro?¿
-    setMsgChangeGiveUp("");
+    setMsgChangeGiveUp("Número de respuestas acterdas seguidas: "+answeredQuestions);
     setGiveUp(true);
   }
 
@@ -191,7 +199,8 @@ let App = () => {
       title: 'Vas a rendirte',
       content: 'Estás a punto de rendirte. Si te rindes, tu racha de preguntas acertadas seguidas volverá a 0.',
       onOk: () => {
-        handleRestart();
+        console.log(answeredQuestions);
+        
         setGiveUp(true);
 
         setSelectedCategory(value);
@@ -200,7 +209,9 @@ let App = () => {
         setSelCategory(value);
         console.log(selCategory);
 
-        setMsgChangeGiveUp("Has cambiado de categoría, y por lo tanto tu racha de preguntas empieza de 0.")
+        setMsgChangeGiveUp("Has cambiado de categoría, y por lo tanto tu racha de preguntas empieza de 0. Número de respuestas acertadas seguidas: "+answeredQuestions);
+        console.log(answeredQuestions);
+
       },
       onCancel: () => {
         
@@ -294,7 +305,7 @@ let App = () => {
               <Result
               icon={<SmileOutlined />}
               title="¡Te has rendido!"
-              subTitle={`${msgChangeGiveUp} Número de preguntas acertadas seguidas: ${answeredQuestions}`}
+              subTitle={msgChangeGiveUp}
               extra={[
                 <Button type="primary" key="console" onClick={handleRestart}>
                   Volver a empezar
