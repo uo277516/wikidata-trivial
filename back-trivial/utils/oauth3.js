@@ -1,9 +1,7 @@
-// Dependencies
 const axios = require('axios');
 const OAuth = require('oauth-1.0a');
 const crypto = require('crypto');
 
-// Initialize
 const oauth = OAuth({
     consumer: {
         key: '9710c01964941c18292d69c3cd033af2',
@@ -24,19 +22,17 @@ const request_data = {
     data: { status: 'Hello Ladies + Gentlemen, a signed OAuth request!' },
 };
 
-// Construir el cuerpo de la solicitud
 const requestBody = oauth.authorize(request_data);
 
 console.log(requestBody);
 
-// Realizar la solicitud utilizando Axios
 axios({
   url: request_data.url,
   method: request_data.method,
-  data: requestBody // Usamos 'data' en lugar de 'form' para enviar el cuerpo de la solicitud
+  data: requestBody 
 })
   .then(response => {
-    console.log(response.data); // Imprimir la respuesta
+    console.log(response.data); 
   })
   .catch(error => {
     console.error('Error al realizar la solicitud:', error);
