@@ -10,19 +10,46 @@ const oauthSignature = require('oauth-signature');
 const params = {
   oauth_callback: 'oob',
   oauth_consumer_key: '9710c01964941c18292d69c3cd033af2',
-  oauth_token: '7d61936d0335c9443f3a041812a25bc948ef29b8',
+  oauth_consumer_secret: '9710c01964941c18292d69c3cd033af2',
   oauth_timestamp: Math.floor(Date.now() / 1000),
   oauth_version: '1.0',
   oauth_nonce: generateNonce(),
   oauth_signature_method: 'HMAC-SHA1',
 };
 
+const baseString = `GET https://www.mediawiki.org/wiki/Special:OAuth/initiate?
+  oauth_callback=oob&
+  oauth_consumer_key=${encodeURIComponent('9710c01964941c18292d69c3cd033af2')}&
+  oauth_consumer_secret=${encodeURIComponent('7d61936d0335c9443f3a041812a25bc948ef29b8')}&
+  oauth_nonce=${generateNonce()}&
+  oauth_signature_method=HMAC-SHA1&
+  oauth_timestamp=${Math.floor(Date.now() / 1000)}
+`;
+
+console.log("patata-- " + baseString);
+
+const encodeU = encodeURI(baseString);
+
+console.log(encodeU);
+
+// Create the signing key
+const signingKey = `<span class="math-inline">\{9710c01964941c18292d69c3cd033af2\}&</span>{7d61936d0335c9443f3a041812a25bc948ef29b8 || ''}`;
+
+// Encode the signing key
+const encodedSigningKey = encodeURIComponent(signingKey);
+
+// Compute the signature using HMAC-SHA1
+const signature2 = calculateHMACSHA1(encodeU, encodedSigningKey);
 
 
-// Función para construir la cadena de consulta
-function queryString(params) {
-  return Object.keys(params).sort().map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
+function calculateHMACSHA1(data, key) {
+  const hmac = crypto.createHmac('sha1', key);
+  hmac.update(data);
+  const signature = hmac.digest('base64');
+  return signature;
 }
+
+console.log(signature2);
 
 // Firmar la solicitud
 //const signature = generateSignature('GET', 'Special:OAuth/initiate', params, '7d61936d0335c9443f3a041812a25bc948ef29b8');
@@ -30,10 +57,19 @@ function queryString(params) {
 const signature = generateSignature('GET', 'https://www.mediawiki.org/wiki/Special:OAuth/initiate?', params, '7d61936d0335c9443f3a041812a25bc948ef29b8');
 
 // Agregar la firma a los parámetros de la solicitud
-params.oauth_signature = signature;
+//params.oauth_signature = signature;
+params.oauth_signature = signature2;
 
 
 console.log(signature);
+
+
+// Función para construir la cadena de consulta
+function queryString(params) {
+  return Object.keys(params).sort().map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
+}
+
+
 
 // Función para generar un nonce aleatorio
 function generateNonce() {
