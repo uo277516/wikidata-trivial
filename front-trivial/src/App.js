@@ -355,8 +355,9 @@ let App = () => {
               />
             )}
             </Content>
+            <RedirectButton></RedirectButton>
               {/* lo comento de momento xq no va
-              <RedirectButton></RedirectButton>
+              
               <OAuthLoginContainer></OAuthLoginContainer>
             */}
           </Content>
