@@ -20,7 +20,7 @@ let App = () => {
 
   //Categorias
   const [selectedCategory, setSelectedCategory] = useState("investigadores");
-  const categories = ['investigadores', 'geografía', 'deportistas']; 
+  const categories = ['investigadores', 'geografía', 'futbolistas']; 
 
   let selCategory = "investigadores";
 
@@ -134,9 +134,9 @@ let App = () => {
     } else if (selectedCategory==="geografía") {
       //aqui iria llamada otro metodo
       console.log("preguntas geografía");
-    } else if (selectedCategory==="deportistas") {
+    } else if (selectedCategory==="futbolistas") {
       //aqui iria llamada otro metodo
-      console.log("preguntas deportistas");
+      console.log("preguntas futbolistas");
     }
     //if..con los demas
   };
