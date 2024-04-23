@@ -4,7 +4,7 @@ const InputError = require("../errors/inputError");
 
 footballersService = {
 
-    editResearcherById: async(footballerId, property, value, referenceURL) => {
+    editFootballerById: async(footballerId, property, value, referenceURL) => {
         let errors = [];
 
         if (footballerId == undefined) {
@@ -24,7 +24,7 @@ footballersService = {
         }
         
 
-        let info = await footballerRepository.editResearcherById(footballerId, property, value, referenceURL);
+        let info = await footballerRepository.editFootballerById(footballerId, property, value, referenceURL);
         
         if (info == null) {
             errors.push(new LogicError("Error editing footballer"));
@@ -37,16 +37,16 @@ footballersService = {
     },
     getFootballersRelation: async (relation) => {
         let errors = [];
-        let researchers = await footballerRepository.getFootballersRelation(relation);
+        let footballers = await footballerRepository.getFootballersRelation(relation);
         
-        if (researchers == null) {
+        if (footballers == null) {
             errors.push(new LogicError("Error accessing footballers"));
         }
 
         if (errors.length > 0) {
             throw errors;
         }
-        return researchers;
+        return footballers;
     }
 }
 

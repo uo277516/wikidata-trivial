@@ -21,6 +21,7 @@ footballersController = {
     getFootballersRelation: async (req, res) => {
         try {
             let relacion = req.params.relacion;
+            console.log("hola?");
             let footballers = await footballersService.getFootballersRelation(relacion);
             setTimeout(() => {
                 res.json(footballers)
