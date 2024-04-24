@@ -4,6 +4,9 @@ const WBEdit = require('wikibase-edit');
 const axios = require('axios');
 const transformJSON = require('../utils/transformJSON');
 const getDate = require('../utils/getDate');
+const path = require('path');
+const fs = require('fs');
+
 
 const wdk = WBK({
   instance: 'https://www.wikidata.org',
@@ -67,20 +70,14 @@ const footballersRepository = {
     //P6509 es total goals
     //P413 es posicion (centrocampista etc)
     try {
-      const sparql = `
-      SELECT ?futbolista ?futbolistaLabel 
-    WHERE 
-    {
-      ?futbolista wdt:P106 wd:Q937857.  
-      OPTIONAL { ?futbolista wdt:${relacion} ?data. }  
-      FILTER (!BOUND(?data))  
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
-    }
-    LIMIT 10
-      `;
-      const url = wdk.sparqlQuery(sparql);
+      
+      const filePath = path.join(__dirname, '../queries/footballersQuery.rq');
+      let sparqlQuery = fs.readFileSync(filePath, 'utf-8');
+      sparqlQuery = sparqlQuery.replace('${relacion}', relacion);
 
-      const response = await axios.get(url); 
+
+      const url = wdk.sparqlQuery(sparqlQuery);
+      const response = await axios.get(url);  
 
       //en json
       console.log(response.data);

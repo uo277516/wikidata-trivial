@@ -1,0 +1,9 @@
+SELECT ?futbolista ?futbolistaLabel 
+    WHERE 
+    {
+      ?futbolista wdt:P106 wd:Q937857.  
+      OPTIONAL { ?futbolista wdt:${relacion} ?data. }  
+      FILTER (!BOUND(?data))  
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
+    }
+    LIMIT 10

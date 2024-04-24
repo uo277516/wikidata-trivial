@@ -1,0 +1,9 @@
+SELECT ?investigador ?investigadorLabel 
+    WHERE 
+    {
+      ?investigador wdt:P106 wd:Q1650915.  
+      OPTIONAL { ?investigador wdt:${relacion} ?lugar. }  
+      FILTER (!BOUND(?lugar))  
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
+    }
+    LIMIT 10

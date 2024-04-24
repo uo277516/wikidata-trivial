@@ -84,7 +84,7 @@ let App = () => {
       setSelCategory("investigadores");
       setSelectedCategory("investigadores");
       fetchQuestions();
-  }, []);
+  }, [selCategory]);
   
   
 

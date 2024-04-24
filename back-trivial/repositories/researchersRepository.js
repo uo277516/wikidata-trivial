@@ -4,6 +4,8 @@ const WBEdit = require('wikibase-edit');
 const axios = require('axios');
 const transformJSON = require('../utils/transformJSON');
 const getDate = require('../utils/getDate');
+const path = require('path');
+const fs = require('fs');
 
 const wdk = WBK({
   instance: 'https://www.wikidata.org',
@@ -104,29 +106,13 @@ const researchersRepository = {
   getResearchersRelation: async (relacion) => {
 
     try {
-      //consulta de los gatos ara ver q va bien
-      // const sparql = `
-      // SELECT ?item ?itemLabel
-      // WHERE
-      // {
-      //   ?item wdt:P31 wd:Q146. 
-      //   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
-      // }
-      // `;
-      const sparql = `
-      SELECT ?investigador ?investigadorLabel 
-    WHERE 
-    {
-      ?investigador wdt:P106 wd:Q1650915.  
-      OPTIONAL { ?investigador wdt:${relacion} ?lugar. }  
-      FILTER (!BOUND(?lugar))  
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
-    }
-    LIMIT 10
-      `;
-      const url = wdk.sparqlQuery(sparql);
+      const filePath = path.join(__dirname, '../queries/researchersQuery.rq');
+      let sparqlQuery = fs.readFileSync(filePath, 'utf-8');
+      sparqlQuery = sparqlQuery.replace('${relacion}', relacion);
 
-      const response = await axios.get(url); 
+
+      const url = wdk.sparqlQuery(sparqlQuery);
+      const response = await axios.get(url);  
 
       //en json
       console.log(response.data);

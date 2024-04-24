@@ -18,15 +18,16 @@ const fetchData = async (entity, endpoint) => {
 };
 
 //formar entidad de devolver con la pregunta la entidad y la relacion para poder mandar la edicion en front
-const generateQuestions = (data, labelPrefix, relation) => {
+const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, relation) => {
   if (!data) return [];
   
   return data.map((item) => ({
-    question: `¿${labelPrefix} ${item.investigadorLabel}?`,
-    entity: item.investigador,
+    question: `¿${labelPrefix} ${item[labelProperty]}?`,
+    entity: item[entityProperty],
     relation
   }));
 };
+
 
 //preguntas futbolistas
 const fetchQuestionsResearchers = async () => {
@@ -35,8 +36,9 @@ const fetchQuestionsResearchers = async () => {
     const investigatorDataStudy = await fetchData("researchers", "/P69");
 
     if (investigatorDataBorn && investigatorDataStudy) {
-      const bornQuestions = generateQuestions(investigatorDataBorn, 'Dónde nació el investigador', '/P19');
-      const studyQuestions = generateQuestions(investigatorDataStudy, 'Dónde estudió el investigador', '/P69');
+      const bornQuestions = generateQuestions(investigatorDataBorn, 'Dónde nació el investigador', 'investigador', 'investigadorLabel', '/P19');
+      const studyQuestions = generateQuestions(investigatorDataStudy, 'Dónde estudió el investigador', 'investigador', 'investigadorLabel', '/P69');
+
 
       const questionsArray = [...bornQuestions, ...studyQuestions];
       const randomNumber = Math.floor(Math.random() * questionsArray.length);
@@ -58,10 +60,12 @@ const fetchQuestionsResearchers = async () => {
 const fetchQuestionsFootballers = async () => {
   try {
     const footballersDataHeight = await fetchData("footballers", "/P2048");
+    console.log(footballersDataHeight);
 
     if (footballersDataHeight) {
-      const heightQuestions = generateQuestions(footballersDataHeight, 'Cuál es la altura en centímetros del futbolista', '/P2048');
+      const heightQuestions = generateQuestions(footballersDataHeight, '¿Cuál es la altura en centímetros del futbolista', 'futbolista', 'futbolistaLabel', '/P2048');
 
+      console.log(heightQuestions);
       const randomNumber = Math.floor(Math.random() * heightQuestions.length);
       const { question, entity, relation } = heightQuestions[randomNumber];
 
