@@ -51,6 +51,7 @@ const fetchQuestionsResearchers = async () => {
 
     console.log("pregunta en service de investigador-> "+question);
     //console.log(questionSelected); como no renderiza justo esto devuelve el anterior pero va bien en la realidad
+    return question;
   } else {
     notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
   }

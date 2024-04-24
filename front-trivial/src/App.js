@@ -135,37 +135,33 @@ let App = () => {
   
 
   const fetchQuestions = () => {
-    console.log("a cargar preguntas de..." + selectedCategory);
-    if (selectedCategory==="investigadores") {
-      setLoading(true); //empieza a cargar
-      fetchQuestionsResearchers()
-        .then(selectedQuestion => {
-          setQuestionSelected(selectedQuestion);
-          console.log('Pregunta seleccionada investigador:', selectedQuestion);
-          setLoading(false); //carga
+    const categoryToFetchFunction = {
+      investigadores: fetchQuestionsResearchers,
+      //geografía: fetchQuestionsGeography, 
+      futbolistas: fetchQuestionsFootballers,
+      //mas categorias...
+    };
+  
+    const fetchFunction = categoryToFetchFunction[selectedCategory];
+    console.log(fetchFunction);
+  
+    if (fetchFunction) {
+      console.log("a cargar preguntas de..." + selectedCategory);
+      setLoading(true); 
+      fetchFunction()
+        .then(question => {
+          setQuestionSelected(question);
+          console.log('Pregunta seleccionada:', question);
+          setLoading(false);
         })
         .catch(error => {
           console.error('Error al obtener la pregunta:', error);
         });
-    } else if (selectedCategory==="geografía") {
-      //aqui iria llamada otro metodo
-      console.log("preguntas geografía");
-    } else if (selectedCategory==="futbolistas") {
-      //aqui iria llamada otro metodo
-      setLoading(true); //empieza a cargar
-      fetchQuestionsFootballers()
-        .then(selectedQuestion => {
-          setQuestionSelected(selectedQuestion);
-          console.log('Pregunta seleccionada futbolista:', selectedQuestion);
-          setLoading(false); //carga
-        })
-        .catch(error => {
-          console.error('Error al obtener la pregunta:', error);
-        });
-      
+    } else {
+      console.error('Categoría no válida:', selectedCategory);
     }
-    //if..con los demas
   };
+  
 
 
   //para que no saliera dos veces quite StrictMode en index.js, supuestamente cuando lo lanzas funciona
@@ -313,7 +309,7 @@ let App = () => {
                   <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
                     <Alert style={{ marginBottom: "20px", width: 700 }}
                       type="info"
-                      message="Cargando pregunta"
+                      message="Cargando pregunta..."
                       description="Por favor espere. Se está cargando la pregunta."
                     />
                   </Spin>
