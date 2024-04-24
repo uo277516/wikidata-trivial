@@ -24,7 +24,7 @@ let App = () => {
 
   //Categorias
   const [selectedCategory, setSelectedCategory] = useState("investigadores");
-  const categories = ['investigadores', 'geografía', 'futbolistas']; 
+  const categories = ['investigadores', 'futbolistas']; 
 
   let selCategory = "investigadores";
 
@@ -40,7 +40,6 @@ let App = () => {
   const fetchQuestions = () => {
     const categoryToFetchFunction = {
       investigadores: fetchQuestionsResearchers,
-      //geografía: fetchQuestionsGeography, 
       futbolistas: fetchQuestionsFootballers,
       //mas categorias...
     };
