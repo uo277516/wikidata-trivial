@@ -6,6 +6,7 @@ import RedirectButton from './components/RedirectButton';
 //import OAuthLoginContainer from './components/OAuthLoginContainer';
 import { SmileOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers } from './services/questionsService.js';
+import { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle } from './styles/appStyle.js';
 
 
 const {Title, Paragraph, Link} = Typography;
@@ -33,105 +34,7 @@ let App = () => {
     selCategory= cc;
   };
 
-  const headerStyle = {
-    textAlign: 'center',
-    color: 'white',
-    height: 250,
-    paddingInline: 0,
-    lineHeight: '64px',
-    backgroundColor: 'white'
-  };
-  const contentStyle = {
-    textAlign: 'left',
-    paddingLeft: '20px',
-    minHeight: 120,
-    lineHeight: '120px',
-    color: 'black',
-    backgroundColor: 'white', //color de fondo de donde tengo todo lo que ye la app
-  };
-  const headerRightStyle = {
-    textAlign: 'left',
-    paddingLeft: '0px',
-    minHeight: 120,
-    lineHeight: '120px',
-    color: 'black',
-    backgroundColor: 'white',
-    paddingTop: '30px'
-  };
-  const siderStyle = {
-    textAlign: 'center',
-    lineHeight: '120px',
-    color: '#fff',
-    backgroundColor: 'white',
-    paddingTop: '20px'
-  };
-  const footerStyle = {
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: '#4096ff',
-  };
   
-  const titleOneStyle = {
-    marginTop: '20px', 
-    fontSize: '50px' ,
-    fontWeight: 'bold'
-  };
-  const titleTwoStyle = {
-    marginTop: '5px', 
-    fontSize: '40px' 
-  };
-  const formStyle= {
-    marginBottom: '35px',
-    fontSize: '40px'
-  };
-
-
-  /*const fetchData = async (endpoint) => {
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/researchers" + endpoint);
-      //provocar error 500 para mirar que va
-      //const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "d/reseasrchers" + endpoint);
-      if (response.ok) {
-        const jsonData = await response.json();
-        return jsonData.results.bindings;
-      } else {
-        console.error("Error fetching data:", response.statusText);
-        //aqui algo para que salga pantalla? lo de abajo no está probado
-        return null;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      
-      return null;
-    }
-  };
-
-  //preguntas investigadores
-  const fetchQuestionsResearchers = async () => {
-    setLoading(true); //empieza a cargar
-    const investigatorDataBorn = await fetchData("/P19");
-    const investigatorDataStudy = await fetchData("/P69");
-
-    if (investigatorDataBorn && investigatorDataStudy) {
-      const bornQuestions = investigatorDataBorn.map((item) => `¿Dónde nació el investigador ${item.investigadorLabel}?`);
-      const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
-
-      const questionsArray = [...bornQuestions, ...studyQuestions];
-      const randomNumber = Math.floor(Math.random() * questionsArray.length+1);
-      const question = questionsArray[randomNumber];
-      setQuestionSelected(question);
-
-      console.log(question);
-      //console.log(questionSelected); como no renderiza justo esto devuelve el anterior pero va bien en la realidad
-      setLoading(false); //carga
-    } else {
-      //message.error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.');
-      notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
-
-    }
-  };*/
-
-
   
 
   const fetchQuestions = () => {
@@ -143,7 +46,6 @@ let App = () => {
     };
   
     const fetchFunction = categoryToFetchFunction[selectedCategory];
-    console.log(fetchFunction);
   
     if (fetchFunction) {
       console.log("a cargar preguntas de..." + selectedCategory);
@@ -251,9 +153,6 @@ let App = () => {
     
 
   };
-
-
-
 
 
 
