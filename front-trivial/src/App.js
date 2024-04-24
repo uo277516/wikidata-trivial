@@ -21,6 +21,7 @@ let App = () => {
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
   const [form] = Form.useForm();
   const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
+  const [questionError, setQuestionError] = useState(false); //para cuando las preguntas no cargan
 
   //Categorias
   const [selectedCategory, setSelectedCategory] = useState("investigadores");
@@ -53,10 +54,18 @@ let App = () => {
         .then(question => {
           setQuestionSelected(question);
           console.log('Pregunta seleccionada:', question);
-          setLoading(false);
+          
         })
         .catch(error => {
+          //Cojo el error de que no se pudieron cargar por lo que sea, notifico y ademas en el Alert lo pongo
+          //poner el questionerror a true y asi poner abajo o algo asi...
+          notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
           console.error('Error al obtener la pregunta:', error);
+          setQuestionError(true);
+          console.log("a ver? " + questionError);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     } else {
       console.error('Categoría no válida:', selectedCategory);
@@ -138,6 +147,9 @@ let App = () => {
         setMsgChangeGiveUp("Has cambiado de categoría, y por lo tanto tu racha de preguntas empieza de 0. Número de respuestas acertadas seguidas: "+answeredQuestions);
         console.log(answeredQuestions);
 
+        //por si habia algun problema con las preguntas de otra categoria que no cargaban, se vuelve a poner a false
+        setQuestionError(false);
+
       },
       onCancel: () => {
         
@@ -203,21 +215,32 @@ let App = () => {
                 </Paragraph>
 
 
-                {loading ? ( 
-                  <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
-                    <Alert style={{ marginBottom: "20px", width: 700 }}
-                      type="info"
-                      message="Cargando pregunta..."
-                      description="Por favor espere. Se está cargando la pregunta."
-                    />
-                  </Spin>
+                {loading ? (
+                    <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
+                        <Alert
+                            style={{ marginBottom: "20px", width: 700 }}
+                            type="info"
+                            message="Cargando pregunta..."
+                            description="Por favor espere. Se está cargando la pregunta."
+                        />
+                    </Spin>
                 ) : (
-                  questionSelected && ( //pregunta
-                    <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
-                      {questionSelected}
-                    </Paragraph>
-                  )
+                    questionError ? (
+                        <Alert
+                            style={{ marginBottom: "20px", width: 700 }}
+                            type="error"
+                            message={"Error al cargar las preguntas sobre "+selCategory+"."}
+                            description="Ha ocurrido un error al cargar la pregunta. Por favor, inténtelo de nuevo más tarde o pruebe con otra categoría."
+                        />
+                    ) : (
+                        questionSelected && (
+                            <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
+                                {questionSelected}
+                            </Paragraph>
+                        )
+                    )
                 )}
+
 
               </div>
             )}
@@ -243,7 +266,7 @@ let App = () => {
                   style={{ maxWidth: 700 }}
                   initialValues={{ remember: true }}
                   autoComplete="off"
-                  disabled={loading}
+                  disabled={loading || questionError}
                 >
                   <Form.Item style={formStyle}
                     label="Respuesta"
