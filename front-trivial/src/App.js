@@ -8,7 +8,7 @@ import { SmileOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers } from './services/questionsService.js';
 import { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle } from './styles/appStyle.js';
 
-
+//Layout y letras
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
