@@ -1,5 +1,3 @@
-
-
 const fetchData = async (entity, endpoint) => {
   try {
     const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + entity + endpoint);

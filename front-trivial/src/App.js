@@ -85,7 +85,8 @@ let App = () => {
       setSelCategory("investigadores");
       setSelectedCategory("investigadores");
       fetchQuestions();
-  }, [selCategory]);
+      console.log("cada vez que recargo dice patata :P");
+  }, []);
   
   
 
@@ -207,7 +208,11 @@ let App = () => {
           
             {!giveup && (
               <div>
-                <Radio.Group value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)}>
+                <Radio.Group 
+                  value={selectedCategory} 
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  disabled={loading}>
+
                   {categories.map((category) => (
                     <Radio.Button key={category} value={category}>
                       {category}
