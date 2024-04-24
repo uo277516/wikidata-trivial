@@ -1,3 +1,5 @@
+
+
 const fetchData = async (entity, endpoint) => {
   try {
     const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + entity + endpoint);
@@ -32,6 +34,7 @@ const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, rel
 //preguntas futbolistas
 const fetchQuestionsResearchers = async () => {
   try {
+
     const investigatorDataBorn = await fetchData("researchers", "/P19");
     const investigatorDataStudy = await fetchData("researchers", "/P69");
 
@@ -59,13 +62,14 @@ const fetchQuestionsResearchers = async () => {
 
 const fetchQuestionsFootballers = async () => {
   try {
+
     const footballersDataHeight = await fetchData("footballers", "/P2048");
-    console.log(footballersDataHeight);
+
+
 
     if (footballersDataHeight) {
       const heightQuestions = generateQuestions(footballersDataHeight, '¿Cuál es la altura en centímetros del futbolista', 'futbolista', 'futbolistaLabel', '/P2048');
 
-      console.log(heightQuestions);
       const randomNumber = Math.floor(Math.random() * heightQuestions.length);
       const { question, entity, relation } = heightQuestions[randomNumber];
 

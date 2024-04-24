@@ -41,6 +41,7 @@ let App = () => {
   
 
   const fetchQuestions = () => {
+
     const categoryToFetchFunction = {
       investigadores: fetchQuestionsResearchers,
       futbolistas: fetchQuestionsFootballers,
