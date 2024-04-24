@@ -1,5 +1,5 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
@@ -30,6 +30,8 @@ let App = () => {
   let selCategory = "investigadores";
 
   const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
+  const [titleChangeGiveUp, setTitleChangeGiveUp] = useState(null);
+
 
   const setSelCategory = (cc) => {
     selCategory= cc;
@@ -115,6 +117,7 @@ let App = () => {
   //botón de rendirse
   const handleGiveUp = () => {
     //modal para qe esté seguro?¿
+    setTitleChangeGiveUp("Te has rendido.")
     setMsgChangeGiveUp("Número de respuestas acterdas seguidas: "+answeredQuestions);
     setGiveUp(true);
   }
@@ -131,8 +134,8 @@ let App = () => {
     //Avisar que se cambia de categoría para que salte mensaje
     //si le da a que si quiere cambiar, hace todo esto. Si no, nada
     Modal.confirm({
-      title: 'Vas a rendirte',
-      content: 'Estás a punto de rendirte. Si te rindes, tu racha de preguntas acertadas seguidas volverá a 0.',
+      title: 'Vas a cambiar de categoría',
+      content: 'Al cambiar de categoría, tu racha de preguntas acertadas seguidas volverá a 0.',
       onOk: () => {
         console.log(answeredQuestions);
         
@@ -144,7 +147,8 @@ let App = () => {
         setSelCategory(value);
         console.log(selCategory);
 
-        setMsgChangeGiveUp("Has cambiado de categoría, y por lo tanto tu racha de preguntas empieza de 0. Número de respuestas acertadas seguidas: "+answeredQuestions);
+        setTitleChangeGiveUp("Has cambiado de categoría.")
+        setMsgChangeGiveUp("Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: "+answeredQuestions);
         console.log(answeredQuestions);
 
         //por si habia algun problema con las preguntas de otra categoria que no cargaban, se vuelve a poner a false
@@ -250,7 +254,7 @@ let App = () => {
             {giveup ? (
               <Result
               icon={<SmileOutlined />}
-              title="¡Te has rendido!"
+              title={titleChangeGiveUp}
               subTitle={msgChangeGiveUp}
               extra={[
                 <Button type="primary" key="console" onClick={handleRestart}>
@@ -292,10 +296,18 @@ let App = () => {
                       style={{ marginRight: '20px'}}>
                       Enviar respuesta
                     </Button>
-                    <Button type="primary" onClick={handleGiveUp}
-                      style={{ backgroundColor: '#607d8b' }}>
-                      Rendirse
-                    </Button>
+                    <Popconfirm
+                      title="Rendirse"
+                      description="¿Estás seguro de rendirte?"
+                      onConfirm={handleGiveUp}
+                      okText="Si"
+                      cancelText="No"
+                    >
+                      <Button type="primary" style={{ backgroundColor: '#607d8b' }}>
+                        Rendirse
+                      </Button>
+                    </Popconfirm>
+                    
                   </Form.Item>
 
                 </Form>

@@ -44,8 +44,8 @@ const fetchQuestionsFootballers = async () => {
 
 const fetchQuestionsResearchers = async () => {
   try {
-    const investigatorDataBorn = await fetchData("researchersf", "/P19");
-    const investigatorDataStudy = await fetchData("researchersf", "/P69");
+    const investigatorDataBorn = await fetchData("researchers", "/P19");
+    const investigatorDataStudy = await fetchData("researchers", "/P69");
 
     if (investigatorDataBorn && investigatorDataStudy) {
       const bornQuestions = investigatorDataBorn.map((item) => `¿Dónde nació el investigador ${item.investigadorLabel}?`);
