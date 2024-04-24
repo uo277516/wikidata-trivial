@@ -53,9 +53,10 @@ let App = () => {
       console.log("a cargar preguntas de..." + selectedCategory);
       setLoading(true); 
       fetchFunction()
-        .then(question => {
+        .then( ({question, relation}) => {
           setQuestionSelected(question);
           console.log('Pregunta seleccionada:', question);
+          console.log("la relacion es "+relation);
           
         })
         .catch(error => {
@@ -99,6 +100,7 @@ let App = () => {
         //aqui deberia enviar a la api y tal
         //....
         console.log("la pregunta es "+questionSelected);
+        //pero aqui necesito entidad (QXXX) y propiedad (PXXX);
         console.log("la respuesta "+values.respuesta);
         console.log("y la referencia "+values.urldereferencia);
 

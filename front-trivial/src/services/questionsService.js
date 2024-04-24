@@ -17,24 +17,59 @@ const fetchData = async (entity, endpoint) => {
   }
 };
 
+//formar entidad de devolver con la pregunta la entidad y la relacion para poder mandar la edicion en front
+const generateQuestions = (data, labelPrefix, relation) => {
+  if (!data) return [];
+  
+  return data.map((item) => ({
+    question: `¿${labelPrefix} ${item.investigadorLabel}?`,
+    entity: item.investigador,
+    relation
+  }));
+};
+
 //preguntas futbolistas
+const fetchQuestionsResearchers = async () => {
+  try {
+    const investigatorDataBorn = await fetchData("researchers", "/P19");
+    const investigatorDataStudy = await fetchData("researchers", "/P69");
+
+    if (investigatorDataBorn && investigatorDataStudy) {
+      const bornQuestions = generateQuestions(investigatorDataBorn, 'Dónde nació el investigador', '/P19');
+      const studyQuestions = generateQuestions(investigatorDataStudy, 'Dónde estudió el investigador', '/P69');
+
+      const questionsArray = [...bornQuestions, ...studyQuestions];
+      const randomNumber = Math.floor(Math.random() * questionsArray.length);
+      const { question, entity, relation } = questionsArray[randomNumber];
+
+      console.log(question, entity, relation);
+      console.log("pregunta en service de investigador-> " + question);
+      
+      return { question, entity, relation };
+    } else {
+      throw new Error("Error fetching researchers data");
+    }
+  } catch (error) {
+    console.error("Error fetching researchers questions:", error);
+    throw error;
+  }
+};
+
 const fetchQuestionsFootballers = async () => {
   try {
     const footballersDataHeight = await fetchData("footballers", "/P2048");
 
-    console.log(footballersDataHeight);
-
     if (footballersDataHeight) {
-      const heightQuestions = footballersDataHeight.map((item) => `¿Cuál es la altura en centímetros del futbolista ${item.futbolistaLabel}?`);
+      const heightQuestions = generateQuestions(footballersDataHeight, 'Cuál es la altura en centímetros del futbolista', '/P2048');
 
-      const randomNumber = Math.floor(Math.random() * heightQuestions.length + 1);
-      const question = heightQuestions[randomNumber];
+      const randomNumber = Math.floor(Math.random() * heightQuestions.length);
+      const { question, entity, relation } = heightQuestions[randomNumber];
 
       console.log("pregunta en service de futbolista-> " + question);
-      return question;
+      
+      return { question, entity, relation };
     } else {
       throw new Error("Error fetching footballers data");
-      //notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
     }
   } catch (error) {
     console.error("Error fetching footballers questions:", error);
@@ -42,30 +77,6 @@ const fetchQuestionsFootballers = async () => {
   }
 };
 
-const fetchQuestionsResearchers = async () => {
-  try {
-    const investigatorDataBorn = await fetchData("researchers", "/P19");
-    const investigatorDataStudy = await fetchData("researchers", "/P69");
 
-    if (investigatorDataBorn && investigatorDataStudy) {
-      const bornQuestions = investigatorDataBorn.map((item) => `¿Dónde nació el investigador ${item.investigadorLabel}?`);
-      const studyQuestions = investigatorDataStudy.map((item) => `¿Dónde estudió el investigador ${item.investigadorLabel}?`);
-
-      const questionsArray = [...bornQuestions, ...studyQuestions];
-      const randomNumber = Math.floor(Math.random() * questionsArray.length + 1);
-      const question = questionsArray[randomNumber];
-
-      console.log("pregunta en service de investigador-> " + question);
-      //console.log(questionSelected); como no renderiza justo esto devuelve el anterior pero va bien en la realidad
-      return question;
-    } else {
-      throw new Error("Error fetching researchers data");
-      //notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
-    }
-  } catch (error) {
-    console.error("Error fetching researchers questions:", error);
-    throw error;
-  }
-};
 
 export { fetchQuestionsFootballers, fetchQuestionsResearchers };
