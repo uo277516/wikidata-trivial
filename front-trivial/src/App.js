@@ -1,10 +1,13 @@
 import './App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, message, notification} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification} from 'antd';
 import logo from './logo.png'; 
 import React, { useEffect, useState } from 'react';
 import RedirectButton from './components/RedirectButton';
-import OAuthLoginContainer from './components/OAuthLoginContainer';
+//import OAuthLoginContainer from './components/OAuthLoginContainer';
 import { SmileOutlined } from '@ant-design/icons';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers } from './services/questionsService.js';
+
+
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -83,7 +86,7 @@ let App = () => {
   };
 
 
-  const fetchData = async (endpoint) => {
+  /*const fetchData = async (endpoint) => {
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/researchers" + endpoint);
       //provocar error 500 para mirar que va
@@ -103,6 +106,7 @@ let App = () => {
     }
   };
 
+  //preguntas investigadores
   const fetchQuestionsResearchers = async () => {
     setLoading(true); //empieza a cargar
     const investigatorDataBorn = await fetchData("/P19");
@@ -125,18 +129,40 @@ let App = () => {
       notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
 
     }
-  };
+  };*/
+
+
+  
 
   const fetchQuestions = () => {
     console.log("a cargar preguntas de..." + selectedCategory);
     if (selectedCategory==="investigadores") {
-      fetchQuestionsResearchers();
+      setLoading(true); //empieza a cargar
+      fetchQuestionsResearchers()
+        .then(selectedQuestion => {
+          setQuestionSelected(selectedQuestion);
+          console.log('Pregunta seleccionada investigador:', selectedQuestion);
+          setLoading(false); //carga
+        })
+        .catch(error => {
+          console.error('Error al obtener la pregunta:', error);
+        });
     } else if (selectedCategory==="geografía") {
       //aqui iria llamada otro metodo
       console.log("preguntas geografía");
     } else if (selectedCategory==="futbolistas") {
       //aqui iria llamada otro metodo
-      console.log("preguntas futbolistas");
+      setLoading(true); //empieza a cargar
+      fetchQuestionsFootballers()
+        .then(selectedQuestion => {
+          setQuestionSelected(selectedQuestion);
+          console.log('Pregunta seleccionada futbolista:', selectedQuestion);
+          setLoading(false); //carga
+        })
+        .catch(error => {
+          console.error('Error al obtener la pregunta:', error);
+        });
+      
     }
     //if..con los demas
   };
@@ -145,6 +171,9 @@ let App = () => {
   //para que no saliera dos veces quite StrictMode en index.js, supuestamente cuando lo lanzas funciona
   //de momento lo quito, aunque salta warning dependencias
   useEffect(() => {
+      //si recargo vuelve a investigadores
+      setSelCategory("investigadores");
+      setSelectedCategory("investigadores");
       fetchQuestions();
   }, []);
   
