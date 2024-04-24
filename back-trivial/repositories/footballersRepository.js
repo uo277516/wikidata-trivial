@@ -64,14 +64,16 @@ const footballersRepository = {
   getFootballersRelation: async (relacion) => {
 
     //P2048 es height (altura del futbolista)
+    //P6509 es total goals
+    //P413 es posicion (centrocampista etc)
     try {
       const sparql = `
       SELECT ?futbolista ?futbolistaLabel 
     WHERE 
     {
       ?futbolista wdt:P106 wd:Q937857.  
-      OPTIONAL { ?futbolista wdt:${relacion} ?altura. }  
-      FILTER (!BOUND(?altura))  
+      OPTIONAL { ?futbolista wdt:${relacion} ?data. }  
+      FILTER (!BOUND(?data))  
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
     }
     LIMIT 10
