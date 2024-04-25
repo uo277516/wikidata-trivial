@@ -13,7 +13,8 @@ const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
 
-let PrincipalScreen = () => {
+let PrincipalScreen = (props) => {
+  let {category, categories} = props;
 
  
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
@@ -22,13 +23,11 @@ let PrincipalScreen = () => {
   const [form] = Form.useForm();
   const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
   const [questionError, setQuestionError] = useState(false); //para cuando las preguntas no cargan
-  //Categorias
-  //console.log("holi"+useParams().arguments);
-  let { selCategory } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(selCategory);
-  const categories = ['investigadores', 'futbolistas']; 
 
-  //let {selCategory} = useParams();
+  //Categorias
+  let  selCategory  = category;
+  const [selectedCategory, setSelectedCategory] = useState(selCategory);
+
 
   const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
   const [titleChangeGiveUp, setTitleChangeGiveUp] = useState(null);
@@ -37,8 +36,6 @@ let PrincipalScreen = () => {
   const setSelCategory = (cc) => {
     selCategory= cc;
   };
-
-  
   
 
   const fetchQuestions = () => {
@@ -58,7 +55,7 @@ let PrincipalScreen = () => {
         .then( ({question, relation}) => {
           setQuestionSelected(question);
           console.log('Pregunta seleccionada:', question);
-          console.log("la relacion es "+relation);
+          console.log("La relacion es "+relation);
           
         })
         .catch(error => {
@@ -67,7 +64,6 @@ let PrincipalScreen = () => {
           notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
           console.error('Error al obtener la pregunta:', error);
           setQuestionError(true);
-          console.log("a ver? " + questionError);
         })
         .finally(() => {
           setLoading(false);
@@ -126,11 +122,9 @@ let PrincipalScreen = () => {
   }
 
   const handleRestart = () => {
-    console.log("no entiendo"+selCategory);
     form.resetFields();
     setAnsweredQuestions(0);
     setGiveUp(false);
-    console.log("no entiendo2"+selectedCategory);
     fetchQuestions(selectedCategory);
   };
 
@@ -141,21 +135,17 @@ let PrincipalScreen = () => {
     Modal.confirm({
       title: 'Vas a cambiar de categoría',
       content: 'Al cambiar de categoría, tu racha de preguntas acertadas seguidas volverá a 0.',
-      onOk: () => {
-        console.log(answeredQuestions);
-        
+      onOk: () => {        
         setGiveUp(true);
 
-        console.log("ahoramismo en la pantalla delr esult debería de salir futbolista "+value);
         setSelectedCategory(value);
 
         //Para cogerlo para el fetch
         setSelCategory(value);
-        console.log(selCategory);
+        console.log("Cambiando a la categoría... "+selCategory);
 
         setTitleChangeGiveUp("Has cambiado de categoría.")
         setMsgChangeGiveUp("Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: "+answeredQuestions);
-        console.log(answeredQuestions);
 
         //por si habia algun problema con las preguntas de otra categoria que no cargaban, se vuelve a poner a false
         setQuestionError(false);
