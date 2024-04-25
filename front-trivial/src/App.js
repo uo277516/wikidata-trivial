@@ -12,7 +12,7 @@ const App = () => {
     <div>
         <Routes>
           <Route path="/" element={<CategorySelectionPage />} ></Route>
-          <Route path="/game/:category" element={<PrincipalScreen />} ></Route>
+          <Route path="/game/:selCategory" element={<PrincipalScreen />} ></Route>
         </Routes>
     </div>
       

@@ -24,10 +24,11 @@ let PrincipalScreen = () => {
   const [questionError, setQuestionError] = useState(false); //para cuando las preguntas no cargan
   //Categorias
   //console.log("holi"+useParams().arguments);
-  const [selectedCategory, setSelectedCategory] = useState("investigadores");
+  let { selCategory } = useParams();
+  const [selectedCategory, setSelectedCategory] = useState(selCategory);
   const categories = ['investigadores', 'futbolistas']; 
 
-  let selCategory = useParams();
+  //let {selCategory} = useParams();
 
   const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
   const [titleChangeGiveUp, setTitleChangeGiveUp] = useState(null);
@@ -82,8 +83,6 @@ let PrincipalScreen = () => {
   //de momento lo quito, aunque salta warning dependencias
   useEffect(() => {
       //si recargo vuelve a investigadores
-      setSelCategory("investigadores");
-      setSelectedCategory("investigadores");
       fetchQuestions();
       console.log("cada vez que recargo dice patata :P");
   }, []);
@@ -127,10 +126,12 @@ let PrincipalScreen = () => {
   }
 
   const handleRestart = () => {
+    console.log("no entiendo"+selCategory);
     form.resetFields();
     setAnsweredQuestions(0);
     setGiveUp(false);
-    fetchQuestions(selCategory);
+    console.log("no entiendo2"+selectedCategory);
+    fetchQuestions(selectedCategory);
   };
 
   //Categorias
@@ -145,6 +146,7 @@ let PrincipalScreen = () => {
         
         setGiveUp(true);
 
+        console.log("ahoramismo en la pantalla delr esult debería de salir futbolista "+value);
         setSelectedCategory(value);
 
         //Para cogerlo para el fetch
@@ -241,7 +243,7 @@ let PrincipalScreen = () => {
                         <Alert
                             style={{ marginBottom: "20px", width: 700 }}
                             type="error"
-                            message={"Error al cargar las preguntas sobre "+selCategory+"."}
+                            message={"Error al cargar las preguntas sobre "+selectedCategory+"."}
                             description="Ha ocurrido un error al cargar la pregunta. Por favor, inténtelo de nuevo más tarde o pruebe con otra categoría."
                         />
                     ) : (
