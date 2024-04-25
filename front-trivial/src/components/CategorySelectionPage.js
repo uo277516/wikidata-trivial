@@ -51,7 +51,7 @@ const CategorySelectionPage = () => {
       <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
                   La información de las siguientes preguntas se ha recogido de 
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
-                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres jugar.
+                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.
                 </Paragraph>
         <Content width="100%" style={contentStyle}>
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
