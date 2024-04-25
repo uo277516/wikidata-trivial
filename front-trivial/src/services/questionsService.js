@@ -66,7 +66,7 @@ const fetchQuestionsFootballers = async () => {
 
 
     if (footballersDataHeight) {
-      const heightQuestions = generateQuestions(footballersDataHeight, '¿Cuál es la altura en centímetros del futbolista', 'futbolista', 'futbolistaLabel', '/P2048');
+      const heightQuestions = generateQuestions(footballersDataHeight, 'Cuál es la altura en centímetros del futbolista', 'futbolista', 'futbolistaLabel', '/P2048');
 
       const randomNumber = Math.floor(Math.random() * heightQuestions.length);
       const { question, entity, relation } = heightQuestions[randomNumber];
