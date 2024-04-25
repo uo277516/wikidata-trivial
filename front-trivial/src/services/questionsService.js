@@ -28,26 +28,29 @@ const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, rel
   }));
 };
 
+const createQuestions = (relations, messages, entitiesName, jsonName, jsonLabel) => {
+  
 
-//preguntas futbolistas
+};
+
+//preguntas investigadores
 const fetchQuestionsResearchers = async () => {
   try {
+    //P19 es nacer
+    //P69 es estudiar
+    const relations = ["/P19", "/P69"];
+    const messages = ['Dónde nació el investigador', 'Dónde estudió el investigador'];
+    const random = Math.floor(Math.random() * relations.length); 
+    const relationChosed = relations[random];
+    const questionMsg = messages[random];
 
-    const investigatorDataBorn = await fetchData("researchers", "/P19");
-    const investigatorDataStudy = await fetchData("researchers", "/P69");
+    const researcherData = await fetchData("researchers", relationChosed);
 
-    if (investigatorDataBorn && investigatorDataStudy) {
-      const bornQuestions = generateQuestions(investigatorDataBorn, 'Dónde nació el investigador', 'investigador', 'investigadorLabel', '/P19');
-      const studyQuestions = generateQuestions(investigatorDataStudy, 'Dónde estudió el investigador', 'investigador', 'investigadorLabel', '/P69');
+    if (researcherData) {
+      const questions = generateQuestions(researcherData, questionMsg, 'investigador', 'investigadorLabel', relationChosed);
+      const randomNumber = Math.floor(Math.random() * questions.length);
+      const { question, entity, relation } = questions[randomNumber];
 
-
-      const questionsArray = [...bornQuestions, ...studyQuestions];
-      const randomNumber = Math.floor(Math.random() * questionsArray.length);
-      const { question, entity, relation } = questionsArray[randomNumber];
-
-      console.log(question, entity, relation);
-      console.log("pregunta en service de investigador-> " + question);
-      
       return { question, entity, relation };
     } else {
       throw new Error("Error fetching researchers data");
@@ -58,6 +61,7 @@ const fetchQuestionsResearchers = async () => {
   }
 };
 
+
 const fetchQuestionsFootballers = async () => {
   try {
     //P2048 altura
@@ -67,45 +71,19 @@ const fetchQuestionsFootballers = async () => {
     const messages = ['Cuál es la altura en centímetros del futbolista', 'Cuántos goles ha marcado a lo largo de su carrera el futbolista', 'Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista'];
     const random = Math.floor(Math.random() * relations.length); // Genera números aleatorios en el rango 0-2
     const relationChosed = relations[random];
+    const questionMsg=messages[random];
 
     const footballersData = await fetchData("footballers", relationChosed); 
 
-    let questionMsg='';
     if (footballersData) {
-      if (relationChosed===relations[0]) { //si es altura
-        questionMsg='Cuál es la altura en centímetros del futbolista';
-      } else if (relationChosed===relations[1]) {
-        questionMsg='Cuántos goles ha marcado a lo largo de su carrera el futbolista';
-      } else if (relationChosed===relations[2]) {
-        questionMsg='Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista';
-      } else {
-        console.log("Error a la hora de escoger la relacion de las preguntas");
-      }
       const questions = generateQuestions(footballersData, questionMsg, 'futbolista', 'futbolistaLabel', relationChosed);
       const randomNumber = Math.floor(Math.random() * questions.length);
       const { question, entity, relation } = questions[randomNumber];
-      console.log("pregunta en service de futbolista-> " + question);
-      console.log("entidad "+entity);
-      console.log("relacion "+relation);
+
       return { question, entity, relation };
     } else {
       throw new Error("Error fetching footballers data");
     }
-
-
-
-    /*if (footballersDataHeight) {
-      const heightQuestions = generateQuestions(footballersDataHeight, 'Cuál es la altura en centímetros del futbolista', 'futbolista', 'futbolistaLabel', '/P2048');
-
-      const randomNumber = Math.floor(Math.random() * heightQuestions.length);
-      const { question, entity, relation } = heightQuestions[randomNumber];
-
-      console.log("pregunta en service de futbolista-> " + question);
-      
-      return { question, entity, relation };
-    } else {
-      throw new Error("Error fetching footballers data");
-    }*/
   } catch (error) {
     console.error("Error fetching footballers questions:", error);
     throw error;

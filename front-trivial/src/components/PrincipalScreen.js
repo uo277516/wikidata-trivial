@@ -52,10 +52,11 @@ let PrincipalScreen = (props) => {
       console.log("a cargar preguntas de..." + selectedCategory);
       setLoading(true); 
       fetchFunction()
-        .then( ({question, relation}) => {
+        .then( ({question, entity, relation}) => {
           setQuestionSelected(question);
           console.log('Pregunta seleccionada:', question);
           console.log("La relacion es "+relation);
+          console.log("La entidad es "+entity);
           
         })
         .catch(error => {
