@@ -28,66 +28,43 @@ const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, rel
   }));
 };
 
-const createQuestions = (relations, messages, entitiesName, jsonName, jsonLabel) => {
-  
+//metodo general para crear las preguntas pasando los parmetros
+const createQuestions = async (relations, messages, entitiesName, jsonName, jsonLabel) => {
+  try {
+    const random = Math.floor(Math.random() * relations.length); 
+    const relationChosed = relations[random];
+    const questionMsg = messages[random];
+
+    const data = await fetchData(entitiesName, relationChosed);
+
+    if (data) {
+      const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
+      const randomNumber = Math.floor(Math.random() * questions.length);
+      const { question, entity, relation } = questions[randomNumber];
+
+      return { question, entity, relation };
+    } else {
+      throw new Error("Error fetching "+entitiesName+" data");
+    }
+  } catch (error) {
+    console.error("Error fetching "+entitiesName+" questions:", error);
+    throw error;
+  }
 
 };
 
 //preguntas investigadores
 const fetchQuestionsResearchers = async () => {
-  try {
-    //P19 es nacer
-    //P69 es estudiar
-    const relations = ["/P19", "/P69"];
-    const messages = ['Dónde nació el investigador', 'Dónde estudió el investigador'];
-    const random = Math.floor(Math.random() * relations.length); 
-    const relationChosed = relations[random];
-    const questionMsg = messages[random];
-
-    const researcherData = await fetchData("researchers", relationChosed);
-
-    if (researcherData) {
-      const questions = generateQuestions(researcherData, questionMsg, 'investigador', 'investigadorLabel', relationChosed);
-      const randomNumber = Math.floor(Math.random() * questions.length);
-      const { question, entity, relation } = questions[randomNumber];
-
-      return { question, entity, relation };
-    } else {
-      throw new Error("Error fetching researchers data");
-    }
-  } catch (error) {
-    console.error("Error fetching researchers questions:", error);
-    throw error;
-  }
+  const relations = ["/P19", "/P69"];   //nacer, estudiar
+  const messages = ['Dónde nació el investigador', 'Dónde estudió el investigador'];
+  return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
 };
 
 
 const fetchQuestionsFootballers = async () => {
-  try {
-    //P2048 altura
-    //P6509 goles
-    //P413 posicion
-    const relations = ["/P2048", "/P6509", "/P413"];
-    const messages = ['Cuál es la altura en centímetros del futbolista', 'Cuántos goles ha marcado a lo largo de su carrera el futbolista', 'Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista'];
-    const random = Math.floor(Math.random() * relations.length); // Genera números aleatorios en el rango 0-2
-    const relationChosed = relations[random];
-    const questionMsg=messages[random];
-
-    const footballersData = await fetchData("footballers", relationChosed); 
-
-    if (footballersData) {
-      const questions = generateQuestions(footballersData, questionMsg, 'futbolista', 'futbolistaLabel', relationChosed);
-      const randomNumber = Math.floor(Math.random() * questions.length);
-      const { question, entity, relation } = questions[randomNumber];
-
-      return { question, entity, relation };
-    } else {
-      throw new Error("Error fetching footballers data");
-    }
-  } catch (error) {
-    console.error("Error fetching footballers questions:", error);
-    throw error;
-  }
+  const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
+  const messages = ['Cuál es la altura en centímetros del futbolista', 'Cuántos goles ha marcado a lo largo de su carrera el futbolista', 'Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista'];
+  return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
 };
 
 
