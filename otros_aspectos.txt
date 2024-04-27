@@ -4,3 +4,12 @@ CONVOCATORIA ORDINARIA (JUNIO)
 CONVOCATORIA EXTRAORDINARIA (JULIO)
 •	Presentación de solicitud de lectura y subida de la memoria a SIES: del 3 al 10 de julio (ambos inclusive).
 •	Defensa: 22 al 26 de julio.
+La entrega de la memoria, y, en su caso, de los códigos fuente, el ejecutable y todos
+los demás archivos necesarios para la obtención de éste y el correcto funcionamiento de
+la aplicación, se llevará a cabo a través de la Intranet, en
+https://sies.uniovi.es/serviciosacademicos (Mis estudios > Grado, Máster y Doctorado >
+Trabajo Fin de Estudios).
+Se recuerda, además, que es obligatorio para todos los estudiantes incluir la carta
+de pago que se debe solicitar a la administración y los que sólo hayan pagado el 25%
+del importe de la matrícula de la asignatura TFG deben abonar el 75% restante con
+anterioridad a la solicitud de lectura.
