@@ -1,13 +1,40 @@
 import React from 'react';
+const oauthSignature = require('oauth-signature');
 
 const RedirectButton = () => {
-  const consumerToken='9710c01964941c18292d69c3cd033af2';
-  const secretToken='7d61936d0335c9443f3a041812a25bc948ef29b8';
-  const callBack='http://localhost:3000/';
-  const redirectUrl = `https://www.mediawiki.org/wiki/Special:OAuth/authorize?oauth_token=${secretToken}&oauth_consumer_key=${consumerToken}&callback=${callBack}`;
 
 
-  //https://www.mediawiki.org/wiki/Special:OAuth/authorize?oauth_token=6996a5f52ee9653beade27601db9f32f&oauth_consumer_key=a69a26c7ac26e7120969ba20cbda9665&callback=https%3A%2F%2Fwikidata-game.toolforge.org%2Fapi.php
+  const url = 'https://www.mediawiki.org/w/index.php?title=Special:OAuth/initiate';
+  const httpMethod = 'GET';
+  const parameters = {
+    format: 'json',
+    oauth_callback: 'oob',
+    oauth_consumer_key: '9710c01964941c18292d69c3cd033af2',
+    //oauth_consumer_secret: '7d61936d0335c9443f3a041812a25bc948ef29b8',
+    oauth_version: '1.0',
+    oauth_nonce: generateNonce(),
+    oauth_timestamp: Math.floor(Date.now() / 1000),
+    oauth_signature_method: 'HMAC-SHA1',
+  };
+    const tokenSecret = '7d61936d0335c9443f3a041812a25bc948ef29b8';
+
+    const encodedSignature = oauthSignature.generate(httpMethod, url, parameters, tokenSecret);
+
+    function generateNonce() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let nonce = '';
+      const charactersLength = characters.length;
+      for (let i = 0; i < 16; i++) {
+        nonce += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return nonce;
+    }
+    
+
+    parameters.oauth_signature = encodedSignature;
+
+    const redirectUrl = url + '&' + Object.keys(parameters).map(key => `${key}=${encodeURIComponent(parameters[key])}`).join('&');
+ 
 
   const handleButtonClick = () => {
     window.location.href = redirectUrl;
