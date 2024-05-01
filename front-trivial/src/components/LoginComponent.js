@@ -14,6 +14,8 @@ const LoginComponent = () => {
   const [login, setLogin] = useState(false); 
 
   const handleLogin = async () => {
+
+
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
     setTimeout(3000);
