@@ -43,6 +43,8 @@ console.log(config.session_secret);
 
 app.use( "/", router );
 
+
+
 passport.use( new MediaWikiStrategy(
     {
 		consumerKey: config.consumer_key,
@@ -69,7 +71,8 @@ passport.deserializeUser( function ( obj, done ) {
 
 router.get( "/", function ( req, res ) {
 	res.render( "index", {
-		user: req && req.session && req.session.user,
+		//user: req && req.session && req.session.user,
+		user: req.user,
 		url: req.baseUrl
 	} );
 } );
@@ -88,13 +91,21 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 			return res.redirect( req.baseUrl + "/login" );
 		}
 
-		req.logIn( user, function( err ) {
+
+
+		req.session.user = user;
+        console.log(req.session.user);
+        res.redirect( "https://localhost:3000" );
+
+		/*req.logIn( user, function( err ) {
 			if ( err ) {
+				console.log("aqui?");
 				return next( err );
 			}
 			req.session.user = user;
+			console.log(req.session.user);
 			res.redirect( req.baseUrl + "/" );
-		} );
+		} );*/
 	} )( req, res, next );
 } );
 

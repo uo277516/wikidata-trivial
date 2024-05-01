@@ -3,6 +3,7 @@ import React from 'react';
 import PrincipalScreen from './components/PrincipalScreen';
 import CategorySelectionPage from './components/CategorySelectionPage';
 import { Routes, Route } from 'react-router-dom';
+import LoginComponent from './components/LoginComponent';
 
 
 
@@ -11,8 +12,7 @@ const App = () => {
 
     <div>
         <Routes>
-          <Route path="/" element={<CategorySelectionPage />} ></Route>
-          <Route path="/game" element={<PrincipalScreen />} ></Route>
+          <Route path="/" element={<LoginComponent />} ></Route>
         </Routes>
     </div>
       

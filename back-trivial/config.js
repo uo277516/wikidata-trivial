@@ -1,7 +1,7 @@
 var config = {};
 
-config.session_secret = "natalia2001semellones";
-config.consumer_key = "9710c01964941c18292d69c3cd033af2";
-config.consumer_secret = "7d61936d0335c9443f3a041812a25bc948ef29b8";
+config.session_secret = "natalia2001tineoasturias";
+config.consumer_key = "9c20cd7009c1672c77c46b0e8aea2403";
+config.consumer_secret = "d125be1763b2704fefec7e75e60c8d9d03e208e2";
 
 module.exports = config;

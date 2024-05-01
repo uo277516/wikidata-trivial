@@ -7,7 +7,6 @@ import RedirectButton from '../components/RedirectButton';
 import { SmileOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers } from '../services/questionsService.js';
 import { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle } from '../styles/appStyle.js';
-import { useParams } from 'react-router';
 //Layout y letras
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
@@ -31,6 +30,7 @@ let PrincipalScreen = (props) => {
 
   const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
   const [titleChangeGiveUp, setTitleChangeGiveUp] = useState(null);
+
 
 
   const setSelCategory = (cc) => {

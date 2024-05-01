@@ -12,6 +12,8 @@ const CategorySelectionPage = () => {
   const categories = ['investigadores', 'futbolistas']; 
   const [selectedCategory, setSelectedCategory] = useState('investigadores');
 
+
+
   const handleStartGame = (selectedCategory) => {
     Modal.confirm({
       title: 'Comenzar juego',
