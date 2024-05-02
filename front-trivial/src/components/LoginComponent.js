@@ -34,6 +34,7 @@ const LoginComponent = () => {
       console.error('Error checking authentication:', error);
       setIsLoggedIn(false);
     }
+    
   };
 
   return (
