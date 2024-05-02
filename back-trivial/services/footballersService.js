@@ -4,7 +4,7 @@ const InputError = require("../errors/inputError");
 
 footballersService = {
 
-    editFootballerById: async(footballerId, property, value, referenceURL) => {
+    editFootballerById: async(footballerId, property, value, referenceURL,token, token_secret) => {
         let errors = [];
 
         if (footballerId == undefined) {
@@ -19,12 +19,13 @@ footballersService = {
         if (referenceURL == undefined) {
             errors.push(new InputError("referenceURL", "Undefined reference URL"));
         }
+        console.log("--"+referenceURL);
         if (referenceURL !== null && !referenceURL.startsWith("https://")) {
             errors.push(new InputError("referenceURL", "Reference URL does not follow 'https://' scheme"));
         }
         
 
-        let info = await footballerRepository.editFootballerById(footballerId, property, value, referenceURL);
+        let info = await footballerRepository.editFootballerById(footballerId, property, value, referenceURL,token, token_secret);
         
         if (info == null) {
             errors.push(new LogicError("Error editing footballer"));

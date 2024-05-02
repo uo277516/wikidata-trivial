@@ -16,6 +16,9 @@ let PrincipalScreen = (props) => {
  
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
   let [questionSelected, setQuestionSelected] = useState(null);
+  let [entitySelected, setEntitySelected] = useState(null);
+  let [relationSelected, setRelationSelected] = useState(null);
+
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
   const [form] = Form.useForm();
   const [giveup, setGiveUp] = useState(false); //para rendirse, empieza en false (no te rindes)
@@ -52,6 +55,8 @@ let PrincipalScreen = (props) => {
       fetchFunction()
         .then( ({question, entity, relation}) => {
           setQuestionSelected(question);
+          setEntitySelected(entity);
+          setRelationSelected(relation);
           console.log('Pregunta seleccionada:', question);
           console.log("La relacion es "+relation);
           console.log("La entidad es "+entity);
@@ -81,6 +86,29 @@ let PrincipalScreen = (props) => {
       fetchQuestions();
       console.log("cada vez que recargo dice patata :P");
   }, []);
+
+
+  const editFootballer = async (footballerId, property, value, referenceURL, token, token_secret) => {
+    try {
+      const response = await fetch('/footballers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ footballerId, property, value, referenceURL, token, token_secret })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to edit footballer');
+      }
+  
+      const data = await response.json();
+      return data.result;
+    } catch (error) {
+      console.error('Error editing footballer:', error);
+      throw error;
+    }
+  };
   
   
 
@@ -93,12 +121,16 @@ let PrincipalScreen = (props) => {
         setAnsweredQuestions(answeredQuestions + 1);
         form.resetFields();
 
-        //aqui deberia enviar a la api y tal
-        //....
         console.log("la pregunta es "+questionSelected);
         //pero aqui necesito entidad (QXXX) y propiedad (PXXX);
         console.log("la respuesta "+values.respuesta);
         console.log("y la referencia "+values.urldereferencia);
+
+
+        //---ENVIAR A LA API---
+        console.log(entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,token, token_secret);
+        // editFootballer(entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,
+        //       token, token_secret);
 
         //vuelvo a cargar
         fetchQuestions(selCategory);

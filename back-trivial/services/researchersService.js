@@ -4,7 +4,7 @@ const InputError = require("../errors/inputError");
 
 researchersService = {
 
-    editResearcherById: async(researcherId, property, value, referenceURL) => {
+    editResearcherById: async(researcherId, property, value, referenceURL, token, token_secret) => {
         let errors = [];
 
         if (researcherId == undefined) {
@@ -24,7 +24,7 @@ researchersService = {
         }
         
 
-        let info = await researchersRepository.editResearcherById(researcherId, property, value, referenceURL);
+        let info = await researchersRepository.editResearcherById(researcherId, property, value, referenceURL, token, token_secret);
         
         if (info == null) {
             errors.push(new LogicError("Error editing researcher"));

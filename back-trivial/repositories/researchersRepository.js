@@ -52,13 +52,13 @@ const generalConfig = {
 */
 
 //funciona pro asi no se deberia de hacer
-const generalConfig = {
+/*const generalConfig = {
   // Note that it will only work for domains on HTTPS
   instance: 'https://www.wikidata.org',
   anonymous: true
 }
 
-const wbEdit = WBEdit(generalConfig)
+const wbEdit = WBEdit(generalConfig)*/
 
 
 
@@ -124,16 +124,41 @@ const researchersRepository = {
   },
 
 
-  editResearcherById: async (researcherId, property, value, referenceURL) => { 
+  editResearcherById: async (researcherId, property, value, referenceURL, token, token_secret) => { 
     let claim = null;
     let date = getDate.getDate();
+    const generalConfig = {
+      // A Wikibase instance is required
+      instance: 'https://www.wikidata.org',
+    
+      // The instance script path, used to find the API endpoint
+      // Default: /w
+      wgScriptPath: '/w',
+    
+      // One authorization mean is required (unless in anonymous mode, see below)
+      credentials: {
+    
+        // OR OAuth tokens
+        oauth: {
+          // Obtained at registration
+          // https://www.mediawiki.org/wiki/OAuth/For_Developers#Registration
+          consumer_key: '9c20cd7009c1672c77c46b0e8aea2403',
+          consumer_secret: 'd125be1763b2704fefec7e75e60c8d9d03e208e2',
+          // Obtained when the user authorized your service
+          // see https://www.mediawiki.org/wiki/OAuth/For_Developers#Authorization
+          token: token,
+          token_secret: token_secret
+        }
+      }
+    };
+    const wbEdit = WBEdit(generalConfig);
     try {
       console.log(wbEdit);
       //los valores no son sobre eso, es en una de prueba
       claim = wbEdit.claim.create({
-        id: 'Q4115189', //id del investigador --> "researcherId"
-        property: 'P2002', //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
-        value: 'bulgroz', //valor de la propiedad (oviedo, ucm) --> "value"
+        id: researcherId, //id del investigador --> "researcherId"
+        property: property, //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
+        value: value, //valor de la propiedad (oviedo, ucm) --> "value"
         references: [
           { P854: referenceURL, P813: date }
         ]   

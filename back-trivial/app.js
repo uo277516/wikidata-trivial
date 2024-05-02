@@ -26,9 +26,6 @@ initRouters(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*app.get('/data.json', function(req, res) {
-	res.sendFile(path.join(__dirname, 'public', 'data.json'));
-});*/
   
 
 app.use( session( {
