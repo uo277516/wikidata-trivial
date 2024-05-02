@@ -11,7 +11,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 
 let PrincipalScreen = (props) => {
-  let {category, categories} = props;
+  let {category, categories, token, token_secret} = props;
 
  
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas

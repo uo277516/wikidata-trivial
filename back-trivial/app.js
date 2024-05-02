@@ -24,10 +24,12 @@ initRouters(app);
 
 
 
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.set( "views", __dirname + "/public/views" );
-app.set( "view engine", "ejs" );
-app.use( express.static( __dirname + "/public/views" ) );
+/*app.get('/data.json', function(req, res) {
+	res.sendFile(path.join(__dirname, 'public', 'data.json'));
+});*/
+  
 
 app.use( session( {
     secret: config.session_secret,
@@ -128,7 +130,7 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 } );
 
 router.get( "/logout" , function ( req, res ) {
-	
+
 	delete req.session.user;
 	res.redirect( req.baseUrl + "/" );
 } );

@@ -1,21 +1,16 @@
-// App.js
-import React from 'react';
-import CategorySelectionPage from './components/CategorySelectionPage';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginComponent from './components/LoginComponent';
-
-
+import CategorySelectionPage from './components/CategorySelectionPage';
 
 const App = () => {
-  return (
+ 
 
-    <div>
-        <Routes>
-          <Route path="/game" element={<CategorySelectionPage />} ></Route>
-          <Route path="/" element={<LoginComponent />} ></Route>
-        </Routes>
-    </div>
-      
+  return (
+      <Routes>
+        <Route path="/" element={<LoginComponent />} />
+        <Route path="/game" element={<CategorySelectionPage />} />
+      </Routes>
   );
 };
 

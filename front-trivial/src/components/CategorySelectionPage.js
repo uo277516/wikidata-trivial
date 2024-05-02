@@ -11,6 +11,10 @@ const CategorySelectionPage = () => {
   const [change, setChange] = useState(true);
   const categories = ['investigadores', 'futbolistas']; 
   const [selectedCategory, setSelectedCategory] = useState('investigadores');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setName] = useState(null);
+  const [token, setToken] = useState(null);
+  const [token_secret, setTokenSecret] = useState(null);
 
 
 
@@ -30,6 +34,33 @@ const CategorySelectionPage = () => {
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
+
+  const checkAuthentication = async () => {
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
+      if (response.ok) {
+        setIsLoggedIn(true);
+        const jsonData = await response.json();
+        // console.log(JSON.stringify(jsonname, null, 2));
+        // console.log(jsonname.displayName);
+        console.log("no entra?" + jsonData.displayName);
+        setName(jsonData.displayName);
+        setToken(jsonData.oauth.token);
+        setTokenSecret(jsonData.oauth.token_secret);
+      } else {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error('Error checking authentication:', error);
+      setIsLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {    
+    console.log("cada vez que recargo en seleccion dice patata :P");
+    checkAuthentication();
+  }, []);
+  
 
 
 
@@ -52,9 +83,9 @@ const CategorySelectionPage = () => {
             </Layout>
           </Header>
           <Content style={contentStyle}>
-            <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>Selección de Categoría</Title>
+            <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>¡Bienvenid@, {name}!</Title>
             <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
-              La información de las siguientes preguntas se ha recogido de
+               La información de las siguientes preguntas se ha recogido de
               <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
               Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.
             </Paragraph>
@@ -85,7 +116,11 @@ const CategorySelectionPage = () => {
           <Footer style={footerStyle}>Wiki Trivial</Footer>
         </Layout>
       ) : (
-        <PrincipalScreen category={selectedCategory} categories={categories} />
+        <PrincipalScreen 
+          category={selectedCategory} 
+          categories={categories} 
+          token={token} 
+          token_secret={token_secret} />
       )}
     </>
   );  

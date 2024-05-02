@@ -14,6 +14,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const LoginComponent = () => {
   
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = async () => {
 
@@ -24,10 +25,25 @@ const LoginComponent = () => {
 
 
 
+  const checkAuthentication = async () => {
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
+      if (response.ok) {
+        setIsLoggedIn(true);
+        
+      } else {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error('Error checking authentication:', error);
+      setIsLoggedIn(false);
+    }
+  };
+
   return (
     <>
 
-<Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }}>
           <Header style={headerStyle}>
             <Layout>
               <Sider width="20%" style={siderStyle}>
