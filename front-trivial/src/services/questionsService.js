@@ -1,3 +1,34 @@
+const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
+  let endpoint=null;
+  if (selCategory==="futbolistas") {
+    endpoint='footballers';
+  } else if (selCategory==="investigadores") {
+    endpoint='researchers';
+  }
+  console.log(endpoint);
+  try {
+    const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ footballerId, property, value, referenceURL, token, token_secret })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to edit entity');
+    }
+
+    const data = await response.json();
+    return data.result;
+  } catch (error) {
+    console.error('Error editing entity:', error);
+    throw error;
+  }
+};
+
+
+
 const fetchData = async (entity, endpoint) => {
   try {
     const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + entity + endpoint);
@@ -69,4 +100,4 @@ const fetchQuestionsFootballers = async () => {
 
 
 
-export { fetchQuestionsFootballers, fetchQuestionsResearchers };
+export { fetchQuestionsFootballers, fetchQuestionsResearchers , editEntity};

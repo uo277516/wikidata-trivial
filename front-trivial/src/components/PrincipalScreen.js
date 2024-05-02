@@ -3,7 +3,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers } from '../services/questionsService.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity } from '../services/questionsService.js';
 import { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle } from '../styles/appStyle.js';
 //Layout y letras
 const {Title, Paragraph, Link} = Typography;
@@ -86,29 +86,6 @@ let PrincipalScreen = (props) => {
       fetchQuestions();
       console.log("cada vez que recargo dice patata :P");
   }, []);
-
-
-  const editFootballer = async (footballerId, property, value, referenceURL, token, token_secret) => {
-    try {
-      const response = await fetch('/footballers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ footballerId, property, value, referenceURL, token, token_secret })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to edit footballer');
-      }
-  
-      const data = await response.json();
-      return data.result;
-    } catch (error) {
-      console.error('Error editing footballer:', error);
-      throw error;
-    }
-  };
   
   
 
@@ -127,9 +104,11 @@ let PrincipalScreen = (props) => {
         console.log("y la referencia "+values.urldereferencia);
 
 
-        //---ENVIAR A LA API---
-        console.log(entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,token, token_secret);
-        // editFootballer(entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,
+        //---ENVIAR A LA API--- comentado porque hasta qe me acepten
+        
+        // editEntity(entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,token, token_secret);
+        
+        // editEntity(selCategory, "Q4691", "P2048",180, "https://www.transfermarkt.es/andre-de-kruijff/profil/spieler/152549",
         //       token, token_secret);
 
         //vuelvo a cargar
