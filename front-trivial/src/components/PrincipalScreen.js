@@ -2,8 +2,6 @@ import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm} from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import RedirectButton from '../components/RedirectButton';
-//import OAuthLoginContainer from './components/OAuthLoginContainer';
 import { SmileOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers } from '../services/questionsService.js';
 import { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle } from '../styles/appStyle.js';
@@ -325,11 +323,6 @@ let PrincipalScreen = (props) => {
               />
             )}
             </Content>
-            <RedirectButton></RedirectButton>
-              {/* lo comento de momento xq no va
-              
-              <OAuthLoginContainer></OAuthLoginContainer>
-            */}
           </Content>
           
         </Layout>

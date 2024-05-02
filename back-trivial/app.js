@@ -3,7 +3,8 @@ var session = require( "express-session" );
 var passport = require( "passport" );
 var MediaWikiStrategy = require( "passport-mediawiki-oauth" ).OAuthStrategy;
 var config = require( "./config" );
-
+const fs = require('fs');
+const path = require('path');
 
 const cors = require('cors');
 const initRouters = require("./routers/routers");
@@ -19,7 +20,7 @@ app.use(express.json());
 initRouters(app);
 
 
-//-----
+//-------
 
 
 
@@ -57,9 +58,24 @@ passport.use( new MediaWikiStrategy(
 			token: token,
 			token_secret: tokenSecret
 		};
+		//console.log(profile);
+		saveData(profile);
 		return done( null, profile );
 	}
 ) );
+
+const saveData = (data) => {
+	const jsonData = JSON.stringify(data);
+	const filePath = path.join(__dirname, 'public', 'data.json');
+
+	fs.writeFile(filePath, jsonData, (err) => {
+		if (err) {
+			console.error('Error writing file:', err);
+			return;
+		}
+		console.log('Data written to file');
+	});
+}
 
 passport.serializeUser(	function ( user, done ) {
 	done( null, user );
@@ -82,6 +98,7 @@ router.get( "/login", function ( req, res ) {
 } );
  
 router.get( "/auth/mediawiki/callback", function( req, res, next ) {
+	console.log("hola");
 	passport.authenticate( "mediawiki", function( err, user ) {
 		if ( err ) {
 			return next( err );
@@ -91,12 +108,12 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 			return res.redirect( req.baseUrl + "/login" );
 		}
 
-
-
 		req.session.user = user;
         console.log(req.session.user);
-		res.redirect( req.baseUrl +"/" );
-        //res.redirect( "https://localhost:3000" );
+		//res.redirect( req.baseUrl +"/" );  //localhost:3001
+		//SI todo va bien ya redirijo a game
+        res.redirect( "http://localhost:3000/game" );
+		
 
 		/*req.logIn( user, function( err ) {
 			if ( err ) {
@@ -111,12 +128,13 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 } );
 
 router.get( "/logout" , function ( req, res ) {
+	
 	delete req.session.user;
 	res.redirect( req.baseUrl + "/" );
 } );
 
 
-//----
+//-----
 
 
 
