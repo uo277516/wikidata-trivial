@@ -60,14 +60,17 @@ const LoginComponent = () => {
           <Content style={contentStyle}>
             <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>Login</Title>
             <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
-              Para poder empezar a jugar, necesitas iniciar sesión en Wikidata con tu usuario.
+                  La información de las siguientes preguntas se ha recogido de
+                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
+                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.
             </Paragraph>
             <Button
               type="primary"
               size="large"
+              htmlType="submit"
               onClick={() => handleLogin()}
-              style={{ marginTop: '20px' }}
-            >
+              style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200px' }}
+              >
               Log in
             </Button>
           </Content>
