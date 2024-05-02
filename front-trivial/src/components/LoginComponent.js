@@ -3,34 +3,30 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Radio, Button, Modal, Image } from 'antd';
 import { headerStyle, contentStyle, footerStyle, headerRightStyle, siderStyle, titleOneStyle, titleTwoStyle} from '../styles/appStyle.js';
 import logo from '../logo.png'; 
-import PrincipalScreen from './PrincipalScreen.js';
 import CategorySelectionPage from './CategorySelectionPage.js';
 
-import { redirect } from 'react-router';
 
 const { Title, Paragraph, Link} = Typography;
 const { Header, Content, Footer, Sider } = Layout;
 
 
 const LoginComponent = () => {
-  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = async () => {
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
 
+  const handleLogin = async () => {
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
-
   };
-
-
 
   const checkAuthentication = async () => {
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
       if (response.ok) {
         setIsLoggedIn(true);
-        
       } else {
         setIsLoggedIn(false);
       }
@@ -42,8 +38,10 @@ const LoginComponent = () => {
 
   return (
     <>
-
-    <Layout style={{ minHeight: "100vh" }}>
+      {isLoggedIn ? (
+        <CategorySelectionPage />
+      ) : (
+        <Layout style={{ minHeight: "100vh" }}>
           <Header style={headerStyle}>
             <Layout>
               <Sider width="20%" style={siderStyle}>
@@ -64,15 +62,17 @@ const LoginComponent = () => {
               Para poder empezar a jugar, necesitas iniciar sesión en Wikidata con tu usuario.
             </Paragraph>
             <Button
-                  type="primary"
-                  size="large"
-                  onClick={() => handleLogin()}
-                  style={{ marginTop: '20px' }}>
-                  Log in
-                </Button>
+              type="primary"
+              size="large"
+              onClick={() => handleLogin()}
+              style={{ marginTop: '20px' }}
+            >
+              Log in
+            </Button>
           </Content>
           <Footer style={footerStyle}>Wiki Trivial</Footer>
         </Layout>
+      )}
     </>
   );  
 };
