@@ -1,8 +1,0 @@
-<!-- views/index.ejs -->
-<meta charset="UTF-8">
-<h3>My first nodejs oauth app</h3>
-<% if(user) { %>
-    <p>Greetings, <%= user.displayName %>! <a href="<%= url %>/logout">Click to logout</a></p>
-<% } else { %>
-	<p><a href="<%= url %>/login">Click here to login</a></p>
-<% } %>
