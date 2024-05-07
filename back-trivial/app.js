@@ -109,20 +109,9 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 
 		req.session.user = user;
         console.log(req.session.user);
-		//res.redirect( req.baseUrl +"/" );  //localhost:3001
 		//SI todo va bien ya redirijo a game
         res.redirect( "http://localhost:3000/game" );
 		
-
-		/*req.logIn( user, function( err ) {
-			if ( err ) {
-				console.log("aqui?");
-				return next( err );
-			}
-			req.session.user = user;
-			console.log(req.session.user);
-			res.redirect( req.baseUrl + "/" );
-		} );*/
 	} )( req, res, next );
 } );
 
@@ -131,34 +120,18 @@ router.get( "/logout" , function ( req, res ) {
 	delete req.session.user;
 	res.redirect( req.baseUrl + "/" );
 
-	deleteUser();
+	//deleteUser();
 } );
 
-router.get("/checkAuth", function ( req, res ) {
+
+router.get("/checkAuth", function(req, res) {
+	console.log("vuelve");
 	if (req.session.user) {
-		res.sendStatus(200);
+	  res.json({ authenticated: true }); 
 	} else {
-		res.sendStatus(400);
+	  res.json({ authenticated: false });
 	}
-}) ;
-
-
-//Esto sobra cuando haga logout basta con q donde lo llama ponga localStorage.removeItem("user");
-//metodo para eliminar usuario cada vez que se lanza y cuando hago logout
-const deleteUser = () => {
-	const filePath = __dirname + '/public/data.json';
-	if (fs.existsSync(filePath)) {
-	//si existe lo borro
-	try {
-		fs.unlinkSync(filePath);
-		console.log('El archivo fue eliminado exitosamente.');
-	} catch (error) {
-		console.error('Error al eliminar el archivo:', error);
-	}
-	} else {
-	console.log('El archivo no existe.');
-	}
-}
+});
 
 
 //-----
@@ -167,4 +140,5 @@ const deleteUser = () => {
 app.listen(PORT, () => {
     console.log("Listening on port 3001");
 })
-deleteUser();
+
+

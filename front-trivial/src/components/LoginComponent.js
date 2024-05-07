@@ -20,24 +20,55 @@ const LoginComponent = () => {
   const handleLogin = async () => {
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
+    const userData = await fetchUserData(); //datos del usuario
+    localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
   };
 
   const checkAuthentication = async () => {
     try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
-      if (response.ok) {
-        const jsonData = await response.json();
-        localStorage.setItem('user', JSON.stringify(jsonData)); 
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
+      const authenticated = await isAuthenticated(); //usuario autenticado
+      setIsLoggedIn(authenticated);
+      if (authenticated) {
+        const userData = await fetchUserData(); //datos del usuario
+        localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
       }
     } catch (error) {
-      console.error('Error checking authentication:', error);
+      console.error('Error al verificar la autenticación:', error);
       setIsLoggedIn(false);
     }
     
   };
+  
+  const isAuthenticated = async () => {
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/checkAuth");
+      if (response.ok) {
+        const data = await response.json();
+        return data.authenticated; //true si lo está, false si no
+      } else {
+        return false; //no ok devuelve error
+      }
+    } catch (error) {
+      console.error('Error al verificar la autenticación:', error);
+      return false; //si error false tb
+    }
+  };
+  
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
+      if (response.ok) {
+        return await response.json();
+      } else {
+        console.error('Error al obtener los datos del usuario:', response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
+      return null;
+    }
+  };
+  
 
   return (
     <>
