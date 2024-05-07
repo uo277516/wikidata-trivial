@@ -32,6 +32,10 @@ let PrincipalScreen = (props) => {
   const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
   const [titleChangeGiveUp, setTitleChangeGiveUp] = useState(null);
 
+  //Para la rueda de enviar
+  const [loadings, setLoadings] = useState([]);
+
+
 
 
   const setSelCategory = (cc) => {
@@ -94,25 +98,43 @@ let PrincipalScreen = (props) => {
     try {
       const values = await form.validateFields(); //validar campos
       if (values.respuesta && values.urldereferencia) {
+        
+        //activar rueda enviar
+        setLoadings((prevLoadings) => {
+          const newLoadings = [...prevLoadings];
+          newLoadings[0] = true; 
+          return newLoadings;
+        });
+        
+        //---ENVIAR A LA API---
+        //lo comento pa hacer pruebas, llamaria a este y no al siguiente
+        //editEntity(selCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+        await asyncTestFunction();
+
+        //Desactivar rueda
+        setLoadings((prevLoadings) => {
+          const newLoadings = [...prevLoadings];
+          newLoadings[0] = false; // Desactivar la rueda de carga
+          return newLoadings;
+        });
+
+        notification.success({message: 'Respuesta enviada.', description: 'Su respuesta se ha añadido a Wikidata.', placement: 'topRight'});
+
+
+
         //sumo respuestas y vacío
         setAnsweredQuestions(answeredQuestions + 1);
         form.resetFields();
 
         console.log("la pregunta es "+questionSelected);
-        //pero aqui necesito entidad (QXXX) y propiedad (PXXX);
         console.log("la respuesta "+values.respuesta);
         console.log("y la referencia "+values.urldereferencia);
 
-
-        //---ENVIAR A LA API--- comentado porque hasta qe me acepten
-        //selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
-        editEntity(selCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
-        
-        // editEntity(selCategory, "Q4691", "P2048",180, "https://www.transfermarkt.es/andre-de-kruijff/profil/spieler/152549",
-        //       token, token_secret);
-
         //vuelvo a cargar
         fetchQuestions(selCategory);
+
+        
+        
       } else {
         console.error("Alguno o varios campos están sin completar");
       }
@@ -121,6 +143,14 @@ let PrincipalScreen = (props) => {
     }
   };
 
+  //método para pruebas
+  const asyncTestFunction = async () => {
+    // Simulación de una operación asincrónica (p. ej., una llamada a una API)
+    console.log("Iniciando operación asíncrona...");
+    await new Promise(resolve => setTimeout(resolve, 3000)); // Simulamos un retardo de 3 segundos
+    console.log("Operación asíncrona completada.");
+  };
+  
   
 
   //botón de rendirse
@@ -171,9 +201,8 @@ let PrincipalScreen = (props) => {
         </>
       ),
     });
-    
-
   };
+
 
 
 
@@ -303,7 +332,7 @@ let PrincipalScreen = (props) => {
 
                   <Form.Item >
                     <Button type="primary" htmlType="submit" onClick={handleSendButton} 
-                      style={{ marginRight: '20px'}}>
+                      style={{ marginRight: '20px'}} loading={loadings[0]}>
                       Enviar respuesta
                     </Button>
                     <Popconfirm
