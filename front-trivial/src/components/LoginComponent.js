@@ -26,6 +26,8 @@ const LoginComponent = () => {
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
       if (response.ok) {
+        const jsonData = await response.json();
+        localStorage.setItem('user', JSON.stringify(jsonData)); 
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);

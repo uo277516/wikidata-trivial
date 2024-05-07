@@ -134,12 +134,21 @@ router.get( "/logout" , function ( req, res ) {
 	deleteUser();
 } );
 
+router.get("/checkAuth", function ( req, res ) {
+	if (req.session.user) {
+		res.sendStatus(200);
+	} else {
+		res.sendStatus(400);
+	}
+}) ;
 
+
+//Esto sobra cuando haga logout basta con q donde lo llama ponga localStorage.removeItem("user");
 //metodo para eliminar usuario cada vez que se lanza y cuando hago logout
 const deleteUser = () => {
 	const filePath = __dirname + '/public/data.json';
 	if (fs.existsSync(filePath)) {
-	// Si el archivo existe, intenta eliminarlo
+	//si existe lo borro
 	try {
 		fs.unlinkSync(filePath);
 		console.log('El archivo fue eliminado exitosamente.');

@@ -11,10 +11,7 @@ const CategorySelectionPage = () => {
   const [change, setChange] = useState(true);
   const categories = ['investigadores', 'futbolistas']; 
   const [selectedCategory, setSelectedCategory] = useState('investigadores');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState(null);
-  const [token, setToken] = useState(null);
-  const [token_secret, setTokenSecret] = useState(null);
+  const [user, setUser] = useState(null);
 
 
 
@@ -36,23 +33,9 @@ const CategorySelectionPage = () => {
   };
 
   const checkAuthentication = async () => {
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
-      if (response.ok) {
-        setIsLoggedIn(true);
-        const jsonData = await response.json();
-        // console.log(JSON.stringify(jsonname, null, 2));
-        // console.log(jsonname.displayName);
-        console.log("no entra?" + jsonData.displayName);
-        setName(jsonData.displayName);
-        setToken(jsonData.oauth.token);
-        setTokenSecret(jsonData.oauth.token_secret);
-      } else {
-        setIsLoggedIn(false);
-      }
-    } catch (error) {
-      console.error('Error checking authentication:', error);
-      setIsLoggedIn(false);
+    const userGet = localStorage.getItem("user");
+    if (userGet !== null) {
+      setUser(JSON.parse(userGet));
     }
   };
 
@@ -66,7 +49,7 @@ const CategorySelectionPage = () => {
 
   return (
     <>
-      {name === null ? (
+      {user === null ? (
         <LoginComponent />
       ) : (
         <>
@@ -87,7 +70,7 @@ const CategorySelectionPage = () => {
                 </Layout>
               </Header>
               <Content style={contentStyle}>
-                <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>¡Bienvenid@, {name}!</Title>
+                <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>¡Bienvenid@, {user.displayName}!</Title>
                 <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
                   La información de las siguientes preguntas se ha recogido de
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
@@ -123,8 +106,7 @@ const CategorySelectionPage = () => {
             <PrincipalScreen
               category={selectedCategory}
               categories={categories}
-              token={token}
-              token_secret={token_secret} />
+              user= {user} />
           )}
         </>
       )}
