@@ -92,7 +92,16 @@ let PrincipalScreen = (props) => {
       console.log("cada vez que recargo dice patata :P");
   }, []);
   
-  
+
+  const handleLoadingState = (loading) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[0] = loading;
+      return newLoadings;
+    });
+    setLoadingSend(loading);
+  };
+
 
   //manejar botón cuando envío
   const handleSendButton = async () => {
@@ -101,12 +110,7 @@ let PrincipalScreen = (props) => {
       if (values.respuesta && values.urldereferencia) {
         
         //activar rueda enviar
-        setLoadings((prevLoadings) => {
-          setLoadingSend(true);
-          const newLoadings = [...prevLoadings];
-          newLoadings[0] = true; 
-          return newLoadings;
-        });
+        handleLoadingState(true);
         
         //---ENVIAR A LA API---
         //lo comento pa hacer pruebas, llamaria a este y no al siguiente
@@ -114,29 +118,18 @@ let PrincipalScreen = (props) => {
         await asyncTestFunction();
 
         //Desactivar rueda
-        setLoadings((prevLoadings) => {
-          setLoadingSend(false);
-          const newLoadings = [...prevLoadings];
-          newLoadings[0] = false; // Desactivar la rueda de carga
-          return newLoadings;
-        });
+        handleLoadingState(false);
 
         notification.success({message: 'Respuesta enviada.', description: 'Su respuesta se ha añadido a Wikidata.', placement: 'topRight'});
-
-
 
         //sumo respuestas y vacío
         setAnsweredQuestions(answeredQuestions + 1);
         form.resetFields();
 
-        console.log("la pregunta es "+questionSelected);
-        console.log("la respuesta "+values.respuesta);
-        console.log("y la referencia "+values.urldereferencia);
+        console.log(questionSelected, values.respuesta, values.urldereferencia);
 
         //vuelvo a cargar
         fetchQuestions(selCategory);
-
-        
         
       } else {
         console.error("Alguno o varios campos están sin completar");
@@ -148,9 +141,8 @@ let PrincipalScreen = (props) => {
 
   //método para pruebas
   const asyncTestFunction = async () => {
-    // Simulación de una operación asincrónica (p. ej., una llamada a una API)
     console.log("Iniciando operación asíncrona...");
-    await new Promise(resolve => setTimeout(resolve, 3000)); // Simulamos un retardo de 3 segundos
+    await new Promise(resolve => setTimeout(resolve, 3000)); 
     console.log("Operación asíncrona completada.");
   };
   
