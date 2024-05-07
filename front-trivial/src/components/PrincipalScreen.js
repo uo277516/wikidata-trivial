@@ -34,6 +34,7 @@ let PrincipalScreen = (props) => {
 
   //Para la rueda de enviar
   const [loadings, setLoadings] = useState([]);
+  const [loadingSend, setLoadingSend] = useState(false);
 
 
 
@@ -101,6 +102,7 @@ let PrincipalScreen = (props) => {
         
         //activar rueda enviar
         setLoadings((prevLoadings) => {
+          setLoadingSend(true);
           const newLoadings = [...prevLoadings];
           newLoadings[0] = true; 
           return newLoadings;
@@ -113,6 +115,7 @@ let PrincipalScreen = (props) => {
 
         //Desactivar rueda
         setLoadings((prevLoadings) => {
+          setLoadingSend(false);
           const newLoadings = [...prevLoadings];
           newLoadings[0] = false; // Desactivar la rueda de carga
           return newLoadings;
@@ -242,7 +245,7 @@ let PrincipalScreen = (props) => {
                 <Radio.Group 
                   value={selectedCategory} 
                   onChange={(e) => handleCategoryChange(e.target.value)}
-                  disabled={loading}>
+                  disabled={loading || loadingSend}>
 
                   {categories.map((category) => (
                     <Radio.Button key={category} value={category}>
@@ -309,7 +312,7 @@ let PrincipalScreen = (props) => {
                   style={{ maxWidth: 700 }}
                   initialValues={{ remember: true }}
                   autoComplete="off"
-                  disabled={loading || questionError}
+                  disabled={loading || questionError || loadingSend}
                 >
                   <Form.Item style={formStyle}
                     label="Respuesta"
