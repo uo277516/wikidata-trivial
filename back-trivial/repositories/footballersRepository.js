@@ -91,7 +91,7 @@ const footballersRepository = {
   editFootballerById: async (footballerId, property, value, referenceURL, token, token_secret) => { 
     let claim = null;
     let date = getDate.getDate();
-    /*const generalConfig = {
+    const generalConfig = {
       // A Wikibase instance is required
       instance: 'https://www.wikidata.org',
     
@@ -114,12 +114,12 @@ const footballersRepository = {
           token_secret: token_secret
         }
       }
-    };*/
-    const generalConfig = {
+    };
+    /*const generalConfig = {
       // Note that it will only work for domains on HTTPS
       instance: 'https://www.wikidata.org',
       anonymous: true
-    }
+    }*/
 
     const wbEdit = WBEdit(generalConfig);
     try {

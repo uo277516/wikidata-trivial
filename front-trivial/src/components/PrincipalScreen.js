@@ -105,8 +105,8 @@ let PrincipalScreen = (props) => {
 
 
         //---ENVIAR A LA API--- comentado porque hasta qe me acepten
-        
-        // editEntity(entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,token, token_secret);
+        //selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
+        editEntity(selCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia,token, token_secret);
         
         // editEntity(selCategory, "Q4691", "P2048",180, "https://www.transfermarkt.es/andre-de-kruijff/profil/spieler/152549",
         //       token, token_secret);
