@@ -25,34 +25,13 @@ const LoginComponent = () => {
   };
 
   const checkAuthentication = async () => {
-    try {
-      const authenticated = await isAuthenticated(); //usuario autenticado
-      setIsLoggedIn(authenticated);
-      if (authenticated) {
-        const userData = await fetchUserData(); //datos del usuario
-        localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
-      }
-    } catch (error) {
-      console.error('Error al verificar la autenticación:', error);
+    if (localStorage.getItem("user")) {
+      setIsLoggedIn(true);
+    } else {
       setIsLoggedIn(false);
     }
-    
   };
   
-  const isAuthenticated = async () => {
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/checkAuth");
-      if (response.ok) {
-        const data = await response.json();
-        return data.authenticated; //true si lo está, false si no
-      } else {
-        return false; //no ok devuelve error
-      }
-    } catch (error) {
-      console.error('Error al verificar la autenticación:', error);
-      return false; //si error false tb
-    }
-  };
   
   const fetchUserData = async () => {
     try {

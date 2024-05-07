@@ -109,8 +109,8 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 
 		req.session.user = user;
         console.log(req.session.user);
-		//SI todo va bien ya redirijo a game
-        res.redirect( "http://localhost:3000/game" );
+		//SI todo va bien ya redirijo a home
+        res.redirect( "http://localhost:3000" );
 		
 	} )( req, res, next );
 } );
@@ -120,12 +120,10 @@ router.get( "/logout" , function ( req, res ) {
 	delete req.session.user;
 	res.redirect( req.baseUrl + "/" );
 
-	//deleteUser();
 } );
 
 
 router.get("/checkAuth", function(req, res) {
-	console.log("vuelve");
 	if (req.session.user) {
 	  res.json({ authenticated: true }); 
 	} else {
