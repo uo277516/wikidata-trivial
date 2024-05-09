@@ -238,8 +238,8 @@ let PrincipalScreen = (props) => {
             
           
             {!giveup && (
-              <div>
-                <Radio.Group 
+              <div style={{paddingTop: 0}}>
+                <Radio.Group
                   value={selectedCategory} 
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   disabled={loading || loadingSend}>
@@ -261,7 +261,7 @@ let PrincipalScreen = (props) => {
                 {loading ? (
                     <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
                         <Alert
-                            style={{ marginBottom: "20px", width: 700, height: 170}}
+                            style={{ marginBottom: "20px", width: 700}}
                             type="info"
                             message="Cargando pregunta..."
                             description="Por favor espere. Se está cargando la pregunta."
@@ -270,14 +270,14 @@ let PrincipalScreen = (props) => {
                 ) : (
                     questionError ? (
                         <Alert
-                            style={{ marginBottom: "20px", width: 700, height: 170 }}
+                            style={{ marginBottom: "20px", width: 700 }}
                             type="error"
                             message={"Error al cargar las preguntas sobre "+selectedCategory+"."}
                             description="Ha ocurrido un error al cargar la pregunta. Por favor, inténtelo de nuevo más tarde o pruebe con otra categoría."
                         />
                     ) : (
                         questionSelected && (
-                            <QuestionCard imagenUrl={imagenUrl} questionSelected={questionSelected}/>
+                            <QuestionCard imagenUrl={imagenUrl} questionSelected={questionSelected} entity={entitySelected}/>
                         )
                     )
                 )}
@@ -356,7 +356,7 @@ let PrincipalScreen = (props) => {
             )}
 
 
-            <Content >
+            <Content style={{marginBottom:'13px'}} >
             {!giveup && answeredQuestions > 0 && (
               <Alert
                 message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}

@@ -1,25 +1,29 @@
 import React from 'react';
 import {Card, Flex, Typography } from 'antd';
 import vars from '../vars';
+import { getSitelinkUrl } from 'wikibase-sdk'
 
 const {Title, Paragraph, Link} = Typography;
 
 
 let QuestionCard = (props) => {
 
-    let {imagenUrl, questionSelected} = props;
+    let {imagenUrl, questionSelected, entity} = props;
 
     const cardStyle = {
-        width: 900,
-        height: 170
-    };
+        maxWidth: '100%', // Hace que la tarjeta sea responsiva
+        width: 'auto', // Hace que la tarjeta se ajuste al contenido
+      };
     
-    const imgStyle = {
-        display: 'block'
-    };
+      const imgStyle = {
+        display: 'block',
+        maxWidth: '100%', // Hace que la imagen sea responsiva
+        height: 'auto', // Hace que la imagen conserve su relación de aspecto
+      };
 
     const error_url = vars.fallback;
       
+    const url = getSitelinkUrl({ site: 'wikidata', title: entity });
 
     return (
     <>
@@ -46,7 +50,7 @@ let QuestionCard = (props) => {
                 </Title>
                 <Paragraph>
                     Para más información, puede consultar su entrada en Wikidata en este 
-                    <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> link. </Link>
+                    <Link href={url} target="_blank" style={{fontSize:"20px"}}> link. </Link>
                 </Paragraph>
                 </Flex>
             </Flex>
