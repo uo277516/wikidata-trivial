@@ -1,9 +1,13 @@
-SELECT ?futbolista ?futbolistaLabel 
-    WHERE 
-    {
-      ?futbolista wdt:P106 wd:Q937857.  
-      OPTIONAL { ?futbolista wdt:${relacion} ?data. }  
-      FILTER (!BOUND(?data))  
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
-    }
-    LIMIT 10
+SELECT ?futbolista ?futbolistaLabel ?imagenUrl
+WHERE 
+{
+  ?futbolista wdt:P106 wd:Q937857.  
+  OPTIONAL { 
+    ?futbolista wdt:P18 ?imagen.
+    BIND(REPLACE(STR(?imagen), "http://commons.wikimedia.org/wiki/Special:FilePath/", "https://commons.wikimedia.org/wiki/Special:Redirect/file/") AS ?imagenUrl)
+  }
+  OPTIONAL { ?futbolista wdt:${relacion} ?data. }  
+  FILTER (!BOUND(?data))  
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
+}
+LIMIT 10

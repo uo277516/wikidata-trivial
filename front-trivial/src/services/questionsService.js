@@ -55,7 +55,8 @@ const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, rel
   return data.map((item) => ({
     question: `¿${labelPrefix} ${item[labelProperty]}?`,
     entity: item[entityProperty],
-    relation
+    relation,
+    imagenUrl: item.imagenUrl
   }));
 };
 
@@ -71,9 +72,9 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
     if (data) {
       const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
       const randomNumber = Math.floor(Math.random() * questions.length);
-      const { question, entity, relation } = questions[randomNumber];
+      const { question, entity, relation, imagenUrl } = questions[randomNumber];
 
-      return { question, entity, relation };
+      return { question, entity, relation, imagenUrl };
     } else {
       throw new Error("Error fetching "+entitiesName+" data");
     }

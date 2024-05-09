@@ -13,11 +13,12 @@ const { Header, Footer, Sider, Content } = Layout;
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
 
- 
+ //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
   let [questionSelected, setQuestionSelected] = useState(null);
   let [entitySelected, setEntitySelected] = useState(null);
   let [relationSelected, setRelationSelected] = useState(null);
+  let [imagenUrl, setImagenUrl] = useState(null);
 
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
   const [form] = Form.useForm();
@@ -58,13 +59,15 @@ let PrincipalScreen = (props) => {
       console.log("a cargar preguntas de..." + selectedCategory);
       setLoading(true); 
       fetchFunction()
-        .then( ({question, entity, relation}) => {
+        .then( ({question, entity, relation, imagenUrl}) => {
           setQuestionSelected(question);
           setEntitySelected(entity);
           setRelationSelected(relation);
+          setImagenUrl(imagenUrl);
           console.log('Pregunta seleccionada:', question);
           console.log("La relacion es "+relation);
           console.log("La entidad es "+entity);
+          console.log("y la imagen" + imagenUrl);
           
         })
         .catch(error => {

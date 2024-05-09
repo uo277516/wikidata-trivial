@@ -5,7 +5,6 @@ const footballersRouter = express.Router();
 
 
 
-//editar, supongo q tendra q ser un post o algo despues
 footballersRouter.post("/", footballersController.editFootballerById);
 
 //P2048 altura

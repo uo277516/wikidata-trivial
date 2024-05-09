@@ -2,10 +2,12 @@ function transformJSONResearchers(originalJSON) {
     const transformedBindings = originalJSON.results.bindings.map(item => {
         const researcherValue = item.investigador.value.split('/').pop(); 
         if (!researcherValue.startsWith('Q')) return null; 
+        const imagenUrl = item.imagenUrl ? item.imagenUrl.value : null; //url de la iamgen si la hay sino null
         
         return {
             investigador: researcherValue,
-            investigadorLabel: item.investigadorLabel.value
+            investigadorLabel: item.investigadorLabel.value,
+            imagenUrl: imagenUrl
         };
     }).filter(item => item !== null); 
 
@@ -21,13 +23,17 @@ function transformJSONResearchers(originalJSON) {
 
 
 function transformJSONFootballers(originalJSON) {
+
     const transformedBindings = originalJSON.results.bindings.map(item => {
         const footballerValue = item.futbolista.value.split('/').pop(); 
         if (!footballerValue.startsWith('Q')) return null; 
-        
+
+        const imagenUrl = item.imagenUrl ? item.imagenUrl.value : null; //url de la iamgen si la hay sino null
+
         return {
             futbolista: footballerValue,
-            futbolistaLabel: item.futbolistaLabel.value
+            futbolistaLabel: item.futbolistaLabel.value,
+            imagenUrl: imagenUrl
         };
     }).filter(item => item !== null); 
 

@@ -1,7 +1,13 @@
-SELECT ?investigador ?investigadorLabel 
+SELECT ?investigador ?investigadorLabel ?imagenUrl
     WHERE 
     {
       ?investigador wdt:P106 wd:Q1650915.  
+
+      OPTIONAL { 
+        ?investigador wdt:P18 ?imagen.
+        BIND(REPLACE(STR(?imagen), "http://commons.wikimedia.org/wiki/Special:FilePath/", "https://commons.wikimedia.org/wiki/Special:Redirect/file/") AS ?imagenUrl)
+      }
+
       OPTIONAL { ?investigador wdt:${relacion} ?lugar. }  
       FILTER (!BOUND(?lugar))  
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
