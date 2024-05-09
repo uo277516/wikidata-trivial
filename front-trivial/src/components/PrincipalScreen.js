@@ -351,10 +351,7 @@ let PrincipalScreen = (props) => {
 
                   </Form>
 
-                  <Image
-                    width={200}
-                    src={imagenUrl}
-                  />
+                  
 
                 </div>
             )}
