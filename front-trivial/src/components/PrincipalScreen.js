@@ -301,54 +301,62 @@ let PrincipalScreen = (props) => {
               ]}
               />
               ): (              
-
-              <Form
-                  form={form}
-                  name="basic"
-                  style={{ maxWidth: 700 }}
-                  initialValues={{ remember: true }}
-                  autoComplete="off"
-                  disabled={loading || questionError || loadingSend}
-                >
-                  <Form.Item style={formStyle}
-                    label="Respuesta"
-                    name="respuesta"
-                    rules={[{required:true, message: 'Debes de introducir la respuesta a la pregunta' }]}
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', columnGap: '20px'}}>
+                <Form
+                    form={form}
+                    name="basic"
+                    style={{ maxWidth: 700 }}
+                    initialValues={{ remember: true }}
+                    autoComplete="off"
+                    disabled={loading || questionError || loadingSend}
                   >
-                    <Input placeholder='Aquí va tu respuesta'></Input>
-                  </Form.Item>
-
-                  <Form.Item style={formStyle}
-                    label="URL de referencia"
-                    name="urldereferencia"
-                    rules={[
-                      {required:true, message: 'Debes de introducir una URL' },
-                      { type: 'url', message: 'Por favor, introduce una URL válida' }
-                    ]}
-                  >
-                    <Input placeholder='https://ejemplodeurl.com'></Input>
-                  </Form.Item>
-
-                  <Form.Item >
-                    <Button type="primary" htmlType="submit" onClick={handleSendButton} 
-                      style={{ marginRight: '20px'}} loading={loadings[0]}>
-                      Enviar respuesta
-                    </Button>
-                    <Popconfirm
-                      title="Rendirse"
-                      description="¿Estás seguro de rendirte?"
-                      onConfirm={handleGiveUp}
-                      okText="Si"
-                      cancelText="No"
+                    <Form.Item style={formStyle}
+                      label="Respuesta"
+                      name="respuesta"
+                      rules={[{required:true, message: 'Debes de introducir la respuesta a la pregunta' }]}
                     >
-                      <Button type="primary" style={{ backgroundColor: '#607d8b' }}>
-                        Rendirse
-                      </Button>
-                    </Popconfirm>
-                    
-                  </Form.Item>
+                      <Input placeholder='Aquí va tu respuesta'></Input>
+                    </Form.Item>
 
-                </Form>
+                    <Form.Item style={formStyle}
+                      label="URL de referencia"
+                      name="urldereferencia"
+                      rules={[
+                        {required:true, message: 'Debes de introducir una URL' },
+                        { type: 'url', message: 'Por favor, introduce una URL válida' }
+                      ]}
+                    >
+                      <Input placeholder='https://ejemplodeurl.com'></Input>
+                    </Form.Item>
+
+                    <Form.Item >
+                      <Button type="primary" htmlType="submit" onClick={handleSendButton} 
+                        style={{ marginRight: '20px'}} loading={loadings[0]}>
+                        Enviar respuesta
+                      </Button>
+                      <Popconfirm
+                        title="Rendirse"
+                        description="¿Estás seguro de rendirte?"
+                        onConfirm={handleGiveUp}
+                        okText="Si"
+                        cancelText="No"
+                      >
+                        <Button type="primary" style={{ backgroundColor: '#607d8b' }}>
+                          Rendirse
+                        </Button>
+                      </Popconfirm>
+                      
+                    </Form.Item>
+
+                  </Form>
+
+                  <Image
+                    width={200}
+                    src={imagenUrl}
+                  />
+
+                </div>
             )}
 
 
