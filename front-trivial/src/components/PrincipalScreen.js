@@ -2,7 +2,7 @@ import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm} from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { SmileOutlined, LogoutOutlined } from '@ant-design/icons';
+import { SmileOutlined, LogoutOutlined, ExportOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
@@ -209,6 +209,10 @@ let PrincipalScreen = (props) => {
     window.location.href = redirectUrl;
   };
 
+  const handleProfile = () => {
+    console.log(user._json.username);
+    window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
+  };
 
 
 
@@ -263,15 +267,23 @@ let PrincipalScreen = (props) => {
                       </Radio.Button>
                     ))}
                   </Radio.Group>
-                  <Button
-                    type="primary"
-                    icon={<LogoutOutlined />}
-                    loading={loadings[1]}
-                    onClick={() => logOut()}
-                    style={{marginRight: '400px', width:'110px', height: '43px', fontSize:'16px'}}
-                  >
-                    Log out
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
+                    <Button
+                      style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
+                      icon={<ExportOutlined/>}
+                      onClick={handleProfile}>
+                        Perfil de Wikimedia
+                    </Button>
+                    <Button
+                      type="primary"
+                      icon={<LogoutOutlined />}
+                      onClick={() => logOut()}
+                      style={{ width:'110px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
+                    >
+                      Log out
+                    </Button>
+                  </div>
+
                 </div>
 
                 <Paragraph style={{fontSize:"20px"}}>
