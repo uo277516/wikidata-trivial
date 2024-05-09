@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { SmileOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
+import QuestionCard from './QuestionCard.js';
 //Layout y letras
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
@@ -260,7 +261,7 @@ let PrincipalScreen = (props) => {
                 {loading ? (
                     <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
                         <Alert
-                            style={{ marginBottom: "20px", width: 700 }}
+                            style={{ marginBottom: "20px", width: 700, height: 170}}
                             type="info"
                             message="Cargando pregunta..."
                             description="Por favor espere. Se está cargando la pregunta."
@@ -269,16 +270,14 @@ let PrincipalScreen = (props) => {
                 ) : (
                     questionError ? (
                         <Alert
-                            style={{ marginBottom: "20px", width: 700 }}
+                            style={{ marginBottom: "20px", width: 700, height: 170 }}
                             type="error"
                             message={"Error al cargar las preguntas sobre "+selectedCategory+"."}
                             description="Ha ocurrido un error al cargar la pregunta. Por favor, inténtelo de nuevo más tarde o pruebe con otra categoría."
                         />
                     ) : (
                         questionSelected && (
-                            <Paragraph style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
-                                {questionSelected}
-                            </Paragraph>
+                            <QuestionCard imagenUrl={imagenUrl} questionSelected={questionSelected}/>
                         )
                     )
                 )}
@@ -302,7 +301,7 @@ let PrincipalScreen = (props) => {
               />
               ): (              
               
-              <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', columnGap: '20px'}}>
+              <div style={{ paddingTop: '20px'}}>
                 <Form
                     form={form}
                     name="basic"
