@@ -4,7 +4,7 @@ import logo from '../logo.png';
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity } from '../services/questionsService.js';
-import { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle } from '../styles/appStyle.js';
+import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 //Layout y letras
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
@@ -207,18 +207,19 @@ let PrincipalScreen = (props) => {
       <Header style={headerStyle}>
 
 
-        <Layout>
-          <Sider width="20%" style={siderStyle}>
-            <Image
-              width={200}
-              src={logo}
-            />
-          </Sider>
-          <Content style={headerRightStyle}>
-            <Title level={1} style={titleOneStyle}>Wiki Trivial</Title>
-            <Title level={2} style={titleTwoStyle}>Juego de preguntas y respuestas</Title>
-          </Content>
-        </Layout>
+      <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
+        <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
+          <Image
+            width={200}
+            src={logo}
+            style={{ paddingLeft: '10px',marginBottom: '20px' }}
+          />
+        </Sider>
+        <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
+          <Title level={1} style={{ marginTop: '20px', fontSize: '50px', fontWeight: 'bold' }}>Wiki Trivial</Title>
+          <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>Juego de preguntas y respuestas</Title>
+        </Content>
+      </Layout>
 
          
           

@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Button, Image } from 'antd';
-import { headerStyle, contentStyle, footerStyle, headerRightStyle, siderStyle, titleOneStyle, titleTwoStyle} from '../styles/appStyle.js';
+import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.png'; 
 import CategorySelectionPage from './CategorySelectionPage.js';
 
@@ -56,17 +56,18 @@ const LoginComponent = () => {
       ) : (
         <Layout style={{ minHeight: "100vh" }}>
           <Header style={headerStyle}>
-            <Layout>
-              <Sider width="20%" style={siderStyle}>
+            <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
+              <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
                 <Image
                   width={200}
                   src={logo}
+                  style={{ paddingLeft: '10px',marginBottom: '20px' }}
                 />
               </Sider>
-              <Content style={headerRightStyle}>
-                <Title level={1} style={titleOneStyle}>Wiki Trivial</Title>
-                <Title level={2} style={titleTwoStyle}>Juego de preguntas y respuestas</Title>
-              </Content>
+                <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
+                  <Title level={1} style={{ marginTop: '20px', fontSize: '50px', fontWeight: 'bold' }}>Wiki Trivial</Title>
+                  <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>Juego de preguntas y respuestas</Title>
+                </Content>
             </Layout>
           </Header>
           <Content style={contentStyle}>
@@ -81,7 +82,7 @@ const LoginComponent = () => {
               size="large"
               htmlType="submit"
               onClick={() => handleLogin()}
-              style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200px' }}
+              style={{ position: 'relative', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200px' }}
               >
               Log in
             </Button>

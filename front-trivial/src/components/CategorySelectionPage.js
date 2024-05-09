@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Radio, Button, Modal, Image } from 'antd';
-import { headerStyle, contentStyle, footerStyle, headerRightStyle, siderStyle, titleOneStyle, titleTwoStyle} from '../styles/appStyle.js';
-import logo from '../logo.png'; 
+import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
+import logo from '../logo.jpg'; 
 import PrincipalScreen from './PrincipalScreen.js';
 import LoginComponent from './LoginComponent.js';
 const { Title, Paragraph, Link} = Typography;
@@ -56,21 +56,22 @@ const CategorySelectionPage = () => {
           {change ? (
             <Layout style={{ minHeight: "100vh" }}>
               <Header style={headerStyle}>
-                <Layout>
-                  <Sider width="20%" style={siderStyle}>
+                <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
+                  <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
                     <Image
                       width={200}
                       src={logo}
+                      style={{ paddingLeft: '10px',marginBottom: '20px' }}
                     />
                   </Sider>
-                  <Content style={headerRightStyle}>
-                    <Title level={1} style={titleOneStyle}>Wiki Trivial</Title>
-                    <Title level={2} style={titleTwoStyle}>Juego de preguntas y respuestas</Title>
+                  <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
+                    <Title level={1} style={{ marginTop: '20px', fontSize: '50px', fontWeight: 'bold' }}>Wiki Trivial</Title>
+                    <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>Juego de preguntas y respuestas</Title>
                   </Content>
                 </Layout>
               </Header>
               <Content style={contentStyle}>
-                <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>¡Bienvenid@, {user.displayName}!</Title>
+                <Title level={1} style={{ color: '#004aad', marginTop: '10px' }}>¡Bienvenid@, {user.displayName}!</Title>
                 <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
                   La información de las siguientes preguntas se ha recogido de
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
