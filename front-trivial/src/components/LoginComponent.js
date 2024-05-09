@@ -4,6 +4,8 @@ import { Layout, Typography, Button, Image } from 'antd';
 import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.png'; 
 import CategorySelectionPage from './CategorySelectionPage.js';
+import { LoginOutlined } from '@ant-design/icons';
+
 
 
 const { Title, Paragraph, Link} = Typography;
@@ -82,6 +84,7 @@ const LoginComponent = () => {
               size="large"
               htmlType="submit"
               onClick={() => handleLogin()}
+              icon={<LoginOutlined/>}
               style={{ position: 'relative', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200px' }}
               >
               Log in

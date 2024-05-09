@@ -9,6 +9,7 @@ const headerStyle = {
   const contentStyle = {
     textAlign: 'left',
     paddingLeft: '20px',
+    paddingRight: '10px',
     minHeight: 120,
     lineHeight: '120px',
     color: 'black',

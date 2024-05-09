@@ -118,7 +118,7 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 router.get( "/logout" , function ( req, res ) {
 
 	delete req.session.user;
-	res.redirect( req.baseUrl + "/" );
+	res.redirect("http://localhost:3000" );
 
 } );
 

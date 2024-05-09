@@ -2,7 +2,7 @@ import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm} from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { SmileOutlined } from '@ant-design/icons';
+import { SmileOutlined, LogoutOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
@@ -124,7 +124,8 @@ let PrincipalScreen = (props) => {
         //Desactivar rueda
         handleLoadingState(false);
 
-        notification.success({message: 'Respuesta enviada.', description: 'Su respuesta se ha añadido a Wikidata.', placement: 'topRight'});
+        notification.success({message: 'Respuesta enviada.', 
+          description: 'La información aportada en su respuesta se ha añadido a Wikidata.', placement: 'topRight'});
 
         //sumo respuestas y vacío
         setAnsweredQuestions(answeredQuestions + 1);
@@ -202,6 +203,12 @@ let PrincipalScreen = (props) => {
     });
   };
 
+  const logOut = () => {
+    localStorage.removeItem('user');
+    const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
+    window.location.href = redirectUrl;
+  };
+
 
 
 
@@ -239,17 +246,33 @@ let PrincipalScreen = (props) => {
           
             {!giveup && (
               <div style={{paddingTop: 0}}>
-                <Radio.Group
-                  value={selectedCategory} 
-                  onChange={(e) => handleCategoryChange(e.target.value)}
-                  disabled={loading || loadingSend}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingBottom: '30px'
+                  }}>
+                  <Radio.Group 
+                    value={selectedCategory} 
+                    onChange={(e) => handleCategoryChange(e.target.value)}
+                    disabled={loading || loadingSend}>
 
-                  {categories.map((category) => (
-                    <Radio.Button key={category} value={category}>
-                      {category}
-                    </Radio.Button>
-                  ))}
-                </Radio.Group>
+                    {categories.map((category) => (
+                      <Radio.Button key={category} value={category}>
+                        {category}
+                      </Radio.Button>
+                    ))}
+                  </Radio.Group>
+                  <Button
+                    type="primary"
+                    icon={<LogoutOutlined />}
+                    loading={loadings[1]}
+                    onClick={() => logOut()}
+                    style={{marginRight: '400px', width:'110px', height: '43px', fontSize:'16px'}}
+                  >
+                    Log out
+                  </Button>
+                </div>
 
                 <Paragraph style={{fontSize:"20px"}}>
                   La información de las siguientes preguntas sobre {selectedCategory} se ha recogido de 
@@ -259,9 +282,9 @@ let PrincipalScreen = (props) => {
 
 
                 {loading ? (
-                    <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700 }}>
+                    <Spin spinning={true} delay={500} style={{ marginBottom: "20px", width: 700, maxWidth:'100%' }}>
                         <Alert
-                            style={{ marginBottom: "20px", width: 700}}
+                            style={{ marginBottom: "20px", width: 700, maxWidth:'100%'}}
                             type="info"
                             message="Cargando pregunta..."
                             description="Por favor espere. Se está cargando la pregunta."
@@ -270,7 +293,7 @@ let PrincipalScreen = (props) => {
                 ) : (
                     questionError ? (
                         <Alert
-                            style={{ marginBottom: "20px", width: 700 }}
+                            style={{ marginBottom: "20px",width: 700, maxWidth:'100%' }}
                             type="error"
                             message={"Error al cargar las preguntas sobre "+selectedCategory+"."}
                             description="Ha ocurrido un error al cargar la pregunta. Por favor, inténtelo de nuevo más tarde o pruebe con otra categoría."
@@ -362,7 +385,7 @@ let PrincipalScreen = (props) => {
                 message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}
                 type="success"
                 showIcon
-                style={{ width: 700, textAlign: 'center' }} 
+                style={{ width: 700, maxWidth:'100%', textAlign: 'center' }} 
               />
             )}
             </Content>
