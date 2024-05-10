@@ -4,6 +4,8 @@ const editEntity = async (selCategory, footballerId, property, value, referenceU
     endpoint='footballers';
   } else if (selCategory==="investigadores") {
     endpoint='researchers';
+  } else if (selCategory==="raperos") {
+    endpoint='rappers';
   }
   console.log(endpoint);
   try {
@@ -88,17 +90,24 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
 //preguntas investigadores
 const fetchQuestionsResearchers = async () => {
   const relations = ["/P19", "/P69"];   //nacer, estudiar
-  const messages = ['Dónde nació el investigador', 'Dónde estudió el investigador'];
+  const messages = ['Dónde nació el/la investigador/a', 'Dónde estudió el/la investigador/a'];
   return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
 };
 
 
 const fetchQuestionsFootballers = async () => {
   const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
-  const messages = ['Cuál es la altura en centímetros del futbolista', 'Cuántos goles ha marcado a lo largo de su carrera el futbolista', 'Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista'];
+  const messages = ['Cuál es la altura en centímetros de la/el futbolista', 'Cuántos goles ha marcado a lo largo de su carrera el futbolista', 'Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista'];
   return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
+};
+
+const fetchQuestionsRappers = async () => {
+  const relations = ["/P569"]; //fecha de nacimiento
+  const messages = ['Cuál es la fecha de nacimiento de la/el rapero/a'];
+  return createQuestions(relations, messages, "rappers", 'rapero', 'raperoLabel');
 };
 
 
 
-export { fetchQuestionsFootballers, fetchQuestionsResearchers , editEntity};
+
+export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsRappers, editEntity};

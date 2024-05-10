@@ -1,11 +1,11 @@
-SELECT ?musico ?musicoLabel
+SELECT ?rapero ?raperoLabel
 WHERE {
-  ?musico wdt:P106 wd:Q2252262.
+  ?rapero wdt:P106 wd:Q2252262.
   OPTIONAL { 
-    ?musico wdt:P18 ?imagen.
+    ?rapero wdt:P18 ?imagen.
     BIND(REPLACE(STR(?imagen), "http://commons.wikimedia.org/wiki/Special:FilePath/", "https://commons.wikimedia.org/wiki/Special:Redirect/file/") AS ?imagenUrl)
   }
-  OPTIONAL { ?musico wdt:${relacion} ?fecha_nac. }
+  OPTIONAL { ?rapero wdt:${relacion} ?fecha_nac. }
   FILTER (!BOUND(?fecha_nac))
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
