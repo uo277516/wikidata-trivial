@@ -4,6 +4,8 @@ import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.jpg'; 
 import PrincipalScreen from './PrincipalScreen.js';
 import LoginComponent from './LoginComponent.js';
+import {LogoutOutlined, ExportOutlined } from '@ant-design/icons';
+
 const { Title, Paragraph, Link} = Typography;
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -43,6 +45,16 @@ const CategorySelectionPage = () => {
     console.log("cada vez que recargo en seleccion dice patata :P");
     checkAuthentication();
   }, []);
+
+  const logOut = () => {
+    localStorage.removeItem('user');
+    const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
+    window.location.href = redirectUrl;
+  };
+
+  const handleProfile = () => {
+    window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
+  };
   
 
 
@@ -71,12 +83,36 @@ const CategorySelectionPage = () => {
                 </Layout>
               </Header>
               <Content style={contentStyle}>
+              <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingBottom: '10px'
+                  }}>
                 <Title level={1} style={{ color: '#004aad', marginTop: '10px' }}>¡Bienvenid@, {user.displayName}!</Title>
-                <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
+                    <Button
+                      style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
+                      icon={<ExportOutlined/>}
+                      onClick={handleProfile}>
+                        Perfil de Wikimedia
+                    </Button>
+                    <Button
+                      type="primary"
+                      icon={<LogoutOutlined />}
+                      onClick={() => logOut()}
+                      style={{ width:'110px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
+                    >
+                      Log out
+                    </Button>
+                  </div>
+                </div>
+                <Paragraph style={{ fontSize: "20px"}}>
                   La información de las siguientes preguntas se ha recogido de
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
                   Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.
                 </Paragraph>
+                
                 <Content width="100%" style={contentStyle}>
                   <div style={{ textAlign: 'center', marginTop: '50px' }}>
                     <Radio.Group
