@@ -49,9 +49,9 @@ let PrincipalScreen = (props) => {
   const fetchQuestions = () => {
 
     const categoryToFetchFunction = {
-      investigadores: fetchQuestionsResearchers,
-      futbolistas: fetchQuestionsFootballers,
-      musicos: fetchQuestionsGroups
+      investigación: fetchQuestionsResearchers,
+      deporte: fetchQuestionsFootballers,
+      música: fetchQuestionsGroups
       //mas categorias...
     };
   

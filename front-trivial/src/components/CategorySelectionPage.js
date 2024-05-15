@@ -9,8 +9,8 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const CategorySelectionPage = () => {
   const [change, setChange] = useState(true);
-  const categories = ['investigadores', 'futbolistas', 'musicos']; 
-  const [selectedCategory, setSelectedCategory] = useState('investigadores');
+  const categories = ['investigación', 'deporte', 'música']; 
+  const [selectedCategory, setSelectedCategory] = useState('investigación');
   const [user, setUser] = useState(null);
 
 
