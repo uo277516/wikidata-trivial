@@ -1,0 +1,9 @@
+/* styles.css */
+@media screen and (max-width: 768px) {
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
