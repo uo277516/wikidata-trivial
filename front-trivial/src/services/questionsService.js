@@ -105,7 +105,7 @@ const fetchQuestionsFootballers = async () => {
 };
 
 const fetchQuestionsGroups = async () => {
-  const relations = ["/P571"]; //fecha de fundacion
+  const relations = ["/P571"]; //fecha de fundacion (año)
   const messages = ['Cuál es el año en el que se fundó el grupo'];
   return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
 };

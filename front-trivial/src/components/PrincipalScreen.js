@@ -39,8 +39,6 @@ let PrincipalScreen = (props) => {
   const [loadingSend, setLoadingSend] = useState(false);
 
 
-
-
   const setSelCategory = (cc) => {
     selCategory= cc;
   };
@@ -215,6 +213,15 @@ let PrincipalScreen = (props) => {
     window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
   };
 
+  const validateAnswer = (rule, value) => {
+    const isValidYear = /^(19[0-9][0-9]|20[0-2][0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
+    const answerIsYear = questionSelected.includes('año');
+    if (answerIsYear && !isValidYear) {
+      return Promise.reject('El año que has introducido no es válido');
+    }
+    return Promise.resolve();
+  };
+
 
 
   return (
@@ -349,7 +356,10 @@ let PrincipalScreen = (props) => {
                     <Form.Item style={formStyle}
                       label="Respuesta"
                       name="respuesta"
-                      rules={[{required:true, message: 'Debes de introducir la respuesta a la pregunta' }]}
+                      rules={[
+                        { required: true, message: 'Debes de introducir la respuesta a la pregunta' },
+                        { validator: (rule, value) => validateAnswer(rule,value) }, //validar
+                      ]}
                     >
                       <Input placeholder='Aquí va tu respuesta'></Input>
                     </Form.Item>

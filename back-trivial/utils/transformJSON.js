@@ -23,7 +23,6 @@ function transformJSONResearchers(originalJSON) {
 
 function transformJSONGroups(originalJSON) {
     const transformedBindings = originalJSON.results.bindings.map(item => {
-        console.log("--"+item);
         const grupoValue = item.grupo.value.split('/').pop(); 
         if (!grupoValue.startsWith('Q')) return null; 
         const imagenUrl = item.imagenUrl ? item.imagenUrl.value : null; // URL de la imagen si la hay, sino null
