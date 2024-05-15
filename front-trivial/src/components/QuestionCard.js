@@ -7,62 +7,49 @@ const {Title, Paragraph, Link} = Typography;
 
 
 let QuestionCard = (props) => {
-
     let {imagenUrl, questionSelected, entity} = props;
 
     const cardStyle = {
-    maxWidth: '100%', 
-    width: '1100px', //ns cual poner
-  };
+        width: '100%', // Expande la tarjeta para que ocupe todo el ancho disponible
+    };
 
-  const imgStyle = {
-    display: 'block',
-    maxWidth: '100%', 
-    height: '100%',
-    overflow: 'hidden',
-    //height: 'auto', //esto ns si comentarlo o no
-  };
-
- 
+    const imgStyle = {
+        width: '100%', // Ancho completo de la imagen
+        height: '200px', // Altura fija para crear una imagen cuadrada
+        objectFit: 'cover', // Recorta la imagen para que se ajuste al contenedor manteniendo las proporciones
+    };
 
     const error_url = vars.fallback;
       
     const url = getSitelinkUrl({ site: 'wikidata', title: entity });
 
     return (
-    <>
-        <Card hoverable style={cardStyle} styles={{ body: { padding: 0, overflow: 'hidden' } }}>
-            <Flex>
-                <div>
+        <>
+            <Card hoverable style={cardStyle}>
+                <div style={{ position: 'relative', width: '100%', height: '200px' }}>
                     {imagenUrl ? (
-                    <img
-                        alt="Imagen"
-                        width={200}
-                        src={imagenUrl}
-                        style={imgStyle}
-                    />
+                        <img
+                            alt="Imagen"
+                            src={imagenUrl}
+                            style={imgStyle}
+                        />
                     ) : (
-                    <img
-                        alt="Imagen no disponible"
-                        width={200}
-                        src={error_url} 
-                        style={imgStyle}
-                    />
+                        <img
+                            alt="Imagen no disponible"
+                            src={error_url} 
+                            style={imgStyle}
+                        />
                     )}
                 </div>
-                <Flex vertical align="flex-end" justify="space-between" style={{ padding: 32 }}>
-                    <Title level={3} style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
-                        {questionSelected}
-                    </Title>
+                <div style={{ padding: '16px' }}>
+                    <Title level={3}>{questionSelected}</Title>
                     <Paragraph>
                         Para más información, puede consultar su entrada en Wikidata en este 
-                        <Link href={url} target="_blank" style={{fontSize:"20px"}}> link. </Link>
+                        <Link href={url} target="_blank"> link. </Link>
                     </Paragraph>
-                </Flex>
-            </Flex>
-        </Card>
-
-    </>
+                </div>
+            </Card>
+        </>
     );
 };
 
