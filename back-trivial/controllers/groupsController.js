@@ -1,14 +1,14 @@
-const rappersService = require('../services/rappersService');
+const groupsService = require('../services/groupsService');
 
-rappersController = {
+groupsController = {
 
-    editRapperById: async (req, res) => {
+    editGroupById: async (req, res) => {
         try {
-			let { rapperId, property, value, referenceURL, token, token_secret } = req.body; 
+			let { groupId, property, value, referenceURL, token, token_secret } = req.body; 
             //req.query -> url
             //req.body -> formulario html (deberán ser req.body el value, los demas no se)
 
-			const result = await rappersService.editRapperById(rapperId, property, value, referenceURL, token, token_secret);
+			const result = await groupsService.editGroupById(groupId, property, value, referenceURL, token, token_secret);
 			return res.json({"result": result})
 		}
 		catch (errors) {
@@ -18,12 +18,12 @@ rappersController = {
 
     },
 
-    getRappersRelation: async (req, res) => {
+    getGroupsRelation: async (req, res) => {
         try {
             let relacion = req.params.relacion;
-            let rappers = await rappersService.getRappersRelation(relacion);
+            let groups = await groupsService.getGroupsRelation(relacion);
             setTimeout(() => {
-                res.json(rappers)
+                res.json(groups)
             }, 3000);
         }
         catch (errors) {
@@ -33,4 +33,4 @@ rappersController = {
     }
 }
 
-module.exports = rappersController;
+module.exports = groupsController;

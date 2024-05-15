@@ -1,12 +1,16 @@
-SELECT ?rapero ?raperoLabel
+SELECT ?grupo ?grupoLabel ?imagenUrl
 WHERE {
-  ?rapero wdt:P106 wd:Q2252262.
+  ?grupo wdt:P31 wd:Q215380. 
+         
   OPTIONAL { 
-    ?rapero wdt:P18 ?imagen.
+    ?grupo wdt:P18 ?imagen.
     BIND(REPLACE(STR(?imagen), "http://commons.wikimedia.org/wiki/Special:FilePath/", "https://commons.wikimedia.org/wiki/Special:Redirect/file/") AS ?imagenUrl)
   }
-  OPTIONAL { ?rapero wdt:${relacion} ?fecha_nac. }
-  FILTER (!BOUND(?fecha_nac))
+  OPTIONAL { ?grupo wdt:${relacion} ?data. } #Fecha de fundación
+  FILTER (!BOUND(?data))
+  
+  ?grupo wdt:P8687 ?socialMediaFollowers. 
+  FILTER(?socialMediaFollowers > 30000) 
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
 LIMIT 10

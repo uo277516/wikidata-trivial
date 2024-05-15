@@ -7,25 +7,21 @@ const getDate = require('../utils/getDate');
 const path = require('path');
 const fs = require('fs');
 
-
 const wdk = WBK({
   instance: 'https://www.wikidata.org',
   sparqlEndpoint: 'https://query.wikidata.org/sparql'
 });
 
+const groupsRepository = {  
 
-
-const rappersRepository = {  
-
-  getRappersRelation: async (relacion) => {
+  getGroupsRelation: async (relacion) => {
 
     //PP569 fecha de nacimiento
     try {
       
-      const filePath = path.join(__dirname, '../queries/rappersQuery.rq');
+      const filePath = path.join(__dirname, '../queries/groupsQuery.rq');
       let sparqlQuery = fs.readFileSync(filePath, 'utf-8');
       sparqlQuery = sparqlQuery.replace('${relacion}', relacion);
-
 
       const url = wdk.sparqlQuery(sparqlQuery);
       const response = await axios.get(url);  
@@ -33,14 +29,13 @@ const rappersRepository = {
       //en json
       console.log(response.data);
 
-      return transformJSON.transformJSONrappers(response.data); //devolver datos parseados
+      return transformJSON.transformJSONGroups(response.data); //devolver datos parseados
     } catch (error) {
       console.error('Something went wrong while processing your request: ', error);
     }
   },
 
-
-  editRapperById: async (rapperId, property, value, referenceURL, token, token_secret) => { 
+  editGroupById: async (groupId, property, value, referenceURL, token, token_secret) => { 
     let claim = null;
     let date = getDate.getDate();
     const generalConfig = {
@@ -72,8 +67,8 @@ const rappersRepository = {
     try {
       
       claim = wbEdit.claim.create({
-        id: rapperId, //id del rapero --> "footballerId"
-        property: property, //propiedad (fecha de nacimiento...) --> "property"
+        id: groupId, //id del grupo --> "groupId"
+        property: property, //propiedad (fecha de fundación...) --> "property"
         value: value, //valor de la propiedad (10/10/2010...) --> "value"
         references: [
           { P854: referenceURL, P813: date }
@@ -90,4 +85,4 @@ const rappersRepository = {
 
 };
 
-module.exports = rappersRepository;
+module.exports = groupsRepository;

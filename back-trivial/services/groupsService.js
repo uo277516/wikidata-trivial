@@ -1,14 +1,14 @@
-const rappersRepository = require("../repositories/rappersRepository");
+const groupsRepository = require("../repositories/groupsRepository");
 const LogicError = require("../errors/logicError");
 const InputError = require("../errors/inputError");
 
-rappersService = {
+const groupsService = {
 
-    editRapperById: async(rapperId, property, value, referenceURL,token, token_secret) => {
+    editGroupById: async(groupId, property, value, referenceURL, token, token_secret) => {
         let errors = [];
 
-        if (rapperId == undefined) {
-            errors.push(new InputError("rapperId", "Invalid rapper ID"));
+        if (groupId == undefined) {
+            errors.push(new InputError("groupId", "Invalid group ID"));
         }
         if (property == undefined) {
             errors.push(new InputError("property", "Undefined relationship property"));
@@ -25,10 +25,10 @@ rappersService = {
         }
         
 
-        let info = await rappersRepository.editRapperById(rapperId, property, value, referenceURL,token, token_secret);
+        let info = await groupsRepository.editGroupById(groupId, property, value, referenceURL, token, token_secret);
         
         if (info == null) {
-            errors.push(new LogicError("Error editing rapper"));
+            errors.push(new LogicError("Error editing group"));
         }
 
         if (errors.length > 0) {
@@ -36,19 +36,19 @@ rappersService = {
         }
         return true;
     },
-    getRappersRelation: async (relation) => {
+    getGroupsRelation: async (relation) => {
         let errors = [];
-        let rappers = await rappersRepository.getRappersRelation(relation);
+        let groups = await groupsRepository.getGroupsRelation(relation);
         
-        if (rappers == null) {
-            errors.push(new LogicError("Error accessing rappers"));
+        if (groups == null) {
+            errors.push(new LogicError("Error accessing groups"));
         }
 
         if (errors.length > 0) {
             throw errors;
         }
-        return rappers;
+        return groups;
     }
 }
 
-module.exports = rappersService;
+module.exports = groupsService;

@@ -53,6 +53,8 @@ const fetchData = async (entity, endpoint) => {
 //formar entidad de devolver con la pregunta la entidad y la relacion para poder mandar la edicion en front
 const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, relation) => {
   if (!data) return [];
+
+  console.log(data);
   
   return data.map((item) => ({
     question: `¿${labelPrefix} ${item[labelProperty]}?`,
@@ -75,6 +77,7 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
       const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
       const randomNumber = Math.floor(Math.random() * questions.length);
       const { question, entity, relation, imagenUrl } = questions[randomNumber];
+      
 
       return { question, entity, relation, imagenUrl };
     } else {
@@ -101,13 +104,13 @@ const fetchQuestionsFootballers = async () => {
   return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
 };
 
-const fetchQuestionsRappers = async () => {
-  const relations = ["/P569"]; //fecha de nacimiento
-  const messages = ['Cuál es la fecha de nacimiento de la/el rapero/a'];
-  return createQuestions(relations, messages, "rappers", 'rapero', 'raperoLabel');
+const fetchQuestionsGroups = async () => {
+  const relations = ["/P571"]; //fecha de fundacion
+  const messages = ['Cuál es el año en el que se fundó el grupo'];
+  return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
 };
 
 
 
 
-export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsRappers, editEntity};
+export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsGroups, editEntity};

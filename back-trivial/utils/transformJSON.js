@@ -21,6 +21,30 @@ function transformJSONResearchers(originalJSON) {
     return transformedJSON;
 }
 
+function transformJSONGroups(originalJSON) {
+    const transformedBindings = originalJSON.results.bindings.map(item => {
+        console.log("--"+item);
+        const grupoValue = item.grupo.value.split('/').pop(); 
+        if (!grupoValue.startsWith('Q')) return null; 
+        const imagenUrl = item.imagenUrl ? item.imagenUrl.value : null; // URL de la imagen si la hay, sino null
+        
+        return {
+            grupo: grupoValue,
+            grupoLabel: item.grupoLabel.value,
+            imagenUrl: imagenUrl
+        };
+    }).filter(item => item !== null); 
+
+    const transformedJSON = {
+        head: originalJSON.head,
+        results: {
+            bindings: transformedBindings
+        }
+    };
+
+    return transformedJSON;
+}
+
 
 function transformJSONFootballers(originalJSON) {
 
@@ -59,4 +83,4 @@ function getResearcherIds(originalJSON) {
         .filter(value => value.startsWith('Q'));
 }
 
-module.exports = {transformJSONResearchers, transformJSONFootballers, getResearcherLabelValues, getResearcherIds};
+module.exports = {transformJSONResearchers, transformJSONFootballers, transformJSONGroups, getResearcherLabelValues, getResearcherIds};

@@ -3,7 +3,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined, LogoutOutlined, ExportOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity } from '../services/questionsService.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 //Layout y letras
@@ -51,6 +51,7 @@ let PrincipalScreen = (props) => {
     const categoryToFetchFunction = {
       investigadores: fetchQuestionsResearchers,
       futbolistas: fetchQuestionsFootballers,
+      musicos: fetchQuestionsGroups
       //mas categorias...
     };
   
