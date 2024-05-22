@@ -69,17 +69,15 @@ let PrincipalScreen = (props) => {
 
   const handleMenuClick = (e) => {
     console.log('click', e.key);
-    if (e.key==1) {
-      //clasfi
+    if (e.key === '1') {
       fetchStreaks();
-      console.log("hey");
-    } else if (e.key==2) {
+    } else if (e.key === '2') {
       handleProfile();
-    } else if (e.key==3) {
+    } else if (e.key === '3') {
       logOut();
     }
-
   };
+  
 
   const menuProps = {
     items,
