@@ -1,6 +1,6 @@
 import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Dropdown,
-  message
+  Table
 } from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetch
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
+import moment from 'moment';
 
 
 //Layout y letras
@@ -70,6 +71,7 @@ let PrincipalScreen = (props) => {
     console.log('click', e.key);
     if (e.key==1) {
       //clasfi
+      fetchStreaks();
       console.log("hey");
     } else if (e.key==2) {
       handleProfile();
@@ -86,6 +88,30 @@ let PrincipalScreen = (props) => {
 
   //Para la clasificación
   const [streaks, setStreaks] = useState([])
+  const dataStreaks = 
+    streaks.map(item => ({
+      racha: item.streak,
+      categoria: item.category,
+      fecha: moment(item.date).format('DD/MM/YYYY')
+    }));
+  
+  const columns = [
+    {
+      title: 'Preguntas',
+      dataIndex: 'racha',
+      key: 'racha'
+    },
+    {
+      title: 'Categoría',
+      dataIndex: 'categoria',
+      key: 'categoria',
+    },
+    {
+      title: 'Fecha',
+      dataIndex: 'fecha',
+      key: 'fecha',
+    }
+  ];
 
 
   const fetchStreaks = async () => {
@@ -118,6 +144,10 @@ let PrincipalScreen = (props) => {
   }, []);
 
 
+  
+
+
+  //----
 
   const setSelCategory = (cc) => {
     selCategory= cc;
@@ -363,25 +393,21 @@ let PrincipalScreen = (props) => {
                     ))}
                   </Radio.Group>
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
-                    <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined  
-                    size={size}/>}>
-                      Perfil
-                    </Dropdown.Button>
+                    <Dropdown menu={menuProps} placement="bottom" size={size} arrow={{ pointAtCenter: true }}>
+                      <Button style={{ width:'120px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
+                        icon={<UserOutlined/>}> Perfil </Button>
+                    </Dropdown>
                     <Button style={{marginLeft:'500px'}} 
                       type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
                         Ver mi clasificación
                       </Button>
                       <Modal
-                        title="Clasificación"
+                        title="Clasificación de rachas de preguntas contestadas"
                         open={streaks.length > 0}
                         onCancel={() => setStreaks([])}
                         footer={null}
                       >
-                        <ul>
-                          {streaks.map((racha, index) => (
-                            <li key={index}>{`Categoría: ${racha.category}, Fecha: ${new Date(racha.date).toLocaleString()}, Racha: ${racha.streak}`}</li>
-                          ))}
-                        </ul>
+                        <Table columns={columns} dataSource={dataStreaks} />
                       </Modal>
                     <Button
                       style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
