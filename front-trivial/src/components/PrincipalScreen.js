@@ -1,8 +1,10 @@
 import '../App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Tooltip} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Dropdown,
+  message
+} from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { SmileOutlined, LogoutOutlined, ExportOutlined,SolutionOutlined } from '@ant-design/icons';
+import { SmileOutlined, LogoutOutlined, ExportOutlined,SolutionOutlined,UserOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
@@ -44,6 +46,43 @@ let PrincipalScreen = (props) => {
   //Para la rueda de enviar
   const [loadings, setLoadings] = useState([]);
   const [loadingSend, setLoadingSend] = useState(false);
+
+  //Menu dropdown
+  const items = [
+    {
+      label: 'Ver mi clasificación',
+      key: '1',
+      icon: <SolutionOutlined />,
+    },
+    {
+      label: 'Perfil de Wikimedia',
+      key: '2',
+      icon: <ExportOutlined />,
+    },
+    {
+      label: 'Cerrar sesión',
+      key: '3',
+      icon: <LogoutOutlined />,
+    }
+  ];
+
+  const handleMenuClick = (e) => {
+    console.log('click', e.key);
+    if (e.key==1) {
+      //clasfi
+      console.log("hey");
+    } else if (e.key==2) {
+      handleProfile();
+    } else if (e.key==3) {
+      logOut();
+    }
+
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
 
   //Para la clasificación
   const [streaks, setStreaks] = useState([])
@@ -324,6 +363,10 @@ let PrincipalScreen = (props) => {
                     ))}
                   </Radio.Group>
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
+                    <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined  
+                    size={size}/>}>
+                      Perfil
+                    </Dropdown.Button>
                     <Button style={{marginLeft:'500px'}} 
                       type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
                         Ver mi clasificación
