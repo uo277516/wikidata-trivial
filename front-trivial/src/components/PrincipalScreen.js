@@ -6,6 +6,9 @@ import { SmileOutlined, LogoutOutlined, ExportOutlined } from '@ant-design/icons
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
+import axios from 'axios';
+
+
 //Layout y letras
 const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
@@ -14,7 +17,7 @@ const { Header, Footer, Sider, Content } = Layout;
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
 
- //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
+  //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
   let [questionSelected, setQuestionSelected] = useState(null);
   let [entitySelected, setEntitySelected] = useState(null);
@@ -37,6 +40,39 @@ let PrincipalScreen = (props) => {
   //Para la rueda de enviar
   const [loadings, setLoadings] = useState([]);
   const [loadingSend, setLoadingSend] = useState(false);
+
+  //Para la clasificación
+  const [streaks, setStreaks] = useState([])
+
+
+  const fetchStreaks = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/getStreaks/${user._json.username}`);
+      //const response = await axios.get(`http://localhost:3001/getStreaks/testuser`);
+
+      setStreaks(response.data);
+      console.log(streaks);
+    } catch (error) {
+      console.error('Error fetching streaks:', error);
+    }
+  };
+
+  const saveStreak = async () => {
+    try {
+      await axios.post('http://localhost:3001/saveStreak', {
+        username: user._json.username,
+        category: selectedCategory,
+        streak: answeredQuestions,
+      });
+    } catch (error) {
+      console.error('Error saving streak:', error);
+    }
+  };
+
+  useEffect(() => {
+    saveStreak();
+  }, []);
+
 
 
   const setSelCategory = (cc) => {
@@ -157,6 +193,8 @@ let PrincipalScreen = (props) => {
     //modal para qe esté seguro?¿
     setTitleChangeGiveUp("Te has rendido.")
     setMsgChangeGiveUp("Número de respuestas acterdas seguidas: "+answeredQuestions);
+    //guardar racha
+    saveStreak();
     setGiveUp(true);
   }
 
@@ -181,10 +219,12 @@ let PrincipalScreen = (props) => {
 
         //Para cogerlo para el fetch
         setSelCategory(value);
-        console.log("Cambiando a la categoría... "+selCategory);
 
         setTitleChangeGiveUp("Has cambiado de categoría.")
         setMsgChangeGiveUp("Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: "+answeredQuestions);
+
+        //Guardar racha
+        saveStreak();
 
         //por si habia algun problema con las preguntas de otra categoria que no cargaban, se vuelve a poner a false
         setQuestionError(false);
@@ -214,8 +254,9 @@ let PrincipalScreen = (props) => {
   };
 
   const validateAnswer = (rule, value) => {
-    const isValidYear = /^(19[0-9][0-9]|20[0-2][0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
+    const isValidYear = /^(19[0-9][0-9]|20[0-1][0-9]|202[0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
     const answerIsYear = questionSelected.includes('año');
+    console.log(answerIsYear);
     if (answerIsYear && !isValidYear) {
       return Promise.reject('El año que has introducido no es válido');
     }
@@ -421,6 +462,19 @@ let PrincipalScreen = (props) => {
       </Content>
 
       <Footer style={footerStyle}>Wiki Trivial</Footer>    
+      <Button onClick={fetchStreaks}>Ver clasificación</Button>
+      <Modal
+        title="Clasificación"
+        open={streaks.length > 0}
+        onCancel={() => setStreaks([])}
+        footer={null}
+      >
+        <ul>
+          {streaks.map((racha, index) => (
+            <li key={index}>{`Categoría: ${racha.category}, Fecha: ${new Date(racha.date).toLocaleString()}, Racha: ${racha.streak}`}</li>
+          ))}
+        </ul>
+      </Modal>
     </Layout>
   );
 }

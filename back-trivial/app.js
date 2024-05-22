@@ -9,6 +9,8 @@ const path = require('path');
 const cors = require('cors');
 const initRouters = require("./routers/routers");
 
+const connection = require("./db");
+
 
 const app = express();
 const PORT = 3001;
@@ -20,10 +22,36 @@ app.use(express.json());
 initRouters(app);
 
 
-//-------
+//-----BASE DE DATOS
+
+app.post('/saveStreak', (req, res) => {
+	const { username, category, streak } = req.body;
+	const query = 'INSERT INTO rachas (username, category, streak) VALUES (?, ?, ?)';
+	connection.query(query, [username, category, streak], (err, result) => {
+	  if (err) {
+		console.error('Error saving streak:', err);
+		res.status(500).send('Error saving streak');
+		return;
+	  }
+	  res.send('Racha guardada');
+	});
+});
+  
+app.get('/getStreaks/:username', (req, res) => {
+	const { username } = req.params;
+	const query = 'SELECT * FROM rachas WHERE username = ? ORDER BY streak DESC';
+	connection.query(query, [username], (err, results) => {
+		if (err) {
+		console.error('Error fetching streaks:', err);
+		res.status(500).send('Error fetching streaks');
+		return;
+		}
+		res.send(results);
+	});
+});
 
 
-
+//-------OAUTH
 
 app.use(express.static(path.join(__dirname, 'public')));
 
