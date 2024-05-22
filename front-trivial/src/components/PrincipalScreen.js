@@ -99,17 +99,34 @@ let PrincipalScreen = (props) => {
     {
       title: 'Preguntas',
       dataIndex: 'racha',
-      key: 'racha'
+      key: 'racha',
+      sorter: (a, b) => a.racha - b.racha
     },
     {
       title: 'Categoría',
       dataIndex: 'categoria',
       key: 'categoria',
+      filters: [
+        {
+          text: 'deporte',
+          value: 'deporte',
+        },
+        {
+          text: 'música',
+          value: 'música',
+        },
+        {
+          text: 'investigación',
+          value: 'investigación',
+        },
+      ],
+      onFilter: (value, record) => record.categoria.indexOf(value) === 0,
     },
     {
       title: 'Fecha',
       dataIndex: 'fecha',
       key: 'fecha',
+      sorter: (a, b) => moment(a.fecha, 'DD/MM/YYYY').unix() - moment(b.fecha, 'DD/MM/YYYY').unix(),
     }
   ];
 
