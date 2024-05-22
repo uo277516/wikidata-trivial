@@ -1,8 +1,8 @@
 import '../App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm} from 'antd';
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Tooltip} from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { SmileOutlined, LogoutOutlined, ExportOutlined } from '@ant-design/icons';
+import { SmileOutlined, LogoutOutlined, ExportOutlined,SolutionOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
@@ -14,8 +14,12 @@ const {Title, Paragraph, Link} = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 
 
+
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
+
+  const [size, setSize] = useState('large'); 
+
 
   //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
@@ -70,7 +74,8 @@ let PrincipalScreen = (props) => {
   };
 
   useEffect(() => {
-    saveStreak();
+    if (answeredQuestions>0)
+      saveStreak();
   }, []);
 
 
@@ -194,7 +199,8 @@ let PrincipalScreen = (props) => {
     setTitleChangeGiveUp("Te has rendido.")
     setMsgChangeGiveUp("Número de respuestas acterdas seguidas: "+answeredQuestions);
     //guardar racha
-    saveStreak();
+    if (answeredQuestions>0)
+      saveStreak();
     setGiveUp(true);
   }
 
@@ -224,7 +230,8 @@ let PrincipalScreen = (props) => {
         setMsgChangeGiveUp("Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: "+answeredQuestions);
 
         //Guardar racha
-        saveStreak();
+        if (answeredQuestions>0)
+          saveStreak();
 
         //por si habia algun problema con las preguntas de otra categoria que no cargaban, se vuelve a poner a false
         setQuestionError(false);
@@ -317,6 +324,22 @@ let PrincipalScreen = (props) => {
                     ))}
                   </Radio.Group>
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
+                    <Button style={{marginLeft:'500px'}} 
+                      type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
+                        Ver mi clasificación
+                      </Button>
+                      <Modal
+                        title="Clasificación"
+                        open={streaks.length > 0}
+                        onCancel={() => setStreaks([])}
+                        footer={null}
+                      >
+                        <ul>
+                          {streaks.map((racha, index) => (
+                            <li key={index}>{`Categoría: ${racha.category}, Fecha: ${new Date(racha.date).toLocaleString()}, Racha: ${racha.streak}`}</li>
+                          ))}
+                        </ul>
+                      </Modal>
                     <Button
                       style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
                       icon={<ExportOutlined/>}
@@ -431,6 +454,7 @@ let PrincipalScreen = (props) => {
                         <Button type="primary" style={{ backgroundColor: '#607d8b' }}>
                           Rendirse
                         </Button>
+                        
                       </Popconfirm>
                       
                     </Form.Item>
@@ -460,21 +484,9 @@ let PrincipalScreen = (props) => {
         
 
       </Content>
+      
 
-      <Footer style={footerStyle}>Wiki Trivial</Footer>    
-      <Button onClick={fetchStreaks}>Ver clasificación</Button>
-      <Modal
-        title="Clasificación"
-        open={streaks.length > 0}
-        onCancel={() => setStreaks([])}
-        footer={null}
-      >
-        <ul>
-          {streaks.map((racha, index) => (
-            <li key={index}>{`Categoría: ${racha.category}, Fecha: ${new Date(racha.date).toLocaleString()}, Racha: ${racha.streak}`}</li>
-          ))}
-        </ul>
-      </Modal>
+      <Footer style={footerStyle}>Wiki Trivial</Footer>          
     </Layout>
   );
 }
