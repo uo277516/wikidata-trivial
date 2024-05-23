@@ -24,6 +24,7 @@ initRouters(app);
 
 //-----BASE DE DATOS
 
+//Guardar racha
 app.post('/saveStreak', (req, res) => {
 	const { username, category, streak } = req.body;
 	const query = 'INSERT INTO rachas (username, category, streak) VALUES (?, ?, ?)';
@@ -37,6 +38,7 @@ app.post('/saveStreak', (req, res) => {
 	});
 });
   
+//Rachas por usuario
 app.get('/getStreaks/:username', (req, res) => {
 	const { username } = req.params;
 	const query = 'SELECT * FROM rachas WHERE username = ? ORDER BY streak DESC';
@@ -49,6 +51,22 @@ app.get('/getStreaks/:username', (req, res) => {
 		res.send(results);
 	});
 });
+
+//Todas las rachas
+app.get('/getAllStreaks', (req, res) => {
+	const query = 'SELECT * FROM rachas ORDER BY streak DESC';
+	connection.query(query, (err, results) => {
+	  if (err) {
+		console.error('Error fetching all streaks:', err);
+		res.status(500).send('Error fetching all streaks');
+		return;
+	  }
+	  res.send(results);
+	});
+});
+
+
+  
 
 
 //-------OAUTH

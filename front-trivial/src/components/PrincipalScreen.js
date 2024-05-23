@@ -62,7 +62,6 @@ let PrincipalScreen = (props) => {
   const fetchStreaks = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/getStreaks/${user._json.username}`);
-      //const response = await axios.get(`http://localhost:3001/getStreaks/testuser`);
 
       setStreaks(response.data);
       console.log(streaks);
@@ -362,8 +361,9 @@ let PrincipalScreen = (props) => {
                         open={seeStreaks}
                         onCancel={() => setSeeStreaks(false)}
                         footer={null}
+                        width={900}
                     >
-                      <TableComponent streaks={streaks}></TableComponent>
+                      <TableComponent user={user}></TableComponent>
                     </Modal>
                     <Button style={{marginLeft:'50px'}} 
                       type="primary" icon={<SolutionOutlined />} size={size} onClick={()=>setSeeStreaks(true)}>

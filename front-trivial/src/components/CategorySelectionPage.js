@@ -4,9 +4,10 @@ import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.jpg'; 
 import PrincipalScreen from './PrincipalScreen.js';
 import LoginComponent from './LoginComponent.js';
-import {LogoutOutlined, ExportOutlined } from '@ant-design/icons';
+import {SolutionOutlined } from '@ant-design/icons';
 import '../css/styles.css'; // Importa tu archivo CSS aquí
 import MenuComponent from './MenuComponent.js';
+import TableComponent from './TableComponent.js';
 
 
 const { Title, Paragraph, Link} = Typography;
@@ -17,6 +18,7 @@ const CategorySelectionPage = () => {
   const categories = ['investigación', 'deporte', 'música']; 
   const [selectedCategory, setSelectedCategory] = useState('investigación');
   const [user, setUser] = useState(null);
+  const [seeStreaks, setSeeStreaks] = useState(false);
 
 
 
@@ -102,6 +104,19 @@ const CategorySelectionPage = () => {
                       Log out
                     </Button>
                   </div> */}
+                  <Modal
+                        title="Clasificación de rachas de preguntas contestadas"
+                        open={seeStreaks}
+                        onCancel={() => setSeeStreaks(false)}
+                        footer={null}
+                        width={900}
+                    >
+                      <TableComponent user={user}></TableComponent>
+                      </Modal>
+                      <Button style={{marginRight:'60px'}} 
+                      type="primary" icon={<SolutionOutlined />} size='large' onClick={()=>setSeeStreaks(true)}>
+                        Ver clasificación
+                      </Button>
                 </div>
                 <Paragraph style={{ fontSize: "20px"}}>
                   La información de las siguientes preguntas se ha recogido de
