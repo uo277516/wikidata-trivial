@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {MailOutlined, LogoutOutlined, LoginOutlined} from '@ant-design/icons';
+import {MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,7 @@ const MenuComponent = (props) => {
         {
           label: 'Cambiar idioma',
           key: 'language',
-          icon: iconLog,
+          icon: React.createElement(TranslationOutlined),
           children: [
             { label: 'Español', key: 'language:1' },
             { label: 'Inglés', key: 'language:2' },
