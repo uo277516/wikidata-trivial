@@ -432,12 +432,12 @@ let PrincipalScreen = (props) => {
                       </Radio.Button>
                     ))}
                   </Radio.Group>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'10vw' }}>
                     <Dropdown menu={menuProps} placement="bottom" size={size} arrow={{ pointAtCenter: true }}>
                       <Button style={{ width:'120px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
                         icon={<UserOutlined/>}> Perfil </Button>
                     </Dropdown>
-                    <Button style={{marginLeft:'500px'}} 
+                    {/* <Button style={{marginLeft:'500px'}} 
                       type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
                         Ver mi clasificación
                       </Button>
@@ -462,7 +462,7 @@ let PrincipalScreen = (props) => {
                       style={{ width:'110px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
                     >
                       Log out
-                    </Button>
+                    </Button> */}
                   </div>
 
                 </div>
