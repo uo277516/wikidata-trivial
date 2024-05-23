@@ -6,6 +6,7 @@ import logo from '../logo.png';
 import CategorySelectionPage from './CategorySelectionPage.js';
 import { LoginOutlined } from '@ant-design/icons';
 import MenuComponent from './MenuComponent.js';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -14,6 +15,9 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 const LoginComponent = () => {
+
+  const { t } = useTranslation();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -51,6 +55,7 @@ const LoginComponent = () => {
     }
   };
   
+  
 
   return (
     <>
@@ -70,16 +75,16 @@ const LoginComponent = () => {
               </Sider>
                 <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
                   <Title level={1} style={{ marginTop: '20px', fontSize: '50px', fontWeight: 'bold' }}>Wiki Trivial</Title>
-                  <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>Juego de preguntas y respuestas</Title>
+                  <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>{t('login.title')}</Title>
                 </Content>
             </Layout>
           </Header>
           <Content style={contentStyle}>
-            <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>Login</Title>
+            <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>{t('login.login')}</Title>
             <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
-                  La información de las siguientes preguntas se ha recogido de
+                  {t('login.info1')}
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
-                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.
+                  {t('login.info2')}
             </Paragraph>
             <Button
               type="primary"
@@ -89,7 +94,7 @@ const LoginComponent = () => {
               icon={<LoginOutlined/>}
               style={{ position: 'relative', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200px' }}
               >
-              Log in
+              {t('login.log_in')}
             </Button>
           </Content>
           <Footer style={footerStyle}>Wiki Trivial</Footer>

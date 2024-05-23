@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {MailOutlined, LogoutOutlined, LoginOutlined} from '@ant-design/icons';
 import { Menu } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -25,15 +26,35 @@ const MenuComponent = (props) => {
           key: 'logout',
           icon: iconLog
         },
+        {
+          label: 'Cambiar idioma',
+          key: 'language',
+          icon: iconLog,
+          children: [
+            { label: 'Español', key: 'language:1' },
+            { label: 'Inglés', key: 'language:2' },
+          ],
+        }
+
       ];
 
   const [current, setCurrent] = useState(null);
+
+  const [language, setLanguage] = useState('es');
+  const { t, i18n } = useTranslation();
 
   const onClick = (e) => {
     setCurrent(null);
 
     if (e.key==="logout") {
         logOut();
+    } 
+    else if (e.key==="language:1") {
+      i18n.changeLanguage('es');
+      setLanguage('es');
+    } else if (e.key==="language:2") {
+      i18n.changeLanguage('en');
+      setLanguage('en');
     }
   };
 
@@ -42,6 +63,9 @@ const MenuComponent = (props) => {
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
     window.location.href = redirectUrl;
   };
+
+  
+
 
 
     return (
