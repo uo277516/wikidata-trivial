@@ -75,7 +75,16 @@
     "no": "No",
     "answer": "Respuesta",
     "question.ranking": "Racha de preguntas",
-    "question.buttonSend": "Enviar respuesta"
+    "question.buttonSend": "Enviar respuesta",
+
+
+    "researcher.born": "¿Dónde nació el/la investigador/a",
+    "researcher.study": "¿Dónde estudió el/la investigador/a",
+    "footballer.height": "¿Cuál es la altura en centímetros de la/el futbolista",
+    "footballers.goals": "¿Cuántos goles ha marcado a lo largo de su carrera el futbolista",
+    "footballers.position": "¿Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista",
+    "groups.year": "¿Cuál es el año en el que se fundó el grupo",
+    "groups.disco": "¿Cuál es el sello discográfico (o uno de ellos) del grupo"
 
 }
   

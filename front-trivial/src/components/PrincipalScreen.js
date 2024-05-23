@@ -5,11 +5,10 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
+//import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
-import moment from 'moment';
 import MenuComponent from './MenuComponent.js';
 import TableComponent from './TableComponent.js';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +23,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
-  const { t } = useTranslation();
+  const {i18n, t } = useTranslation();
 
 
   //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
@@ -225,7 +224,7 @@ let PrincipalScreen = (props) => {
   //botón de rendirse
   const handleGiveUp = () => {
     //modal para qe esté seguro?¿
-    setTitleChangeGiveUp(t('question.giveUp'))
+    setTitleChangeGiveUp(t('question.giveup'))
     setMsgChangeGiveUp(t('question.msgGiveUp', { answeredQuestions }));
     //guardar racha
     if (answeredQuestions>0) {
@@ -285,13 +284,145 @@ let PrincipalScreen = (props) => {
 
   const validateAnswer = (rule, value) => {
     const isValidYear = /^(19[0-9][0-9]|20[0-1][0-9]|202[0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
-    const answerIsYear = questionSelected.includes('año');
+    const answerIsYear = questionSelected.includes('año') || questionSelected.includes('year');
     console.log(answerIsYear);
     if (answerIsYear && !isValidYear) {
       return Promise.reject(t('question.yearNotValid'));
     }
     return Promise.resolve();
   };
+
+
+  //-----------QUESTIONS----------
+  const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
+    let endpoint=null;
+    if (selCategory==="futbolistas") {
+      endpoint='footballers';
+    } else if (selCategory==="investigadores") {
+      endpoint='researchers';
+    } else if (selCategory==="raperos") {
+      endpoint='rappers';
+    }
+    console.log(endpoint);
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ footballerId, property, value, referenceURL, token, token_secret })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to edit entity');
+      }
+  
+      const data = await response.json();
+      return data.result;
+    } catch (error) {
+      console.error('Error editing entity:', error);
+      throw error;
+    }
+  };
+  
+  
+  
+  const fetchData = async (entity, endpoint) => {
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + entity + endpoint);
+      if (response.ok) {
+        const jsonData = await response.json();
+        return jsonData.results.bindings;
+      } else {
+        console.error("Error fetching data:", response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+  
+  //formar entidad de devolver con la pregunta la entidad y la relacion para poder mandar la edicion en front
+  const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, relation) => {
+    if (!data) return [];
+  
+    console.log(data);
+    
+    return data.map((item) => ({
+      question: `${labelPrefix} ${item[labelProperty]}?`,
+      entity: item[entityProperty],
+      relation,
+      imagenUrl: item.imagenUrl
+    }));
+  };
+  
+  //metodo general para crear las preguntas pasando los parmetros
+  const createQuestions = async (relations, messages, entitiesName, jsonName, jsonLabel) => {
+    try {
+      const random = Math.floor(Math.random() * relations.length); 
+      const relationChosed = relations[random];
+      const questionMsg = messages[random];
+  
+      const data = await fetchData(entitiesName, relationChosed);
+  
+      if (data) {
+        const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
+        const randomNumber = Math.floor(Math.random() * questions.length);
+        const { question, entity, relation, imagenUrl } = questions[randomNumber];
+        
+  
+        return { question, entity, relation, imagenUrl };
+      } else {
+        throw new Error("Error fetching "+entitiesName+" data");
+      }
+    } catch (error) {
+      console.error("Error fetching "+entitiesName+" questions:", error);
+      throw error;
+    }
+  
+  };
+  
+  //preguntas investigadores
+  const fetchQuestionsResearchers = async () => {
+    const relations = ["/P19", "/P69"];   //nacer, estudiar
+    const messages = [t('researchers.born'), t('researchers.study')];
+    return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
+  };
+  
+  
+  const fetchQuestionsFootballers = async () => {
+    const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
+    const messages = [t('footballers.height'), t('footballers.goals'), t('footballers.position')];
+    return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
+  };
+  
+  const fetchQuestionsGroups = async () => {
+    const relations = ["/P571", "/P264"]; //fecha de fundacion (año)
+    const messages = [t('groups.year'), t('groups.disco')];
+    return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
+  };
+
+  //useEffect(() => {},[i18n.language])
+  
+  
+  const translateText = (text) => {
+    axios.post(`https://libretranslate.de/translate`, {
+      q: text,
+      source: 'auto',
+      target: i18n.language // Idioma al que se desea traducir (puedes cambiarlo según tus necesidades)
+    })
+    .then((response) => {
+      console.log(response);
+      setQuestionSelected(response.data.translatedText);
+    })
+    .catch((error) => {
+      console.error('Error translating text:', error);
+    });
+  };
+
+  translateText(questionSelected);
+
 
 
 
@@ -347,7 +478,7 @@ let PrincipalScreen = (props) => {
 
                     {categories.map((category) => (
                       <Radio.Button key={category} value={category}>
-                        {category}
+                        {t(`table.${category}`)}
                       </Radio.Button>
                     ))}
                   </Radio.Group>
@@ -371,7 +502,7 @@ let PrincipalScreen = (props) => {
                 </div>
 
                 <Paragraph style={{fontSize:"20px"}}>
-                  {t('question.info', { selectedCategory })}
+                {t('question.info', { selectedCategory: t(`table.${selectedCategory}`) })}
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
                   {t('question.info2')}
                 </Paragraph>

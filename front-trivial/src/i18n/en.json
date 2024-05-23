@@ -61,7 +61,7 @@
     "question.wait": "Please wait. The question is loading.",
     "question.errorLoad": "Error loading questions about {{selectedCategory}}.",
     "question.errorLoadDes": "An error occurred while loading the question. Please try again later or try another category.",
-    "question.beginAgain": "Start over",
+    "question.beginAgain": "Start Over",
     "question.required": "You must enter the answer to the question",
     "question.answer": "Your Answer Here",
     "question.url": "Reference URL",
@@ -74,7 +74,16 @@
     "no": "No",
     "answer": "Answer",
     "question.ranking": "Question streak",
-    "question.buttonSend": "Send Answer"
+    "question.buttonSend": "Send Answer",
+
+
+    "researchers.born": "Where was born the researcher called",
+    "researchers.study": "Where did study the researcher called",
+    "footballer.height": "What is the height in centimeters of the footballer",
+    "footballers.goals": "How many goals has scored throughout their career the footballer called",
+    "footballers.position": "What is one of the main positions that usually plays on the field the footballer called",
+    "groups.year": "What is the year was founded the group called",
+    "groups.disco": "What is the record label (or one of them) of the group"
 
 
     
