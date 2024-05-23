@@ -36,6 +36,12 @@
     "table.today": "Hoy",
     "table.week": "Esta semana",
     "table.month": "Este mes",
-    "table.all": "Completa"
+    "table.all": "Completa",
+
+    "card.image": "Imagen",
+    "card.noImage": "Imagen no disponible",
+    "card.info": "Para más información, puede consultar su entrada en Wikidata en este ",
+    "card.link": "enlace."
+
 }
   

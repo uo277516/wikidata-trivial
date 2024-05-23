@@ -35,6 +35,11 @@
     "table.today": "Today",
     "table.week": "This week",
     "table.month": "This month",
-    "table.all": "All"
+    "table.all": "All",
+
+    "card.image": "Image",
+    "card.noImage": "Image not available",
+    "card.info": "For more information, you can check its entry on Wikidata at this ",
+    "card.link": "link."
 }
   

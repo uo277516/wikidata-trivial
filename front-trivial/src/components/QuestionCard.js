@@ -1,7 +1,9 @@
 import React from 'react';
 import {Card, Flex, Typography } from 'antd';
 import vars from '../vars';
-import { getSitelinkUrl } from 'wikibase-sdk'
+import { getSitelinkUrl } from 'wikibase-sdk';
+import { useTranslation } from 'react-i18next';
+
 
 const {Title, Paragraph, Link} = Typography;
 
@@ -22,6 +24,9 @@ let QuestionCard = (props) => {
     objectFit:'cover'
   };
 
+  const { t } = useTranslation();
+
+
  
 
     const error_url = vars.fallback;
@@ -35,14 +40,14 @@ let QuestionCard = (props) => {
                 <div>
                     {imagenUrl ? (
                     <img
-                        alt="Imagen"
+                        alt={t('card.image')}
                         width={200}
                         src={imagenUrl}
                         style={imgStyle}
                     />
                     ) : (
                     <img
-                        alt="Imagen no disponible"
+                        alt={t('card.noImage')}
                         width={200}
                         src={error_url} 
                         style={imgStyle}
@@ -54,8 +59,8 @@ let QuestionCard = (props) => {
                         {questionSelected}
                     </Title>
                     <Paragraph>
-                        Para más información, puede consultar su entrada en Wikidata en este 
-                        <Link href={url} target="_blank" style={{fontSize:"20px"}}> link. </Link>
+                        {t('card.info')}
+                        <Link href={url} target="_blank" style={{fontSize:"18px"}}> {t('card.link')} </Link>
                     </Paragraph>
                 </Flex>
             </Flex>
