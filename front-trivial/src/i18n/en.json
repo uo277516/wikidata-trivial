@@ -40,6 +40,43 @@
     "card.image": "Image",
     "card.noImage": "Image not available",
     "card.info": "For more information, you can check its entry on Wikidata at this ",
-    "card.link": "link."
+    "card.link": "link.",
+
+    "question.record": "Record broken",
+    "question.record.description": "You have surpassed your record of {{firstStreak}} questions! Keep it up",
+    "question.error": "Error loading questions",
+    "question.error.description": "An error has occurred. Please try again later.",
+    "question.send": "Answer sent",
+    "question.sendDescription": "The information provided in your answer has been added to Wikidata.",
+    "question.giveup": "You have given up.",
+    "question.msgGiveUp": "Number of consecutive correct answers: {{answeredQuestions}}",
+    "question.changeCat": "You are about to change category",
+    "question.changeCatContent": "By changing categories, your streak of consecutive correct answers will reset to 0.",
+    "question.youChangeCat": "You have changed category",
+    "question.youChangeCatMsg": "Your streak of questions will start again from 0. Number of consecutive correct answers: {{answeredQuestions}}",
+    "question.yearNotValid": "The year you have entered is not valid",
+    "question.info": "The information for the following questions about {{selectedCategory}} has been collected from ",
+    "question.info2": "The answers you provide will be used to enrich it.",
+    "question.load": "Loading question...",
+    "question.wait": "Please wait. The question is loading.",
+    "question.errorLoad": "Error loading questions about {{selectedCategory}}.",
+    "question.errorLoadDes": "An error occurred while loading the question. Please try again later or try another category.",
+    "question.beginAgain": "Start over",
+    "question.required": "You must enter the answer to the question",
+    "question.answer": "Your Answer Here",
+    "question.url": "Reference URL",
+    "question.urlRequired": "You must enter a URL",
+    "question.urlValid": "Please enter a valid URL",
+    "question.urlExample": "https://exampleurl.com",
+    "question.popGiveUp": "Give Up",
+    "question.sureGiveUp": "Are you sure you want to give up?",
+    "yes": "Yes",
+    "no": "No",
+    "answer": "Answer",
+    "question.ranking": "Question streak",
+    "question.buttonSend": "Send Answer"
+
+
+    
 }
   

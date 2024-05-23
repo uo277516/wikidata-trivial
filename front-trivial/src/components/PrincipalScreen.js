@@ -12,6 +12,8 @@ import axios from 'axios';
 import moment from 'moment';
 import MenuComponent from './MenuComponent.js';
 import TableComponent from './TableComponent.js';
+import { useTranslation } from 'react-i18next';
+
 
 
 //Layout y letras
@@ -22,6 +24,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
+  const { t } = useTranslation();
 
 
   //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
@@ -90,9 +93,8 @@ let PrincipalScreen = (props) => {
     let placement='bottom';
     if (firstStreak<answeredQuestions+1) {
       api.success({
-        message: `Récord superado`,
-        description:
-          `¡Has superado tu récord de ${firstStreak} preguntas! Sigue así`,
+        message: t('question.record'),
+        description: t('question.record.description', { firstStreak }), 
         placement,
       });
     }
@@ -137,15 +139,14 @@ let PrincipalScreen = (props) => {
         .catch(error => {
           //Cojo el error de que no se pudieron cargar por lo que sea, notifico y ademas en el Alert lo pongo
           //poner el questionerror a true y asi poner abajo o algo asi...
-          notification.error({message: 'Error al cargar preguntas.', description: 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.', placement: 'top'});
-          console.error('Error al obtener la pregunta:', error);
+          notification.error({message: t('question.error'), description: t('question.error.description'), placement: 'top'});
           setQuestionError(true);
         })
         .finally(() => {
           setLoading(false);
         });
     } else {
-      console.error('Categoría no válida:', selectedCategory);
+      console.error('Category not valid', selectedCategory);
     }
   };
   
@@ -187,8 +188,8 @@ let PrincipalScreen = (props) => {
         //Desactivar rueda
         handleLoadingState(false);
 
-        notification.info({message: 'Respuesta enviada.', 
-          description: 'La información aportada en su respuesta se ha añadido a Wikidata.', placement: 'topRight'});
+        notification.info({message: t('question.send'), 
+          description: t('question.sendDescription'), placement: 'topRight'});
 
         //sumo respuestas y vacío
         setAnsweredQuestions(answeredQuestions + 1);
@@ -202,10 +203,10 @@ let PrincipalScreen = (props) => {
         checkStreak();
         
       } else {
-        console.error("Alguno o varios campos están sin completar");
+        console.error("One or more fields are incomplete.");
       }
     } catch (error) {
-      console.error('Error en la validación del formulario:', error);
+      console.error('Error in form validation:', error);
     }
   };
 
@@ -224,8 +225,8 @@ let PrincipalScreen = (props) => {
   //botón de rendirse
   const handleGiveUp = () => {
     //modal para qe esté seguro?¿
-    setTitleChangeGiveUp("Te has rendido.")
-    setMsgChangeGiveUp("Número de respuestas acterdas seguidas: "+answeredQuestions);
+    setTitleChangeGiveUp(t('question.giveUp'))
+    setMsgChangeGiveUp(t('question.msgGiveUp', { answeredQuestions }));
     //guardar racha
     if (answeredQuestions>0) {
       saveStreak();
@@ -246,8 +247,8 @@ let PrincipalScreen = (props) => {
     //Avisar que se cambia de categoría para que salte mensaje
     //si le da a que si quiere cambiar, hace todo esto. Si no, nada
     Modal.confirm({
-      title: 'Vas a cambiar de categoría',
-      content: 'Al cambiar de categoría, tu racha de preguntas acertadas seguidas volverá a 0.',
+      title: t('question.changeCat'),
+      content: t('question.changeCatContent'),
       onOk: () => {        
         setGiveUp(true);
 
@@ -256,8 +257,8 @@ let PrincipalScreen = (props) => {
         //Para cogerlo para el fetch
         setSelCategory(value);
 
-        setTitleChangeGiveUp("Has cambiado de categoría.")
-        setMsgChangeGiveUp("Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: "+answeredQuestions);
+        setTitleChangeGiveUp(t('question.youChangeCat'))
+        setMsgChangeGiveUp(t('question.youChangeCatMsg', { answeredQuestions }));
 
         //Guardar racha
         if (answeredQuestions>0) {
@@ -287,7 +288,7 @@ let PrincipalScreen = (props) => {
     const answerIsYear = questionSelected.includes('año');
     console.log(answerIsYear);
     if (answerIsYear && !isValidYear) {
-      return Promise.reject('El año que has introducido no es válido');
+      return Promise.reject(t('question.yearNotValid'));
     }
     return Promise.resolve();
   };
@@ -315,7 +316,7 @@ let PrincipalScreen = (props) => {
         </Sider>
         <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
           <Title level={1} style={{ marginTop: '20px', fontSize: '5vh', fontWeight: 'bold' }}>Wiki Trivial</Title>
-          <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>Juego de preguntas y respuestas</Title>
+          <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>{t('login.title')}</Title>
         </Content>
       </Layout>
 
@@ -352,7 +353,7 @@ let PrincipalScreen = (props) => {
                   </Radio.Group>
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'0.5vw' }}>
                     <Modal
-                        title="Clasificación de rachas de preguntas contestadas"
+                        title={t('cat.tableTitle')}
                         open={seeStreaks}
                         onCancel={() => setSeeStreaks(false)}
                         footer={null}
@@ -362,7 +363,7 @@ let PrincipalScreen = (props) => {
                     </Modal>
                     <Button style={{marginLeft:'50px'}} 
                       type="primary" icon={<SolutionOutlined />} size='large' onClick={()=>setSeeStreaks(true)}>
-                        Ver clasificación
+                        {t('cat.buttonClasification')}
                       </Button>
                     
                   </div>
@@ -370,9 +371,9 @@ let PrincipalScreen = (props) => {
                 </div>
 
                 <Paragraph style={{fontSize:"20px"}}>
-                  La información de las siguientes preguntas sobre {selectedCategory} se ha recogido de 
+                  {t('question.info', { selectedCategory })}
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
-                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma.
+                  {t('question.info2')}
                 </Paragraph>
 
 
@@ -381,8 +382,8 @@ let PrincipalScreen = (props) => {
                         <Alert
                             style={{ marginBottom: "20px", width: 700, maxWidth:'100%'}}
                             type="info"
-                            message="Cargando pregunta..."
-                            description="Por favor espere. Se está cargando la pregunta."
+                            message={t('question.load')}
+                            description={t('question.wait')}
                         />
                     </Spin>
                 ) : (
@@ -390,8 +391,8 @@ let PrincipalScreen = (props) => {
                         <Alert
                             style={{ marginBottom: "20px",width: 700, maxWidth:'100%' }}
                             type="error"
-                            message={"Error al cargar las preguntas sobre "+selectedCategory+"."}
-                            description="Ha ocurrido un error al cargar la pregunta. Por favor, inténtelo de nuevo más tarde o pruebe con otra categoría."
+                            message={t('question.errorLoad', { selectedCategory })}
+                            description={t('question.errorLoadDes')}
                         />
                     ) : (
                         questionSelected && (
@@ -413,7 +414,7 @@ let PrincipalScreen = (props) => {
               subTitle={msgChangeGiveUp}
               extra={[
                 <Button type="primary" key="console" onClick={handleRestart}>
-                  Volver a empezar
+                  {t('question.beginAgain')}
                 </Button>,
               ]}
               />
@@ -429,42 +430,42 @@ let PrincipalScreen = (props) => {
                     disabled={loading || questionError || loadingSend}
                   >
                     <Form.Item style={formStyle}
-                      label="Respuesta"
+                      label={t('answer')}
                       name="respuesta"
                       rules={[
-                        { required: true, message: 'Debes de introducir la respuesta a la pregunta' },
+                        { required: true, message: t('question.required') },
                         { validator: (rule, value) => validateAnswer(rule,value) }, //validar
                       ]}
                     >
-                      <Input placeholder='Aquí va tu respuesta'></Input>
+                      <Input placeholder={t('question.answer')}></Input>
                     </Form.Item>
 
                     <Form.Item style={formStyle}
-                      label="URL de referencia"
+                      label={t('question.url')}
                       name="urldereferencia"
                       rules={[
-                        {required:true, message: 'Debes de introducir una URL' },
-                        { type: 'url', message: 'Por favor, introduce una URL válida' }
+                        {required:true, message: t('question.urlRequired') },
+                        { type: 'url', message: t('question.urlValid') }
                       ]}
                     >
-                      <Input placeholder='https://ejemplodeurl.com'></Input>
+                      <Input placeholder={t('question.urlExample')}></Input>
                     </Form.Item>
 
                     <Form.Item >
                       {contextHolder}
                       <Button type="primary" htmlType="submit" onClick={handleSendButton} 
                         style={{ marginRight: '20px'}} loading={loadings[0]}>
-                        Enviar respuesta
+                        {t('question.buttonSend')}
                       </Button>
                       <Popconfirm
-                        title="Rendirse"
-                        description="¿Estás seguro de rendirte?"
+                        title={t('question.popGiveUp')}
+                        description={t('question.sureGiveUp')}
                         onConfirm={handleGiveUp}
-                        okText="Si"
-                        cancelText="No"
+                        okText={t('yes')}
+                        cancelText={t('no')}
                       >
                         <Button type="primary" style={{ backgroundColor: '#607d8b' }}>
-                          Rendirse
+                          {t('question.popGiveUp')}
                         </Button>
                         
                       </Popconfirm>
@@ -475,7 +476,7 @@ let PrincipalScreen = (props) => {
 
                   <Card bordered={true} style={{marginLeft: '80px', width: '13vw'}}>
                     <Statistic
-                      title="Racha de preguntas"
+                      title={t('question.ranking')}
                       value={answeredQuestions}
                       precision={0}
                       valueStyle={{ color: '#3f8600' }}
