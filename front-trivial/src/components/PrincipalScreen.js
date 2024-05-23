@@ -1,10 +1,10 @@
 import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Dropdown,
-  Table
+  Table, Card, Statistic, message
 } from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { SmileOutlined, LogoutOutlined, ExportOutlined,SolutionOutlined,UserOutlined } from '@ant-design/icons';
+import { SmileOutlined, LogoutOutlined, ExportOutlined,SolutionOutlined,UserOutlined,FireOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
@@ -71,6 +71,7 @@ let PrincipalScreen = (props) => {
     console.log('click', e.key);
     if (e.key === '1') {
       fetchStreaks();
+      setSeeStreaks(true);
     } else if (e.key === '2') {
       handleProfile();
     } else if (e.key === '3') {
@@ -86,6 +87,7 @@ let PrincipalScreen = (props) => {
 
   //Para la clasificación
   const [streaks, setStreaks] = useState([])
+  const [seeStreaks, setSeeStreaks] = useState(false);
   const dataStreaks = 
     streaks.map(item => ({
       racha: item.streak,
@@ -158,6 +160,20 @@ let PrincipalScreen = (props) => {
       saveStreak();
   }, []);
 
+  const [api, contextHolder] = notification.useNotification();
+  const checkStreak = () => {
+    fetchStreaks();
+    const firstStreak = streaks.length > 0 ? streaks[0].streak : null;
+    let placement='bottom';
+    if (firstStreak<answeredQuestions+1) {
+      api.success({
+        message: `Récord superado`,
+        description:
+          `¡Has superado tu récord de ${firstStreak} preguntas! Sigue así`,
+        placement,
+      });
+    }
+  }
 
   
 
@@ -248,7 +264,7 @@ let PrincipalScreen = (props) => {
         //Desactivar rueda
         handleLoadingState(false);
 
-        notification.success({message: 'Respuesta enviada.', 
+        notification.info({message: 'Respuesta enviada.', 
           description: 'La información aportada en su respuesta se ha añadido a Wikidata.', placement: 'topRight'});
 
         //sumo respuestas y vacío
@@ -259,6 +275,8 @@ let PrincipalScreen = (props) => {
 
         //vuelvo a cargar
         fetchQuestions(selCategory);
+
+        checkStreak();
         
       } else {
         console.error("Alguno o varios campos están sin completar");
@@ -267,6 +285,9 @@ let PrincipalScreen = (props) => {
       console.error('Error en la validación del formulario:', error);
     }
   };
+
+  
+
 
   //método para pruebas
   const asyncTestFunction = async () => {
@@ -283,8 +304,10 @@ let PrincipalScreen = (props) => {
     setTitleChangeGiveUp("Te has rendido.")
     setMsgChangeGiveUp("Número de respuestas acterdas seguidas: "+answeredQuestions);
     //guardar racha
-    if (answeredQuestions>0)
+    if (answeredQuestions>0) {
       saveStreak();
+      fetchStreaks();
+    }
     setGiveUp(true);
   }
 
@@ -314,8 +337,10 @@ let PrincipalScreen = (props) => {
         setMsgChangeGiveUp("Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: "+answeredQuestions);
 
         //Guardar racha
-        if (answeredQuestions>0)
+        if (answeredQuestions>0) {
           saveStreak();
+          fetchStreaks();
+        }
 
         //por si habia algun problema con las preguntas de otra categoria que no cargaban, se vuelve a poner a false
         setQuestionError(false);
@@ -418,8 +443,8 @@ let PrincipalScreen = (props) => {
                       </Button>
                       <Modal
                         title="Clasificación de rachas de preguntas contestadas"
-                        open={streaks.length > 0}
-                        onCancel={() => setStreaks([])}
+                        open={seeStreaks}
+                        onCancel={() => setSeeStreaks(false)}
                         footer={null}
                       >
                         <Table columns={columns} dataSource={dataStreaks} />
@@ -492,11 +517,11 @@ let PrincipalScreen = (props) => {
               />
               ): (              
               
-              <div style={{ paddingTop: '20px'}}>
+              <div style={{ paddingTop: '20px', display: 'flex', alignItems: 'flex-start' }}>
                 <Form
                     form={form}
                     name="basic"
-                    style={{ maxWidth: 700 }}
+                    style={{ maxWidth: 700 , flex: 1}}
                     initialValues={{ remember: true }}
                     autoComplete="off"
                     disabled={loading || questionError || loadingSend}
@@ -524,6 +549,7 @@ let PrincipalScreen = (props) => {
                     </Form.Item>
 
                     <Form.Item >
+                      {contextHolder}
                       <Button type="primary" htmlType="submit" onClick={handleSendButton} 
                         style={{ marginRight: '20px'}} loading={loadings[0]}>
                         Enviar respuesta
@@ -545,21 +571,31 @@ let PrincipalScreen = (props) => {
 
                   </Form>
 
+                  <Card bordered={true} style={{marginLeft: '80px', width: '13vw'}}>
+                    <Statistic
+                      title="Racha de preguntas"
+                      value={answeredQuestions}
+                      precision={0}
+                      valueStyle={{ color: '#3f8600' }}
+                      prefix={<FireOutlined />}
+                    />
+                  </Card>
+
                   
 
                 </div>
             )}
 
-
+            
             <Content style={{marginBottom:'13px'}} >
-            {!giveup && answeredQuestions > 0 && (
+            {/* {!giveup && answeredQuestions > 0 && (
               <Alert
                 message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}
                 type="success"
                 showIcon
                 style={{ width: 700, maxWidth:'100%', textAlign: 'center' }} 
               />
-            )}
+            )} */}
             </Content>
           </Content>
           
