@@ -124,6 +124,7 @@ router.get( "/login", function ( req, res ) {
 	res.redirect( req.baseUrl + "/auth/mediawiki/callback" );
 } );
  
+
 router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 	console.log("hola");
 	passport.authenticate( "mediawiki", function( err, user ) {

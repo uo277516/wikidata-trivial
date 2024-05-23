@@ -35,6 +35,7 @@ const headerStyle = {
     textAlign: 'center',
     color: '#fff',
     backgroundColor: '#4096ff',
+    fontSize: '1.2em'
   };
   
   const titleOneStyle = {

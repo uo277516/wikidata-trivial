@@ -10,6 +10,7 @@ import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/app
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
 import moment from 'moment';
+import MenuComponent from './MenuComponent.js';
 
 
 //Layout y letras
@@ -73,9 +74,9 @@ let PrincipalScreen = (props) => {
       fetchStreaks();
       setSeeStreaks(true);
     } else if (e.key === '2') {
-      handleProfile();
+     
     } else if (e.key === '3') {
-      logOut();
+      
     }
   };
   
@@ -358,16 +359,16 @@ let PrincipalScreen = (props) => {
     });
   };
 
-  const logOut = () => {
-    localStorage.removeItem('user');
-    const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
-    window.location.href = redirectUrl;
-  };
+  // const logOut = () => {
+  //   localStorage.removeItem('user');
+  //   const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
+  //   window.location.href = redirectUrl;
+  // };
 
-  const handleProfile = () => {
-    console.log(user._json.username);
-    window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
-  };
+  // const handleProfile = () => {
+  //   console.log(user._json.username);
+  //   window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
+  // };
 
   const validateAnswer = (rule, value) => {
     const isValidYear = /^(19[0-9][0-9]|20[0-1][0-9]|202[0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
@@ -384,10 +385,15 @@ let PrincipalScreen = (props) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
 
+      {/* Menú */}
+      <MenuComponent user={user}></MenuComponent>
+
       <Header style={headerStyle}>
 
 
       <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
+        
+        {/* Info y logo */}
         <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
           <Image
             width={200}
@@ -437,11 +443,7 @@ let PrincipalScreen = (props) => {
                       <Button style={{ width:'120px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
                         icon={<UserOutlined/>}> Perfil </Button>
                     </Dropdown>
-                    {/* <Button style={{marginLeft:'500px'}} 
-                      type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
-                        Ver mi clasificación
-                      </Button>
-                      <Modal
+                    <Modal
                         title="Clasificación de rachas de preguntas contestadas"
                         open={seeStreaks}
                         onCancel={() => setSeeStreaks(false)}
@@ -449,20 +451,11 @@ let PrincipalScreen = (props) => {
                       >
                         <Table columns={columns} dataSource={dataStreaks} />
                       </Modal>
-                    <Button
-                      style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
-                      icon={<ExportOutlined/>}
-                      onClick={handleProfile}>
-                        Perfil de Wikimedia
-                    </Button>
-                    <Button
-                      type="primary"
-                      icon={<LogoutOutlined />}
-                      onClick={() => logOut()}
-                      style={{ width:'110px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
-                    >
-                      Log out
-                    </Button> */}
+                    {/* <Button style={{marginLeft:'500px'}} 
+                      type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
+                        Ver mi clasificación
+                      </Button>
+                     */}
                   </div>
 
                 </div>

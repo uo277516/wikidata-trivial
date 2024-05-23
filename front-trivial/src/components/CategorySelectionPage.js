@@ -6,6 +6,7 @@ import PrincipalScreen from './PrincipalScreen.js';
 import LoginComponent from './LoginComponent.js';
 import {LogoutOutlined, ExportOutlined } from '@ant-design/icons';
 import '../css/styles.css'; // Importa tu archivo CSS aquí
+import MenuComponent from './MenuComponent.js';
 
 
 const { Title, Paragraph, Link} = Typography;
@@ -48,15 +49,7 @@ const CategorySelectionPage = () => {
     checkAuthentication();
   }, []);
 
-  const logOut = () => {
-    localStorage.removeItem('user');
-    const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
-    window.location.href = redirectUrl;
-  };
-
-  const handleProfile = () => {
-    window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
-  };
+  
   
 
 
@@ -69,6 +62,7 @@ const CategorySelectionPage = () => {
         <>
           {change ? (
             <Layout style={{ minHeight: "100vh" }}>
+              <MenuComponent user={user}></MenuComponent>
               <Header style={headerStyle}>
                 <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
                   <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
@@ -92,7 +86,7 @@ const CategorySelectionPage = () => {
                   paddingBottom: '10px'
                   }}>
                 <Title level={1} style={{ color: '#004aad', marginTop: '10px' }}>¡Bienvenid@, {user.displayName}!</Title>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
                     <Button
                       style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
                       icon={<ExportOutlined/>}
@@ -107,7 +101,7 @@ const CategorySelectionPage = () => {
                     >
                       Log out
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
                 <Paragraph style={{ fontSize: "20px"}}>
                   La información de las siguientes preguntas se ha recogido de

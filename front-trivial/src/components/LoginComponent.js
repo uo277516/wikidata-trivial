@@ -5,6 +5,7 @@ import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.png'; 
 import CategorySelectionPage from './CategorySelectionPage.js';
 import { LoginOutlined } from '@ant-design/icons';
+import MenuComponent from './MenuComponent.js';
 
 
 
@@ -57,6 +58,7 @@ const LoginComponent = () => {
         <CategorySelectionPage />
       ) : (
         <Layout style={{ minHeight: "100vh" }}>
+          <MenuComponent user={null}></MenuComponent>
           <Header style={headerStyle}>
             <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
               <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
