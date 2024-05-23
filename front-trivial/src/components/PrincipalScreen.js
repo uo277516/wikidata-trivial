@@ -1,16 +1,17 @@
 import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Dropdown,
-  Table, Card, Statistic, message
+   Card, Statistic, message
 } from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
-import { SmileOutlined, LogoutOutlined, ExportOutlined,SolutionOutlined,UserOutlined,FireOutlined } from '@ant-design/icons';
+import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
 import moment from 'moment';
 import MenuComponent from './MenuComponent.js';
+import TableComponent from './TableComponent.js';
 
 
 //Layout y letras
@@ -49,87 +50,13 @@ let PrincipalScreen = (props) => {
   const [loadings, setLoadings] = useState([]);
   const [loadingSend, setLoadingSend] = useState(false);
 
-  //Menu dropdown
-  const items = [
-    {
-      label: 'Ver mi clasificación',
-      key: '1',
-      icon: <SolutionOutlined />,
-    },
-    {
-      label: 'Perfil de Wikimedia',
-      key: '2',
-      icon: <ExportOutlined />,
-    },
-    {
-      label: 'Cerrar sesión',
-      key: '3',
-      icon: <LogoutOutlined />,
-    }
-  ];
-
-  const handleMenuClick = (e) => {
-    console.log('click', e.key);
-    if (e.key === '1') {
-      fetchStreaks();
-      setSeeStreaks(true);
-    } else if (e.key === '2') {
-     
-    } else if (e.key === '3') {
-      
-    }
-  };
-  
-
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
-  };
 
   //Para la clasificación
   const [streaks, setStreaks] = useState([])
   const [seeStreaks, setSeeStreaks] = useState(false);
-  const dataStreaks = 
-    streaks.map(item => ({
-      racha: item.streak,
-      categoria: item.category,
-      fecha: moment(item.date).format('DD/MM/YYYY')
-    }));
   
-  const columns = [
-    {
-      title: 'Preguntas',
-      dataIndex: 'racha',
-      key: 'racha',
-      sorter: (a, b) => a.racha - b.racha
-    },
-    {
-      title: 'Categoría',
-      dataIndex: 'categoria',
-      key: 'categoria',
-      filters: [
-        {
-          text: 'deporte',
-          value: 'deporte',
-        },
-        {
-          text: 'música',
-          value: 'música',
-        },
-        {
-          text: 'investigación',
-          value: 'investigación',
-        },
-      ],
-      onFilter: (value, record) => record.categoria.indexOf(value) === 0,
-    },
-    {
-      title: 'Fecha',
-      dataIndex: 'fecha',
-      key: 'fecha',
-      sorter: (a, b) => moment(a.fecha, 'DD/MM/YYYY').unix() - moment(b.fecha, 'DD/MM/YYYY').unix(),
-    }
-  ];
+  
+  
 
 
   const fetchStreaks = async () => {
@@ -157,6 +84,7 @@ let PrincipalScreen = (props) => {
   };
 
   useEffect(() => {
+    fetchStreaks();
     if (answeredQuestions>0)
       saveStreak();
   }, []);
@@ -359,16 +287,6 @@ let PrincipalScreen = (props) => {
     });
   };
 
-  // const logOut = () => {
-  //   localStorage.removeItem('user');
-  //   const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
-  //   window.location.href = redirectUrl;
-  // };
-
-  // const handleProfile = () => {
-  //   console.log(user._json.username);
-  //   window.open('https://meta.wikimedia.org/wiki/Special:MyLanguage/User:'+user._json.username, '_blank');
-  // };
 
   const validateAnswer = (rule, value) => {
     const isValidYear = /^(19[0-9][0-9]|20[0-1][0-9]|202[0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
@@ -438,24 +356,20 @@ let PrincipalScreen = (props) => {
                       </Radio.Button>
                     ))}
                   </Radio.Group>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'10vw' }}>
-                    <Dropdown menu={menuProps} placement="bottom" size={size} arrow={{ pointAtCenter: true }}>
-                      <Button style={{ width:'120px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
-                        icon={<UserOutlined/>}> Perfil </Button>
-                    </Dropdown>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'0.5vw' }}>
                     <Modal
                         title="Clasificación de rachas de preguntas contestadas"
                         open={seeStreaks}
                         onCancel={() => setSeeStreaks(false)}
                         footer={null}
-                      >
-                        <Table columns={columns} dataSource={dataStreaks} />
-                      </Modal>
-                    {/* <Button style={{marginLeft:'500px'}} 
-                      type="primary" icon={<SolutionOutlined />} size={size} onClick={fetchStreaks}>
-                        Ver mi clasificación
+                    >
+                      <TableComponent streaks={streaks}></TableComponent>
+                    </Modal>
+                    <Button style={{marginLeft:'50px'}} 
+                      type="primary" icon={<SolutionOutlined />} size={size} onClick={()=>setSeeStreaks(true)}>
+                        Ver clasificación
                       </Button>
-                     */}
+                    
                   </div>
 
                 </div>
@@ -581,14 +495,6 @@ let PrincipalScreen = (props) => {
 
             
             <Content style={{marginBottom:'13px'}} >
-            {/* {!giveup && answeredQuestions > 0 && (
-              <Alert
-                message={`¡Llevas ${answeredQuestions} preguntas contestadas seguidas!`}
-                type="success"
-                showIcon
-                style={{ width: 700, maxWidth:'100%', textAlign: 'center' }} 
-              />
-            )} */}
             </Content>
           </Content>
           

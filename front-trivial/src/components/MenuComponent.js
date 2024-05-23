@@ -23,8 +23,7 @@ const MenuComponent = (props) => {
         {
           label: labelLog,
           key: 'logout',
-          icon: iconLog,
-          visible: user!==null,
+          icon: iconLog
         },
       ];
 
