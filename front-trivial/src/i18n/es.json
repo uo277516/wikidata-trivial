@@ -21,6 +21,21 @@
     "menu.changeLanguage": "Cambiar Idioma",
     "menu.spanish": "Español",
     "menu.english": "Inglés",
-    "menu.profile": "Perfil de Wikimedia"
+    "menu.profile": "Perfil de Wikimedia",
+
+
+    "table.username": "Nombre de usuario",
+    "table.questions": "Preguntas",
+    "table.category": "Categoría",
+    "table.deporte": "deporte",
+    "table.música": "música",
+    "table.investigación": "investigación",
+    "table.date": "Fecha",
+    "table.rakings": "Resultados generales",
+    "table.myRanking": "Mis resultados",
+    "table.today": "Hoy",
+    "table.week": "Esta semana",
+    "table.month": "Este mes",
+    "table.all": "Completa"
 }
   

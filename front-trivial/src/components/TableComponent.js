@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Table, Switch, Segmented, Space } from 'antd';
 import moment from 'moment';
 import axios from 'axios'; 
+import { useTranslation } from 'react-i18next';
+
+
 const TableComponent = (props) => {
     let {user} = props;
     const [myClasification, setMyClasification] = useState(false);
     const [streaks, setStreaks] = useState([]);
     const [filteredStreaks, setFilteredStreaks] = useState([]);
-    const [filteredOption, setFilteredOption] = useState(0); // Opción predeterminada
+    const [filteredOption, setFilteredOption] = useState(0); 
+    const { t } = useTranslation();
+    
 
     useEffect(() => {
         fetchStreaks();
@@ -59,38 +64,38 @@ const TableComponent = (props) => {
 
     let columns = [
         {
-            title: 'Nombre de usuario',
+            title: t('table.username'),
             dataIndex: 'username',
             key: 'username'
         },
         {
-            title: 'Preguntas',
+            title: t('table.questions'),
             dataIndex: 'racha',
             key: 'racha',
             sorter: (a, b) => a.racha - b.racha
         },
         {
-            title: 'Categoría',
+            title: t('table.category'),
             dataIndex: 'categoria',
             key: 'categoria',
             filters: [
                 {
-                    text: 'deporte',
-                    value: 'deporte',
+                    text: t('table.deporte'),
+                    value: t('table.deporte'),
                 },
                 {
-                    text: 'música',
-                    value: 'música',
+                    text: t('table.música'),
+                    value: t('table.música'),
                 },
                 {
-                    text: 'investigación',
-                    value: 'investigación',
+                    text: t('table.investigación'),
+                    value: t('table.investigación'),
                 },
             ],
             onFilter: (value, record) => record.categoria.indexOf(value) === 0,
         },
         {
-            title: 'Fecha',
+            title: t('table.date'),
             dataIndex: 'fecha',
             key: 'fecha',
             sorter: (a, b) => moment(a.fecha, 'DD/MM/YYYY').unix() - moment(b.fecha, 'DD/MM/YYYY').unix(),
@@ -100,7 +105,7 @@ const TableComponent = (props) => {
     let dataStreaks = filteredStreaks.map(item => ({
         username: item.username,
         racha: item.streak,
-        categoria: item.category,
+        categoria: t(`table.${item.category}`),
         fecha: moment(item.date).format('DD/MM/YYYY')
     }));
 
@@ -111,7 +116,7 @@ const TableComponent = (props) => {
 
         dataStreaks = filteredStreaks.map(item => ({
             racha: item.streak,
-            categoria: item.category,
+            categoria: t(`table.${item.category}`),
             fecha: moment(item.date).format('DD/MM/YYYY')
         }));
     }
@@ -123,8 +128,8 @@ const TableComponent = (props) => {
                 <Switch
                     checked={myClasification}
                     onChange={() => setMyClasification(!myClasification)}
-                    checkedChildren="Resultados generales"
-                    unCheckedChildren="Mis resultados"
+                    checkedChildren={t('table.rakings')}
+                    unCheckedChildren={t('table.myRanking')}
                     style={{ marginBottom: '1em', marginTop: '1em', width:'11em'}}
                 />
                 <Segmented
@@ -132,19 +137,19 @@ const TableComponent = (props) => {
                     onChange={handleSegmentedChange}
                     options={[
                         {
-                            label: 'Hoy',
+                            label: t('table.today'),
                             value: 0,
                         },
                         {
-                            label: 'Esta semana',
+                            label: t('table.week'),
                             value: 1,
                         },
                         {
-                            label: 'Este mes',
+                            label: t('table.month'),
                             value: 2,
                         },
                         {
-                            label: 'Completa',
+                            label: t('table.all'),
                             value: 3,
                         },
                     ]}

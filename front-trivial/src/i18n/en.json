@@ -21,6 +21,20 @@
     "menu.changeLanguage": "Change Language",
     "menu.spanish": "Spanish",
     "menu.english": "English",
-    "menu.profile": "Wikimedia Profile"
+    "menu.profile": "Wikimedia Profile",
+
+    "table.username": "Username",
+    "table.questions": "Questions",
+    "table.category": "Category",
+    "table.deporte": "sport",
+    "table.música": "music",
+    "table.investigación": "investigation",
+    "table.date": "Date",
+    "table.rakings": "Overall results",
+    "table.myRanking": "My results",
+    "table.today": "Today",
+    "table.week": "This week",
+    "table.month": "This month",
+    "table.all": "All"
 }
   
