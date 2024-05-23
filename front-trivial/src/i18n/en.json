@@ -77,14 +77,13 @@
     "question.buttonSend": "Send Answer",
 
 
-    "researchers.born": "Where was born the researcher called",
-    "researchers.study": "Where did study the researcher called",
-    "footballer.height": "What is the height in centimeters of the footballer",
-    "footballers.goals": "How many goals has scored throughout their career the footballer called",
-    "footballers.position": "What is one of the main positions that usually plays on the field the footballer called",
-    "groups.year": "What is the year was founded the group called",
-    "groups.disco": "What is the record label (or one of them) of the group"
-
+    "/P19": "Where was researcher {{label}} born?",
+    "/P69": "Where did the researcher {{label}} study?",
+    "/P2048": "What is the height in centimeters of the footballer {{label}}?",
+    "/P6509": "How many goals has the footballer called {{label}} scored throughout their career?",
+    "/P413": "What is one of the main positions that the footballer {{label}} usually plays on the field?",
+    "/P571": "In what year was the group {{label}} founded?",
+    "/P264": "What is the record label (or one of them) of the group {{label}}?"
 
     
 }

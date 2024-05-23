@@ -10,7 +10,7 @@ const {Title, Paragraph, Link} = Typography;
 
 let QuestionCard = (props) => {
 
-    let {imagenUrl, questionSelected, entity} = props;
+    let {imagenUrl, questionSelected, entity, label, relationSelected} = props;
 
     const cardStyle = {
     maxWidth: '100%', 
@@ -27,7 +27,10 @@ let QuestionCard = (props) => {
   const { t } = useTranslation();
 
 
- 
+    console.log("ayayy" + label);
+    console.log("ayayy" + relationSelected);
+    console.log("ayayy" + questionSelected);
+
 
     const error_url = vars.fallback;
       
@@ -56,7 +59,7 @@ let QuestionCard = (props) => {
                 </div>
                 <Flex vertical align="flex-end" justify="space-between" style={{ padding: 32 }}>
                     <Title level={3} style={{ fontSize: '20px', marginBottom: '25px', marginTop: '50px' }}>
-                        {questionSelected}
+                        {t(relationSelected, {label})}
                     </Title>
                     <Paragraph>
                         {t('card.info')}

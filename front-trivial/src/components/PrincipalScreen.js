@@ -31,6 +31,8 @@ let PrincipalScreen = (props) => {
   let [questionSelected, setQuestionSelected] = useState(null);
   let [entitySelected, setEntitySelected] = useState(null);
   let [relationSelected, setRelationSelected] = useState(null);
+  let [labelSelected, setLabelSelected] = useState(null);
+
   let [imagenUrl, setImagenUrl] = useState(null);
 
   const [loading, setLoading] = useState(false); //controlar si se está cargando la pregunta
@@ -124,15 +126,18 @@ let PrincipalScreen = (props) => {
       console.log("a cargar preguntas de..." + selectedCategory);
       setLoading(true); 
       fetchFunction()
-        .then( ({question, entity, relation, imagenUrl}) => {
+        .then( ({question, entity, relation, imagenUrl, persona}) => {
           setQuestionSelected(question);
           setEntitySelected(entity);
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
+          setLabelSelected(persona);
           console.log('Pregunta seleccionada:', question);
           console.log("La relacion es "+relation);
           console.log("La entidad es "+entity);
           console.log("y la imagen" + imagenUrl);
+          console.log("nombre persona" + persona);
+          
           
         })
         .catch(error => {
@@ -353,7 +358,8 @@ let PrincipalScreen = (props) => {
       question: `${labelPrefix} ${item[labelProperty]}?`,
       entity: item[entityProperty],
       relation,
-      imagenUrl: item.imagenUrl
+      imagenUrl: item.imagenUrl,
+      persona: item[labelProperty]
     }));
   };
   
@@ -369,10 +375,10 @@ let PrincipalScreen = (props) => {
       if (data) {
         const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
         const randomNumber = Math.floor(Math.random() * questions.length);
-        const { question, entity, relation, imagenUrl } = questions[randomNumber];
+        const { question, entity, relation, imagenUrl, persona } = questions[randomNumber];
         
   
-        return { question, entity, relation, imagenUrl };
+        return { question, entity, relation, imagenUrl, persona };
       } else {
         throw new Error("Error fetching "+entitiesName+" data");
       }
@@ -386,43 +392,23 @@ let PrincipalScreen = (props) => {
   //preguntas investigadores
   const fetchQuestionsResearchers = async () => {
     const relations = ["/P19", "/P69"];   //nacer, estudiar
-    const messages = [t('researchers.born'), t('researchers.study')];
+    const messages = ["Dónde nació el/la investigador/a", "Dónde estudió el/la investigador/a"];
     return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
   };
   
   
   const fetchQuestionsFootballers = async () => {
     const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
-    const messages = [t('footballers.height'), t('footballers.goals'), t('footballers.position')];
+    const messages = ["Cuál es la altura en centímetros de la/el futbolista", "Cuántos goles ha marcado a lo largo de su carrera el futbolista", "Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista"];
     return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
   };
   
   const fetchQuestionsGroups = async () => {
     const relations = ["/P571", "/P264"]; //fecha de fundacion (año)
-    const messages = [t('groups.year'), t('groups.disco')];
+    const messages = ["Cuál es el año en el que se fundó el grupo", "Cuál es el sello discográfico (o uno de ellos) del grupo"];
     return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
   };
-
-  //useEffect(() => {},[i18n.language])
   
-  
-  const translateText = (text) => {
-    axios.post(`https://libretranslate.de/translate`, {
-      q: text,
-      source: 'auto',
-      target: i18n.language // Idioma al que se desea traducir (puedes cambiarlo según tus necesidades)
-    })
-    .then((response) => {
-      console.log(response);
-      setQuestionSelected(response.data.translatedText);
-    })
-    .catch((error) => {
-      console.error('Error translating text:', error);
-    });
-  };
-
-  translateText(questionSelected);
-
 
 
 
@@ -527,7 +513,8 @@ let PrincipalScreen = (props) => {
                         />
                     ) : (
                         questionSelected && (
-                            <QuestionCard imagenUrl={imagenUrl} questionSelected={questionSelected} entity={entitySelected}/>
+                            <QuestionCard imagenUrl={imagenUrl} questionSelected={questionSelected} relationSelected={relationSelected}
+                            label={labelSelected} entity={entitySelected}/>
                         )
                     )
                 )}
