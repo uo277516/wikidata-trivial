@@ -7,16 +7,23 @@ import { useTranslation } from 'react-i18next';
 
 const MenuComponent = (props) => {
     let {user} = props; 
+    const [current, setCurrent] = useState(null);
+
+    const [language, setLanguage] = useState('es');
+    const { t, i18n } = useTranslation();
+
     const href = user ? 'https://meta.wikimedia.org/wiki/Special:MyLanguage/User:' + user._json.username : '#';
-    const labelLog = user ? 'Cerrar sesión' : 'Iniciar sesión';
+    const labelLog = user ? t('menu.logout') : t('login.log_in');
     const iconLog = user ? React.createElement(LogoutOutlined) : React.createElement(LoginOutlined);
+
+    
     
     const items = [
         {
           key: 'perfil',
           label: (
               <a href={href} target="_blank" rel="noopener noreferrer">
-              Perfil de Wikimedia
+              {t('menu.profile')}
               </a>
           ),
           icon: React.createElement(MailOutlined),
@@ -27,21 +34,18 @@ const MenuComponent = (props) => {
           icon: iconLog
         },
         {
-          label: 'Cambiar idioma',
+          label: t('menu.changeLanguage'),
           key: 'language',
           icon: React.createElement(TranslationOutlined),
           children: [
-            { label: 'Español', key: 'language:1' },
-            { label: 'Inglés', key: 'language:2' },
+            { label: t('menu.spanish'), key: 'language:1' },
+            { label: t('menu.english'), key: 'language:2' },
           ],
         }
 
       ];
 
-  const [current, setCurrent] = useState(null);
-
-  const [language, setLanguage] = useState('es');
-  const { t, i18n } = useTranslation();
+  
 
   const onClick = (e) => {
     setCurrent(null);

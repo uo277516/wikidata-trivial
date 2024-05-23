@@ -5,9 +5,11 @@ import logo from '../logo.jpg';
 import PrincipalScreen from './PrincipalScreen.js';
 import LoginComponent from './LoginComponent.js';
 import {SolutionOutlined } from '@ant-design/icons';
-import '../css/styles.css'; // Importa tu archivo CSS aquí
+import '../css/styles.css'; 
 import MenuComponent from './MenuComponent.js';
 import TableComponent from './TableComponent.js';
+import { useTranslation } from 'react-i18next';
+
 
 
 const { Title, Paragraph, Link} = Typography;
@@ -19,15 +21,16 @@ const CategorySelectionPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('investigación');
   const [user, setUser] = useState(null);
   const [seeStreaks, setSeeStreaks] = useState(false);
+  const { t } = useTranslation();
+
 
 
 
   const handleStartGame = (selectedCategory) => {
     Modal.confirm({
-      title: 'Comenzar juego',
-      content: `Estás a punto de comenzar el juego con la categoría "${selectedCategory}". ¿Estás seguro?`,
+      title: t('cat.startButton'),
+      content: t('cat.modalStart1', { selectedCategory: t(`cat.${selectedCategory}`) }),
       onOk: () => {
-        console.log(`Comenzando el juego con la categoría "${selectedCategory}"`);
         setChange(false);
       },
       onCancel: () => {}
@@ -47,7 +50,6 @@ const CategorySelectionPage = () => {
   };
 
   useEffect(() => {    
-    console.log("cada vez que recargo en seleccion dice patata :P");
     checkAuthentication();
   }, []);
 
@@ -76,7 +78,7 @@ const CategorySelectionPage = () => {
                   </Sider>
                   <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
                     <Title level={1} style={{ marginTop: '20px', fontSize: '5vh', fontWeight: 'bold' }}>Wiki Trivial</Title>
-                    <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>Juego de preguntas y respuestas</Title>
+                    <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>{t('login.title')}</Title>
                   </Content>
                 </Layout>
               </Header>
@@ -87,9 +89,9 @@ const CategorySelectionPage = () => {
                   alignItems: 'center',
                   paddingBottom: '10px'
                   }}>
-                <Title level={1} style={{ color: '#004aad', marginTop: '10px' }}>¡Bienvenid@, {user.displayName}!</Title>
+                <Title level={1} style={{ color: '#004aad', marginTop: '10px' }}>{t('cat.welcome')} {user.displayName}!</Title>
                   <Modal
-                        title="Clasificación de rachas de preguntas contestadas"
+                        title={t('cat.tableTitle')}
                         open={seeStreaks}
                         onCancel={() => setSeeStreaks(false)}
                         footer={null}
@@ -99,13 +101,13 @@ const CategorySelectionPage = () => {
                     </Modal>
                     <Button style={{marginRight:'60px'}} 
                       type="primary" icon={<SolutionOutlined />} size='large' onClick={()=>setSeeStreaks(true)}>
-                      Ver clasificación
+                      {t('cat.buttonClasification')}
                     </Button>
                 </div>
                 <Paragraph style={{ fontSize: "20px"}}>
-                  La información de las siguientes preguntas se ha recogido de
+                  {t('login.info1')}
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
-                  Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.
+                  {t('cat.info')}
                 </Paragraph>
                 
                 <Content width="100%" style={contentStyle}>
@@ -117,7 +119,7 @@ const CategorySelectionPage = () => {
                       {categories.map((category) => (
                         <Radio.Button key={category} value={category}
                           style={{ display: 'block', width: '40%', margin: '0 auto 10px' }}>
-                          {category}
+                          {t(`cat.${category}`)}
                         </Radio.Button>
                       ))}
                     </Radio.Group>
@@ -126,7 +128,7 @@ const CategorySelectionPage = () => {
                       size="large"
                       onClick={() => handleStartGame(selectedCategory)}
                       style={{ marginTop: '20px' }}>
-                      Comenzar juego
+                      {t('cat.startButton')}
                     </Button>
                   </div>
   
