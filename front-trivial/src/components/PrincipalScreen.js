@@ -1,6 +1,6 @@
 import '../App.css';
-import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm, Dropdown,
-   Card, Statistic, message
+import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm,
+   Card, Statistic
 } from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
@@ -22,8 +22,6 @@ const { Header, Footer, Sider, Content } = Layout;
 
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
-
-  const [size, setSize] = useState('large'); 
 
 
   //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
@@ -55,9 +53,6 @@ let PrincipalScreen = (props) => {
   const [streaks, setStreaks] = useState([])
   const [seeStreaks, setSeeStreaks] = useState(false);
   
-  
-  
-
 
   const fetchStreaks = async () => {
     try {
@@ -366,7 +361,7 @@ let PrincipalScreen = (props) => {
                       <TableComponent user={user}></TableComponent>
                     </Modal>
                     <Button style={{marginLeft:'50px'}} 
-                      type="primary" icon={<SolutionOutlined />} size={size} onClick={()=>setSeeStreaks(true)}>
+                      type="primary" icon={<SolutionOutlined />} size='large' onClick={()=>setSeeStreaks(true)}>
                         Ver clasificación
                       </Button>
                     

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Switch, Segmented, Space } from 'antd';
 import moment from 'moment';
-import axios from 'axios'; // Asegúrate de importar axios si aún no lo has hecho
-
+import axios from 'axios'; 
 const TableComponent = (props) => {
     let {user} = props;
     const [myClasification, setMyClasification] = useState(false);
@@ -47,7 +46,7 @@ const TableComponent = (props) => {
             case 2: //Este mes
                 filteredData = filteredData.filter(item => moment(item.date).isSame(moment(), 'month'));
                 break;
-            default: //Completa o cualquier otro valor no considerado
+            default: 
                 break;
         }
 
@@ -106,7 +105,7 @@ const TableComponent = (props) => {
     }));
 
 
-    //Añadir columna si clasificaciones generales
+    //Añadir columna si clasificaciones usuario
     if (myClasification) {
         columns = columns.slice(1);
 

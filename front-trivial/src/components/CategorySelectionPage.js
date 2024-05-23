@@ -88,22 +88,6 @@ const CategorySelectionPage = () => {
                   paddingBottom: '10px'
                   }}>
                 <Title level={1} style={{ color: '#004aad', marginTop: '10px' }}>¡Bienvenid@, {user.displayName}!</Title>
-                {/* <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginRight:'80px' }}>
-                    <Button
-                      style={{ width:'210px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
-                      icon={<ExportOutlined/>}
-                      onClick={handleProfile}>
-                        Perfil de Wikimedia
-                    </Button>
-                    <Button
-                      type="primary"
-                      icon={<LogoutOutlined />}
-                      onClick={() => logOut()}
-                      style={{ width:'110px', height: '43px', fontSize:'16px', justifyContent: 'left'}}
-                    >
-                      Log out
-                    </Button>
-                  </div> */}
                   <Modal
                         title="Clasificación de rachas de preguntas contestadas"
                         open={seeStreaks}
@@ -112,11 +96,11 @@ const CategorySelectionPage = () => {
                         width={900}
                     >
                       <TableComponent user={user}></TableComponent>
-                      </Modal>
-                      <Button style={{marginRight:'60px'}} 
+                    </Modal>
+                    <Button style={{marginRight:'60px'}} 
                       type="primary" icon={<SolutionOutlined />} size='large' onClick={()=>setSeeStreaks(true)}>
-                        Ver clasificación
-                      </Button>
+                      Ver clasificación
+                    </Button>
                 </div>
                 <Paragraph style={{ fontSize: "20px"}}>
                   La información de las siguientes preguntas se ha recogido de
