@@ -46,11 +46,11 @@ const LoginComponent = () => {
       if (response.ok) {
         return await response.json();
       } else {
-        console.error('Error al obtener los datos del usuario:', response.statusText);
+        console.error('Error fetching user data', response.statusText);
         return null;
       }
     } catch (error) {
-      console.error('Error al obtener los datos del usuario:', error);
+      console.error('Error fetching the data of the user', error);
       return null;
     }
   };

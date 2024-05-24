@@ -61,9 +61,7 @@ let PrincipalScreen = (props) => {
   const fetchStreaks = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/getStreaks/${user._json.username}`);
-
       setStreaks(response.data);
-      console.log(streaks);
     } catch (error) {
       console.error('Error fetching streaks:', error);
     }
@@ -123,7 +121,7 @@ let PrincipalScreen = (props) => {
     const fetchFunction = categoryToFetchFunction[selectedCategory];
   
     if (fetchFunction) {
-      console.log("a cargar preguntas de..." + selectedCategory);
+      console.log("Loading questions of..." + selectedCategory);
       setLoading(true); 
       fetchFunction()
         .then( ({question, entity, relation, imagenUrl, labelEntity}) => {
@@ -132,16 +130,8 @@ let PrincipalScreen = (props) => {
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
           setLabelSelected(labelEntity);
-          console.log('Pregunta seleccionada:', question);
-          console.log("La relacion es "+relation);
-          console.log("La entidad es "+entity);
-          console.log("y la imagen" + imagenUrl);
-          
-          
         })
         .catch(error => {
-          //Cojo el error de que no se pudieron cargar por lo que sea, notifico y ademas en el Alert lo pongo
-          //poner el questionerror a true y asi poner abajo o algo asi...
           notification.error({message: t('question.error'), description: t('question.error.description'), placement: 'top'});
           setQuestionError(true);
         })
@@ -160,7 +150,7 @@ let PrincipalScreen = (props) => {
   useEffect(() => {
       //si recargo vuelve a investigadores
       fetchQuestions();
-      console.log("cada vez que recargo dice patata :P");
+      console.log("Loading page... :P");
   }, []);
   
 
@@ -198,8 +188,6 @@ let PrincipalScreen = (props) => {
         setAnsweredQuestions(answeredQuestions + 1);
         form.resetFields();
 
-        console.log(questionSelected, values.respuesta, values.urldereferencia);
-
         //vuelvo a cargar
         fetchQuestions(selCategory);
 
@@ -218,9 +206,9 @@ let PrincipalScreen = (props) => {
 
   //método para pruebas
   const asyncTestFunction = async () => {
-    console.log("Iniciando operación asíncrona...");
+    console.log("Initiating asynchronous operation...");
     await new Promise(resolve => setTimeout(resolve, 3000)); 
-    console.log("Operación asíncrona completada.");
+    console.log("Asynchronous operation completed.");
   };
   
   
@@ -289,7 +277,6 @@ let PrincipalScreen = (props) => {
   const validateAnswer = (rule, value) => {
     const isValidYear = /^(19[0-9][0-9]|20[0-1][0-9]|202[0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
     const answerIsYear = questionSelected.includes('año') || questionSelected.includes('year');
-    console.log(answerIsYear);
     if (answerIsYear && !isValidYear) {
       return Promise.reject(t('question.yearNotValid'));
     }
