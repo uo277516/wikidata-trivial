@@ -13,23 +13,18 @@ let QuestionCard = (props) => {
     let {imagenUrl, questionSelected, entity, label, relationSelected} = props;
 
     const cardStyle = {
-    maxWidth: '100%', 
-    width: '80vw',
-    height: '40vh'
-  };
+        maxWidth: '100%', 
+        width: '80vw',
+        height: '40vh'
+    };
 
-  const imgStyle = {
-    width: '30vw',
-    height:' 40vh',
-    objectFit:'cover'
-  };
+    const imgStyle = {
+        width: '30vw',
+        height:' 40vh',
+        objectFit:'cover'
+    };
 
-  const { t } = useTranslation();
-
-
-    console.log("ayayy" + label);
-    console.log("ayayy" + relationSelected);
-    console.log("ayayy" + questionSelected);
+    const { t } = useTranslation();
 
 
     const error_url = vars.fallback;

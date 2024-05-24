@@ -60,7 +60,8 @@ const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, rel
     question: `¿${labelPrefix} ${item[labelProperty]}?`,
     entity: item[entityProperty],
     relation,
-    imagenUrl: item.imagenUrl
+    imagenUrl: item.imagenUrl,
+    labelEntity: item[labelProperty]
   }));
 };
 
@@ -76,10 +77,10 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
     if (data) {
       const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
       const randomNumber = Math.floor(Math.random() * questions.length);
-      const { question, entity, relation, imagenUrl } = questions[randomNumber];
+      const { question, entity, relation, imagenUrl, labelEntity } = questions[randomNumber];
       
 
-      return { question, entity, relation, imagenUrl };
+      return { question, entity, relation, imagenUrl, labelEntity };
     } else {
       throw new Error("Error fetching "+entitiesName+" data");
     }
@@ -93,20 +94,20 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
 //preguntas investigadores
 const fetchQuestionsResearchers = async () => {
   const relations = ["/P19", "/P69"];   //nacer, estudiar
-  const messages = ['Dónde nació el/la investigador/a', 'Dónde estudió el/la investigador/a'];
+  const messages = ["Dónde nació el/la investigador/a", "Dónde estudió el/la investigador/a"];
   return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
 };
 
 
 const fetchQuestionsFootballers = async () => {
   const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
-  const messages = ['Cuál es la altura en centímetros de la/el futbolista', 'Cuántos goles ha marcado a lo largo de su carrera el futbolista', 'Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista'];
+  const messages = ["Cuál es la altura en centímetros de la/el futbolista", "Cuántos goles ha marcado a lo largo de su carrera el futbolista", "Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista"];
   return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
 };
 
 const fetchQuestionsGroups = async () => {
   const relations = ["/P571", "/P264"]; //fecha de fundacion (año)
-  const messages = ['Cuál es el año en el que se fundó el grupo', 'Cuál es el sello discográfico (o uno de ellos) del grupo'];
+  const messages = ["Cuál es el año en el que se fundó el grupo", "Cuál es el sello discográfico (o uno de ellos) del grupo"];
   return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
 };
 

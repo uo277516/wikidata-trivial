@@ -46,7 +46,7 @@
     "question.record.description": "You have surpassed your record of {{firstStreak}} questions! Keep it up",
     "question.error": "Error loading questions",
     "question.error.description": "An error has occurred. Please try again later.",
-    "question.send": "Answer sent",
+    "question.send": "Answer Sent",
     "question.sendDescription": "The information provided in your answer has been added to Wikidata.",
     "question.giveup": "You have given up.",
     "question.msgGiveUp": "Number of consecutive correct answers: {{answeredQuestions}}",
@@ -73,7 +73,7 @@
     "yes": "Yes",
     "no": "No",
     "answer": "Answer",
-    "question.ranking": "Question streak",
+    "question.ranking": "Question Streak",
     "question.buttonSend": "Send Answer",
 
 

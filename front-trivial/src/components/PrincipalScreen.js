@@ -5,7 +5,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
-//import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
@@ -23,7 +23,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
-  const {i18n, t } = useTranslation();
+  const { t } = useTranslation();
 
 
   //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
@@ -126,17 +126,16 @@ let PrincipalScreen = (props) => {
       console.log("a cargar preguntas de..." + selectedCategory);
       setLoading(true); 
       fetchFunction()
-        .then( ({question, entity, relation, imagenUrl, persona}) => {
+        .then( ({question, entity, relation, imagenUrl, labelEntity}) => {
           setQuestionSelected(question);
           setEntitySelected(entity);
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
-          setLabelSelected(persona);
+          setLabelSelected(labelEntity);
           console.log('Pregunta seleccionada:', question);
           console.log("La relacion es "+relation);
           console.log("La entidad es "+entity);
           console.log("y la imagen" + imagenUrl);
-          console.log("nombre persona" + persona);
           
           
         })
@@ -298,116 +297,7 @@ let PrincipalScreen = (props) => {
   };
 
 
-  //-----------QUESTIONS----------
-  const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
-    let endpoint=null;
-    if (selCategory==="futbolistas") {
-      endpoint='footballers';
-    } else if (selCategory==="investigadores") {
-      endpoint='researchers';
-    } else if (selCategory==="raperos") {
-      endpoint='rappers';
-    }
-    console.log(endpoint);
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ footballerId, property, value, referenceURL, token, token_secret })
-      });
   
-      if (!response.ok) {
-        throw new Error('Failed to edit entity');
-      }
-  
-      const data = await response.json();
-      return data.result;
-    } catch (error) {
-      console.error('Error editing entity:', error);
-      throw error;
-    }
-  };
-  
-  
-  
-  const fetchData = async (entity, endpoint) => {
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + entity + endpoint);
-      if (response.ok) {
-        const jsonData = await response.json();
-        return jsonData.results.bindings;
-      } else {
-        console.error("Error fetching data:", response.statusText);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
-    }
-  };
-  
-  //formar entidad de devolver con la pregunta la entidad y la relacion para poder mandar la edicion en front
-  const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, relation) => {
-    if (!data) return [];
-  
-    console.log(data);
-    
-    return data.map((item) => ({
-      question: `${labelPrefix} ${item[labelProperty]}?`,
-      entity: item[entityProperty],
-      relation,
-      imagenUrl: item.imagenUrl,
-      persona: item[labelProperty]
-    }));
-  };
-  
-  //metodo general para crear las preguntas pasando los parmetros
-  const createQuestions = async (relations, messages, entitiesName, jsonName, jsonLabel) => {
-    try {
-      const random = Math.floor(Math.random() * relations.length); 
-      const relationChosed = relations[random];
-      const questionMsg = messages[random];
-  
-      const data = await fetchData(entitiesName, relationChosed);
-  
-      if (data) {
-        const questions = generateQuestions(data, questionMsg, jsonName, jsonLabel, relationChosed);
-        const randomNumber = Math.floor(Math.random() * questions.length);
-        const { question, entity, relation, imagenUrl, persona } = questions[randomNumber];
-        
-  
-        return { question, entity, relation, imagenUrl, persona };
-      } else {
-        throw new Error("Error fetching "+entitiesName+" data");
-      }
-    } catch (error) {
-      console.error("Error fetching "+entitiesName+" questions:", error);
-      throw error;
-    }
-  
-  };
-  
-  //preguntas investigadores
-  const fetchQuestionsResearchers = async () => {
-    const relations = ["/P19", "/P69"];   //nacer, estudiar
-    const messages = ["Dónde nació el/la investigador/a", "Dónde estudió el/la investigador/a"];
-    return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
-  };
-  
-  
-  const fetchQuestionsFootballers = async () => {
-    const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
-    const messages = ["Cuál es la altura en centímetros de la/el futbolista", "Cuántos goles ha marcado a lo largo de su carrera el futbolista", "Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista"];
-    return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
-  };
-  
-  const fetchQuestionsGroups = async () => {
-    const relations = ["/P571", "/P264"]; //fecha de fundacion (año)
-    const messages = ["Cuál es el año en el que se fundó el grupo", "Cuál es el sello discográfico (o uno de ellos) del grupo"];
-    return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
-  };
   
 
 
