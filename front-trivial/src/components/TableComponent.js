@@ -103,6 +103,7 @@ const TableComponent = (props) => {
     ];
 
     let dataStreaks = filteredStreaks.map(item => ({
+        key: item.id,
         username: item.username,
         racha: item.streak,
         categoria: t(`table.${item.category}`),
@@ -115,6 +116,7 @@ const TableComponent = (props) => {
         columns = columns.slice(1);
 
         dataStreaks = filteredStreaks.map(item => ({
+            key: item.id,
             racha: item.streak,
             categoria: t(`table.${item.category}`),
             fecha: moment(item.date).format('DD/MM/YYYY')
