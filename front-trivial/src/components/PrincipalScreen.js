@@ -1,6 +1,6 @@
 import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm,
-   Card, Statistic
+   Card, Statistic, DatePicker
 } from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ import axios from 'axios';
 import MenuComponent from './MenuComponent.js';
 import TableComponent from './TableComponent.js';
 import { useTranslation } from 'react-i18next';
-
+import dayjs from 'dayjs';
 
 
 //Layout y letras
@@ -56,6 +56,11 @@ let PrincipalScreen = (props) => {
   //Para la clasificación
   const [streaks, setStreaks] = useState([])
   const [seeStreaks, setSeeStreaks] = useState(false);
+
+  //Para el datePicker
+  const [answerIsYear, setAnswerIsYear] = useState(false);
+  const minDate = dayjs(`1900-01-01`);
+  const maxDate = dayjs(`2024-12-31`);
   
 
   const fetchStreaks = async () => {
@@ -130,6 +135,11 @@ let PrincipalScreen = (props) => {
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
           setLabelSelected(labelEntity);
+          if (question.includes('año') || question.includes('year')) {
+            setAnswerIsYear(true);
+          } else {
+            setAnswerIsYear(false);
+          }
         })
         .catch(error => {
           notification.error({message: t('question.error'), description: t('question.error.description'), placement: 'top'});
@@ -169,6 +179,10 @@ let PrincipalScreen = (props) => {
     try {
       const values = await form.validateFields(); //validar campos
       if (values.respuesta && values.urldereferencia) {
+
+        if (answerIsYear) {
+          values.respuesta = values.respuesta.year();
+        }
         
         //activar rueda enviar
         handleLoadingState(true);
@@ -274,20 +288,9 @@ let PrincipalScreen = (props) => {
   };
 
 
-  const validateAnswer = (rule, value) => {
-    const isValidYear = /^(19[0-9][0-9]|20[0-1][0-9]|202[0-4])$/.test(value);  //expresion regular añoñs rango 1900-2024
-    const answerIsYear = questionSelected.includes('año') || questionSelected.includes('year');
-    if (answerIsYear && !isValidYear) {
-      return Promise.reject(t('question.yearNotValid'));
-    }
-    return Promise.resolve();
-  };
-
-
-  
   
 
-
+  //Crear HTML de la página web 
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -428,11 +431,20 @@ let PrincipalScreen = (props) => {
                       label={t('answer')}
                       name="respuesta"
                       rules={[
-                        { required: true, message: t('question.required') },
-                        { validator: (rule, value) => validateAnswer(rule,value) }, //validar
+                        { required: true, message: t('question.required') }
                       ]}
-                    >
-                      <Input placeholder={t('question.answer')}></Input>
+                      >
+                      {answerIsYear ? (
+                        <DatePicker 
+                          picker="year" 
+                          placeholder={t('question.selectYear')} 
+                          minDate={minDate}
+                          maxDate={maxDate}
+                          style={{ width: '300px' }} 
+                          />
+                      ) : (
+                        <Input placeholder={t('question.answer')} />
+                      )}
                     </Form.Item>
 
                     <Form.Item style={formStyle}
