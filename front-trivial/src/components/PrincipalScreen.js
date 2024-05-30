@@ -5,7 +5,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups } from '../services/questionsService.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, edityEntity, fetchQuestionsGroups } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
@@ -189,17 +189,21 @@ let PrincipalScreen = (props) => {
         
         //---ENVIAR A LA API---
         //lo comento pa hacer pruebas, llamaria a este y no al siguiente
-        //editEntity(selCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
-        await asyncTestFunction();
+        try {
+          //editEntity(selCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+          await asyncTestFunction();
+          notification.info({message: t('question.send'), 
+            description: t('question.sendDescription'), placement: 'topRight'});
+          setAnsweredQuestions(answeredQuestions + 1);
+        } catch (error) {
+          notification.error({message: t('question.noSend'), 
+            description: t('question.noSendDescription'), placement: 'topRight'});
+        }
 
         //Desactivar rueda
         handleLoadingState(false);
 
-        notification.info({message: t('question.send'), 
-          description: t('question.sendDescription'), placement: 'topRight'});
-
         //sumo respuestas y vacío
-        setAnsweredQuestions(answeredQuestions + 1);
         form.resetFields();
 
         //vuelvo a cargar
@@ -223,6 +227,7 @@ let PrincipalScreen = (props) => {
     console.log("Initiating asynchronous operation...");
     await new Promise(resolve => setTimeout(resolve, 3000)); 
     console.log("Asynchronous operation completed.");
+    // throw new Error("error de prueba");
   };
   
   

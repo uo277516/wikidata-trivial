@@ -48,6 +48,8 @@
     "question.error.description": "An error has occurred. Please try again later.",
     "question.send": "Answer Sent",
     "question.sendDescription": "The information provided in your answer has been added to Wikidata.",
+    "question.noSend": "Error sending response",
+    "question.noSendDescription": "The answer could not be sent to Wikidata at this time. The question streak has not been increased. Another question will be re-uploaded.",
     "question.giveup": "You have given up.",
     "question.msgGiveUp": "Number of consecutive correct answers: {{answeredQuestions}}",
     "question.changeCat": "You are about to change category",
@@ -87,6 +89,5 @@
     "/P571": "In what year was the group {{label}} founded?",
     "/P264": "What is the record label (or one of them) of the group {{label}}?"
 
-    
 }
   

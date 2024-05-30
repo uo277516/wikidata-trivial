@@ -49,6 +49,8 @@
     "question.error.description": "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
     "question.send": "Respuesta enviada",
     "question.sendDescription": "La información aportada en su respuesta se ha añadido a Wikidata.",
+    "question.noSend": "Error al enviar respuesta",
+    "question.noSendDescription": "No ha podido enviarse la respuesta a Wikidata en este momento. La racha de preguntas no se ha aumentado. Se volverá a cargar otra pregunta.",
     "question.giveup": "Te has rendido.",
     "question.msgGiveUp": "Número de respuestas correctas seguidas: {{answeredQuestions}}",
     "question.changeCat": "Vas a cambiar de categoría",
