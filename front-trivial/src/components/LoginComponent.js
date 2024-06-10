@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Layout, Typography, Button, Image } from 'antd';
+import { Layout, Typography, Button, Image, notification } from 'antd';
 import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.png'; 
 import CategorySelectionPage from './CategorySelectionPage.js';
@@ -28,7 +28,12 @@ const LoginComponent = () => {
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
     const userData = await fetchUserData(); //datos del usuario
-    localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
+
+    if (userData===null) {
+      notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
+    } else {
+      localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
+    }
   };
 
   const checkAuthentication = async () => {

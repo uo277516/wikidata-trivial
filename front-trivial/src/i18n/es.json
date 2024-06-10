@@ -4,6 +4,8 @@
     "login.info2": "Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.",
     "login.login": "Inicio de sesión",
     "login.log_in": "Iniciar sesión",
+    "login.errorOAuth": "Error al iniciar sesión",
+    "login.descErrorOAuth": "En este momento no es posible iniciar sesión. Por favor, inténtelo de nuevo más tarde",
     
     
     "cat.info": "Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.",
