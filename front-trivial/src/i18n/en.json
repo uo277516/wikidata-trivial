@@ -80,7 +80,10 @@
     "question.ranking": "Question Streak",
     "question.buttonSend": "Send Answer",
     "question.selectYear": "Select a year",
-
+    "question.popChangeEntity": "You are about to submit the answer",
+    "question.popChangeEntityDescription": "This question was asked about {{labelSelected}}. Do you want the next question to be about this same entity, or would you like to change entities?",
+    "question.continueEntity": "Continue with this entity", 
+    "question.changeEntity": "Change entity",
 
 
     "/P19": "Where was researcher {{label}} born?",
@@ -89,7 +92,12 @@
     "/P6509": "How many goals has the footballer called {{label}} scored throughout their career?",
     "/P413": "What is one of the main positions that the footballer {{label}} usually plays on the field?",
     "/P571": "In what year was the group {{label}} founded?",
-    "/P264": "What is the record label (or one of them) of the group {{label}}?"
+    "/P264": "What is the record label (or one of them) of the group {{label}}?",
 
+    "form.error": "Form error",
+    "form.error.description": "The question could not be submitted due to errors in the form. Please review them and try again."
+
+    ,"question.error.entity": "There are currently no more questions about that entity",
+    "question.error.entityDescrip": "We are sorry. Questions about another entity and about this same category will be loaded"
 }
   

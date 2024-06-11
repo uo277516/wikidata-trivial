@@ -1,3 +1,7 @@
+const researcherRelations = ["/P19", "/P69"];   //nacer, estudiar
+const footballerRelations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
+const groupRelations = ["/P571", "/P264"]; //fecha de fundacion (año)
+
 const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
   let endpoint=null;
   if (selCategory==="futbolistas") {
@@ -41,6 +45,31 @@ const fetchData = async (entity, endpoint) => {
       return jsonData.results.bindings;
     } else {
       console.error("Error fetching data:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+
+const fetchProperties = async (entity, relations) => {
+  let list="";
+  relations.forEach(relation => {
+    list += "wdt:" + relation.slice(1) + " ";
+  });
+  list=list.trim();
+  const encodedList = encodeURIComponent(list);
+  try {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/properties/wd:${entity}/${encodedList}`);
+    console.log(response);
+    if (response.ok) {
+      const json = await response.json();
+      console.log(json);
+      return json;
+    } else {
+      console.error("Error fetching data:", response.statusText);
       //aqui algo para que salga pantalla? lo de abajo no está probado
       return null;
     }
@@ -49,6 +78,40 @@ const fetchData = async (entity, endpoint) => {
     throw error;
   }
 };
+
+const checkProperties = async (entity, category) => {
+
+  let relations=null;
+  if (category==="investigación") {
+     relations = researcherRelations;
+  } else if (category==="deporte") {
+     relations = footballerRelations;
+  } else {
+     relations = groupRelations;
+  }
+
+
+  const propertiesJSON = await fetchProperties(entity, relations);
+  console.log(propertiesJSON);
+  if (!propertiesJSON) {
+    return null;
+  } else {
+    console.log("si hay"+propertiesJSON);
+    const lista = JSON.parse(propertiesJSON);
+    const propiedadesFalsas = [];
+    lista.forEach(objeto => {
+      for (const propiedad in objeto) {
+        if (objeto[propiedad] === false) {
+          propiedadesFalsas.push(`/${propiedad}`);
+        }
+      }
+    });
+
+    return propiedadesFalsas;
+  }
+};
+
+
 
 //formar entidad de devolver con la pregunta la entidad y la relacion para poder mandar la edicion en front
 const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, relation) => {
@@ -91,27 +154,26 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
 
 };
 
+
+
 //preguntas investigadores
 const fetchQuestionsResearchers = async () => {
-  const relations = ["/P19", "/P69"];   //nacer, estudiar
   const messages = ["Dónde nació el/la investigador/a", "Dónde estudió el/la investigador/a"];
-  return createQuestions(relations, messages, "researchers", 'investigador', 'investigadorLabel');
+  return createQuestions(researcherRelations, messages, "researchers", 'investigador', 'investigadorLabel');
 };
 
 
 const fetchQuestionsFootballers = async () => {
-  const relations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posicion
   const messages = ["Cuál es la altura en centímetros de la/el futbolista", "Cuántos goles ha marcado a lo largo de su carrera el futbolista", "Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista"];
-  return createQuestions(relations, messages, "footballers", 'futbolista', 'futbolistaLabel');
+  return createQuestions(footballerRelations, messages, "footballers", 'futbolista', 'futbolistaLabel');
 };
 
 const fetchQuestionsGroups = async () => {
-  const relations = ["/P571", "/P264"]; //fecha de fundacion (año)
   const messages = ["Cuál es el año en el que se fundó el grupo", "Cuál es el sello discográfico (o uno de ellos) del grupo"];
-  return createQuestions(relations, messages, "groups", 'grupo', 'grupoLabel');
+  return createQuestions(groupRelations, messages, "groups", 'grupo', 'grupoLabel');
 };
 
 
 
 
-export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsGroups, editEntity};
+export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsGroups, editEntity, checkProperties};

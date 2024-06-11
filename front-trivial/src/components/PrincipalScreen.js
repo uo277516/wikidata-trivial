@@ -5,8 +5,8 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers, edityEntity, fetchQuestionsGroups } from '../services/questionsService.js';
-import { headerStyle, contentStyle, footerStyle, formStyle } from '../styles/appStyle.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, edityEntity, fetchQuestionsGroups, checkProperties } from '../services/questionsService.js';
+import { headerStyle, contentStyle, footerStyle, formStyle , popconfirmStyle} from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
 import MenuComponent from './MenuComponent.js';
@@ -61,6 +61,7 @@ let PrincipalScreen = (props) => {
   const [answerIsYear, setAnswerIsYear] = useState(false);
   const minDate = dayjs(`1900-01-01`);
   const maxDate = dayjs(`2024-12-31`);
+
   
 
   const fetchStreaks = async () => {
@@ -113,6 +114,7 @@ let PrincipalScreen = (props) => {
     selCategory= cc;
   };
   
+
 
   const fetchQuestions = () => {
 
@@ -173,9 +175,7 @@ let PrincipalScreen = (props) => {
     setLoadingSend(loading);
   };
 
-
-  //manejar botón cuando envío
-  const handleSendButton = async () => {
+  const handleSend = async (func) => {
     try {
       const values = await form.validateFields(); //validar campos
       if (values.respuesta && values.urldereferencia) {
@@ -206,20 +206,41 @@ let PrincipalScreen = (props) => {
         //sumo respuestas y vacío
         form.resetFields();
 
-        //vuelvo a cargar
-        fetchQuestions(selCategory);
+        //variable
+        await func();
 
         checkStreak();
-        
       } else {
         console.error("One or more fields are incomplete.");
       }
     } catch (error) {
+      notification.error({message: t('form.error'), description: t('form.error.description'), placement: 'top'});
       console.error('Error in form validation:', error);
     }
+  }
+
+  //manejar botón cuando envío
+  const handleSendButton = async () => {
+    handleSend(fetchQuestions);
   };
 
-  
+  const handleSendSameEntityButton = async () => {
+    setLoading(true);
+    handleSend(funcProperties);
+  };  
+
+  const funcProperties = async () => {
+    const properties = await checkProperties(entitySelected, selectedCategory);
+    if (properties) {
+      console.log("entra?");
+      setRelationSelected(properties[0]);
+      setLoading(false);
+    } else {
+      notification.error({message: t('question.error.entity')
+      , description: t('question.error.entityDescrip'), placement: 'top'});
+      fetchQuestions();
+    }
+  }; 
 
 
   //método para pruebas
@@ -293,6 +314,8 @@ let PrincipalScreen = (props) => {
   };
 
 
+  
+ 
   
 
   //Crear HTML de la página web 
@@ -465,10 +488,23 @@ let PrincipalScreen = (props) => {
 
                     <Form.Item >
                       {contextHolder}
-                      <Button type="primary" htmlType="submit" onClick={handleSendButton} 
+                      <Popconfirm
+                        placement='rightTop'
+                        title={t('question.popChangeEntity')}
+                        description={t('question.popChangeEntityDescription', {labelSelected})}
+                        onConfirm={handleSendSameEntityButton}
+                        onCancel={handleSendButton}
+                        okText={t('question.continueEntity')}
+                        cancelText={t('question.changeEntity')}
+                        overlayStyle={popconfirmStyle} // Aplica el estilo en línea
+                      >
+                      <Button type="primary" htmlType="submit" 
                         style={{ marginRight: '20px'}} loading={loadings[0]}>
                         {t('question.buttonSend')}
                       </Button>
+                      </Popconfirm>
+
+
                       <Popconfirm
                         title={t('question.popGiveUp')}
                         description={t('question.sureGiveUp')}

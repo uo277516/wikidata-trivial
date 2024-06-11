@@ -1,3 +1,9 @@
+const popconfirmStyle = {
+  width: '550px',    
+  height: '150px',   
+  borderRadius: '10px' 
+};
+
 const headerStyle = {
     textAlign: 'center',
     color: 'white',
@@ -52,4 +58,4 @@ const headerStyle = {
     fontSize: '40px'
   };
 
-export { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle };
+export { headerStyle, contentStyle, headerRightStyle, siderStyle, footerStyle, titleOneStyle, titleTwoStyle, formStyle, popconfirmStyle };
