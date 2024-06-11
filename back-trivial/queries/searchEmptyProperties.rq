@@ -1,0 +1,8 @@
+SELECT ?property ?hasValue WHERE {
+  VALUES ?entity { ${entity} }
+  VALUES ?property { ${relations} }
+
+  OPTIONAL { ?entity ?property ?value }
+
+  BIND(BOUND(?value) AS ?hasValue)
+}

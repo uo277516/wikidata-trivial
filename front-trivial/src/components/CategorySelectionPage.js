@@ -5,7 +5,7 @@ import logo from '../logo.jpg';
 import PrincipalScreen from './PrincipalScreen.js';
 import LoginComponent from './LoginComponent.js';
 import {SolutionOutlined } from '@ant-design/icons';
-import '../css/styles.css'; 
+import '../styles/styles.css'; 
 import MenuComponent from './MenuComponent.js';
 import TableComponent from './TableComponent.js';
 import { useTranslation } from 'react-i18next';

@@ -82,4 +82,22 @@ function getResearcherIds(originalJSON) {
         .filter(value => value.startsWith('Q'));
 }
 
-module.exports = {transformJSONResearchers, transformJSONFootballers, transformJSONGroups, getResearcherLabelValues, getResearcherIds};
+
+function transformJSONProperties(jsonData) {
+    const propiedades = {};
+  
+    jsonData.results.bindings.forEach(binding => {
+      const propiedad = binding.property.value.split('/').pop(); 
+      const valor = binding.hasValue.value === 'true'; 
+      propiedades[propiedad] = valor; 
+    });
+  
+    const resultado = Object.keys(propiedades).map(propiedad => ({
+      [propiedad]: propiedades[propiedad]
+    }));
+  
+    return JSON.stringify(resultado);
+  }
+
+module.exports = {transformJSONResearchers, transformJSONFootballers, transformJSONGroups, 
+        getResearcherLabelValues, getResearcherIds, transformJSONProperties};

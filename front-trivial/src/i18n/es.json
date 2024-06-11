@@ -86,9 +86,11 @@
     
     "/P19": "¿Dónde nació el/la investigador/a {{label}}?",
     "/P69": "¿Dónde estudió el/la investigador/a {{label}}?",
+
     "/P2048": "¿Cuál es la altura en centímetros de la/el futbolista {{label}}?",
     "/P6509": "¿Cuántos goles ha marcado a lo largo de su carrera el futbolista {{label}}?",
     "/P413": "¿Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista {{label}}?",
+    
     "/P571": "¿Cuál es el año en el que se fundó el grupo {{label}}?",
     "/P264": "¿Cuál es el sello discográfico del grupo {{label}} (o uno de ellos)?"
 
