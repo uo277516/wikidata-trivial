@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
+import iconEnglish from '../icons8-circular-de-gran-bretaña-16.png'
+import iconSpanish from '../icons8-circular-españa-16.png'
 
 
 
@@ -38,8 +40,8 @@ const MenuComponent = (props) => {
           key: 'language',
           icon: React.createElement(TranslationOutlined),
           children: [
-            { label: t('menu.spanish'), key: 'language:1' },
-            { label: t('menu.english'), key: 'language:2' },
+            { label: t('menu.spanish'), key: 'language:1', icon: <img src={iconSpanish} alt="icon" style={{ width: '16px', height: '16px' }} />, },
+            { label: t('menu.english'), key: 'language:2' , icon: <img src={iconEnglish} alt="icon" style={{ width: '16px', height: '16px' }} />, },
           ],
         }
 
