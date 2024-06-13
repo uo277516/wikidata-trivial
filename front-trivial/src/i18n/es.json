@@ -101,6 +101,8 @@
     "form.error.description": "No es posible enviar la pregunta por errores en el formulario. Revíselos e inténtelo de nuevo.",
     
     "question.error.entity": "Actualmente no hay más sobre esa entidad",
-    "question.error.entityDescrip": "Lo sentimos. Se cargarán preguntas de otra entidad y sobre esta misma categoría"
+    "question.error.entityDescrip": "Lo sentimos. Se cargarán preguntas de otra entidad y sobre esta misma categoría",
+
+    "footer.info": "Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo. Iconos de "
 }
   

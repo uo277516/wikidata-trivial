@@ -102,8 +102,7 @@ const LoginComponent = () => {
               {t('login.log_in')}
             </Button>
           </Content>
-          <Footer style={footerStyle}>Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo. 
-          Iconos de <a href="https://www.icons8.com" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'underline' }}>Icons8</a></Footer>
+          <Footer style={footerStyle}> {t('footer.info')}<a href="https://www.icons8.com" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'underline' }}>Icons8</a></Footer>
         </Layout>
       )}
     </>

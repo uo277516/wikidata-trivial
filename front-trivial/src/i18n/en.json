@@ -98,6 +98,8 @@
     "form.error.description": "The question could not be submitted due to errors in the form. Please review them and try again."
 
     ,"question.error.entity": "There are currently no more questions about that entity",
-    "question.error.entityDescrip": "We are sorry. Questions about another entity and about this same category will be loaded"
+    "question.error.entityDescrip": "We are sorry. Questions about another entity and about this same category will be loaded",
+
+    "footer.info": "Wiki Trivial - Natalia Fernández Riego, University of Oviedo. Icons by "
 }
   

@@ -134,7 +134,7 @@ const CategorySelectionPage = () => {
   
                 </Content>
               </Content>
-              <Footer style={footerStyle}>Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo</Footer>
+              <Footer style={footerStyle}> {t('footer.info')}<a href="https://www.icons8.com" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'underline' }}>Icons8</a></Footer>
             </Layout>
           ) : (
             <PrincipalScreen
