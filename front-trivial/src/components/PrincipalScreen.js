@@ -549,7 +549,7 @@ let PrincipalScreen = (props) => {
       </Content>
       
 
-      <Footer style={footerStyle}>Wiki Trivial</Footer>          
+      <Footer style={footerStyle}>Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo</Footer>
     </Layout>
   );
 }

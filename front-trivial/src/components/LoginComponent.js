@@ -102,7 +102,7 @@ const LoginComponent = () => {
               {t('login.log_in')}
             </Button>
           </Content>
-          <Footer style={footerStyle}>Wiki Trivial</Footer>
+          <Footer style={footerStyle}>Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo</Footer>
         </Layout>
       )}
     </>
