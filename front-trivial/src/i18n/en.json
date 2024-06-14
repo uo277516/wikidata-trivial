@@ -38,6 +38,8 @@
     "table.week": "This week",
     "table.month": "This month",
     "table.all": "All",
+    "table.error": "Error reading streaks",
+    "table.errorDesc": "The rankings cannot be displayed at this time. Sorry.",
 
     "card.image": "Image",
     "card.noImage": "Image not available",

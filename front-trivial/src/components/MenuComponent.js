@@ -16,8 +16,46 @@ const MenuComponent = (props) => {
     const labelLog = user ? t('menu.logout') : t('login.log_in');
     const iconLog = user ? React.createElement(LogoutOutlined) : React.createElement(LoginOutlined);
 
-    const items = [
-        {
+    let items = [
+      {
+          key: 'logout',
+          label: (
+              <Button icon={iconLog} type="link" style={{color: 'black'}} onClick={() => log()}>
+                  {labelLog}
+              </Button>
+          )
+      },
+      {
+          key: 'language',
+          label: (
+              <Button icon={React.createElement(TranslationOutlined)} type="link" style={{color: 'black'}} onClick={() => console.log("Language changed")}>
+                  {t('menu.changeLanguage')}
+              </Button>
+          ),
+          children: [
+              {
+                  key: 'language:1',
+                  label: (
+                      <Button type="link" onClick={() => changeLanguage('es')}>
+                          <img src={iconSpanish} alt="icon" style={{ width: '16px', height: '16px' }} /> {t('menu.spanish')}
+                      </Button>
+                  )
+              },
+              {
+                  key: 'language:2',
+                  label: (
+                      <Button type="link" onClick={() => changeLanguage('en')}>
+                          <img src={iconEnglish} alt="icon" style={{ width: '16px', height: '16px' }} /> {t('menu.english')}
+                      </Button>
+                  )
+              }
+          ]
+      }
+    ];
+
+    //ver perfil solo si usuario autenticado
+    if (user) {
+        items.unshift({
             key: 'perfil',
             label: (
                 <a href={href} target="_blank" rel="noopener noreferrer">
@@ -25,43 +63,8 @@ const MenuComponent = (props) => {
                 </a>
             ),
             icon: React.createElement(MailOutlined),
-        },
-        {
-            key: 'logout',
-            label: (
-                <Button icon={iconLog} type="link" style={{color: 'black'}} onClick={() => log()}>
-                    {labelLog}
-                </Button>
-            )
-        },
-        {
-            key: 'language',
-            label: (
-              <Button icon={React.createElement(TranslationOutlined)} type="link" style={{color: 'black'}} onClick={() => console.log("Language changed")}>
-                  {t('menu.changeLanguage')}
-              </Button>
-          ),
-            
-            children: [
-                {
-                    key: 'language:1',
-                    label: (
-                        <Button type="link" onClick={() => changeLanguage('es')}>
-                            <img src={iconSpanish} alt="icon" style={{ width: '16px', height: '16px' }} /> {t('menu.spanish')}
-                        </Button>
-                    )
-                },
-                {
-                    key: 'language:2',
-                    label: (
-                        <Button type="link" onClick={() => changeLanguage('en')}>
-                            <img src={iconEnglish} alt="icon" style={{ width: '16px', height: '16px' }} /> {t('menu.english')}
-                        </Button>
-                    )
-                }
-            ]
-        }
-    ];
+        });
+    };
 
     const changeLanguage = (lang) => {
         i18n.changeLanguage(lang);

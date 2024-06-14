@@ -39,6 +39,8 @@
     "table.week": "Esta semana",
     "table.month": "Este mes",
     "table.all": "Completa",
+    "table.error": "Error al leer las rachas",
+    "table.errorDesc": "Las clasificaciones no pueden ser mostradas en este momento. Lo sentimos",
 
     "card.image": "Imagen",
     "card.noImage": "Imagen no disponible",
@@ -104,5 +106,7 @@
     "question.error.entityDescrip": "Lo sentimos. Se cargarán preguntas de otra entidad y sobre esta misma categoría",
 
     "footer.info": "Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo. Iconos de "
+
+    
 }
   

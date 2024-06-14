@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Switch, Segmented, Space } from 'antd';
+import { Table, Switch, Segmented, Space, notification } from 'antd';
 import moment from 'moment';
 import axios from 'axios'; 
 import { useTranslation } from 'react-i18next';
@@ -27,6 +27,7 @@ const TableComponent = (props) => {
             const response = await axios.get('http://localhost:3001/getAllStreaks');
             setStreaks(response.data);
         } catch (error) {
+            notification.error({message: t('table.error'), description: t('table.errorDesc'), placement: 'top'});
             console.error('Error fetching streaks:', error);
         }
     };
