@@ -8,7 +8,7 @@ test('renders MenuComponent without crashing', () => {
   render(<MenuComponent />);
 });
 
-//mock de i18next para los tests
+//i18ntext mocck for tests
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: key => key }),
     withTranslation: () => Component => {

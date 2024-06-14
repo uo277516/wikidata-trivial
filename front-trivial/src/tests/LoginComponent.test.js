@@ -17,7 +17,7 @@ describe('LoginComponent tests', () => {
     render(<LoginComponent />);
     expect(screen.getByText('Wiki Trivial')).toBeInTheDocument();
     expect(screen.getByText('login.title')).toBeInTheDocument();
-    //loggin button
+    //login button
     expect(screen.getAllByText('login.log_in')[1]).toBeInTheDocument(); //because the 0 is the butotn in the menu
   });
 
