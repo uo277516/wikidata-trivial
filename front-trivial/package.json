@@ -14,7 +14,7 @@
     "react-i18next": "^14.1.2",
     "react-oauth2-code-pkce": "^1.18.0",
     "react-router": "^6.23.0",
-    "react-router-dom": "^6.23.0",
+    "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "wikibase-sdk": "^10.0.2"
@@ -44,8 +44,24 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
     "@testing-library/react": "^16.0.0",
+    "babel-jest": "^29.7.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "react-test-renderer": "^18.3.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(wikibase-sdk|axios)/)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sss|styl)$": "identity-obj-proxy"
+    }
   }
 }
