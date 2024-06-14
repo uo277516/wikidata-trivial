@@ -25,6 +25,7 @@ const LoginComponent = () => {
   }, []);
 
   const handleLogin = async () => {
+    console.log("User logged in");
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
     const userData = await fetchUserData(); //datos del usuario
@@ -86,7 +87,7 @@ const LoginComponent = () => {
           </Header>
           <Content style={contentStyle}>
             <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>{t('login.login')}</Title>
-            <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}>
+            <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}> 
                   {t('login.info1')}
                   <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
                   {t('login.info2')}

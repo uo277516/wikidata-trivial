@@ -1,8 +1,6 @@
 import React from 'react';
-import { render, waitFor, act , cleanup, screen, fireEvent} from '@testing-library/react';
+import { render, waitFor , cleanup} from '@testing-library/react';
 import TableComponent from '../components/TableComponent';
-import PrincipalScreen from '../components/PrincipalScreen';
-import CategorySelectionPage from '../components/CategorySelectionPage';
 import axios from 'axios';
 
 jest.mock('axios');
