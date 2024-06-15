@@ -63,6 +63,7 @@ const groupsRepository = {
       }
     };
 
+    console.log("---"+value);
     const wbEdit = WBEdit(generalConfig);
     try {
       

@@ -5,7 +5,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers, edityEntity, fetchQuestionsGroups, checkProperties } from '../services/questionsService.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups, checkProperties } from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle , popconfirmStyle} from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
@@ -190,8 +190,8 @@ let PrincipalScreen = (props) => {
         //---ENVIAR A LA API---
         //lo comento pa hacer pruebas, llamaria a este y no al siguiente
         try {
-          //editEntity(selCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
-          await asyncTestFunction();
+          await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+          //await asyncTestFunction();
           notification.info({message: t('question.send'), 
             description: t('question.sendDescription'), placement: 'topRight'});
           setAnsweredQuestions(answeredQuestions + 1);
@@ -465,7 +465,6 @@ let PrincipalScreen = (props) => {
                       >
                       {answerIsYear ? (
                         <DatePicker 
-                          picker="year" 
                           placeholder={t('question.selectYear')} 
                           minDate={minDate}
                           maxDate={maxDate}

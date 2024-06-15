@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import PrincipalScreen from '../components/PrincipalScreen';
 import axios from 'axios';
 import { click } from '@testing-library/user-event/dist/cjs/convenience/click.js';
+import { wait } from '@testing-library/user-event/dist/cjs/utils/index.js';
 
 jest.mock('axios');
 
@@ -38,6 +39,7 @@ describe('PrincipalScreen tests', () => {
     });
   });
 
+
   test('renders component with initial loading state', async () => {
     const categories = ['investigación', 'deporte', 'música']; 
     const user = { _json: { username: 'testuser' } }; 
@@ -47,6 +49,7 @@ describe('PrincipalScreen tests', () => {
     expect(screen.getByText('Wiki Trivial')).toBeInTheDocument();
     expect(screen.getByText(/question.info2/i)).toBeInTheDocument();
   });
+
 
   test('fetches questions, categories appears on screen and change category', async () => {
     const categories = ['investigación', 'deporte', 'música']; 
@@ -77,26 +80,46 @@ describe('PrincipalScreen tests', () => {
   });
 
 
-//   test('sends answer and updates streak', async () => {
-//     const categories = ['investigación', 'deporte', 'música']; 
-//     const user = { _json: { username: 'testuser' } }; 
 
-//     render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+  test('sends answer and updates streak', async () => {
+    const categories = ['investigación', 'deporte', 'música']; 
+    const user = { _json: { username: 'testuser' } }; 
 
-//     await waitFor(() => {
-//         expect(screen.getByText('¿Cuantos goles marcó Messi en toda su carrera?')).toBeInTheDocument();
-//     });
+    const {container} = render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
 
-//     // fireEvent.change(screen.getByLabelText('question.answer'), { target: { value: '200' } });
-//     // fireEvent.change(screen.getByLabelText('question.url'), { target: { value: 'https://example.com' } });
+    //question card
+    await waitFor(() => {
+        const questionCard = document.getElementsByClassName('ant-card ant-card-bordered')[0];
+        expect(questionCard).toBeInTheDocument(); 
+    });
 
-//     // fireEvent.click(screen.getByText('question.buttonSend'));
+    fireEvent.change(screen.getByPlaceholderText('question.answer'), { target: { value: '200' } });
+    fireEvent.change(screen.getByPlaceholderText('question.urlExample'), { target: { value: 'https://example.com' } });
 
-//     // // Verifica que se actualice la racha de respuestas correctas
-//     // await waitFor(() => {
-//     //   expect(screen.getByText('Ranking')).toHaveTextContent('1');
-//     // });
-//   });
+    fireEvent.click(screen.getByText('question.buttonSend'));
+
+    await waitFor(() => {
+        //'question.popChangeEntity'
+        const pop = screen.getByText('question.popChangeEntity');
+        expect(pop).toBeInTheDocument();
+        const ok = screen.getByText('question.continueEntity');
+        expect(ok).toBeInTheDocument();
+        fireEvent.click(ok);
+        expect(screen.getByText('question.ranking')).toHaveTextContent('1');
+    });
+
+    console.log(container.innerHTML);
+
+
+    await waitFor(() => {
+        
+    });
+
+    // // Verifica que se actualice la racha de respuestas correctas
+    // await waitFor(() => {
+    //   expect(screen.getByText('Ranking')).toHaveTextContent('1');
+    // }); 
+  });
 
 
 });
