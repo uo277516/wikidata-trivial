@@ -42,8 +42,8 @@ const CategorySelectionPage = () => {
           </div>
         </>
       ),
-      okButtonProps: { style: { display: 'none' } }, // Ocultar el botón OK predeterminado
-      cancelButtonProps: { style: { display: 'none' } }, // Ocultar el botón Cancelar predeterminado
+      okButtonProps: { style: { display: 'none' } }, 
+      cancelButtonProps: { style: { display: 'none' } }, 
     });
   };
 

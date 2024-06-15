@@ -9,6 +9,7 @@ describe('CategorySelectionPage', () => {
     localStorage.clear();
     jest.clearAllMocks();
   });
+  
 
   it('renders LoginComponent when user is not logged in', () => {
     render(<CategorySelectionPage />);
@@ -44,35 +45,21 @@ describe('CategorySelectionPage', () => {
     });
 
     const okButton = getAllByText('OK')[1];
-    console.log(okButton);
     fireEvent.click(okButton);
 
     expect(screen.queryByText('cat.welcome!')).not.toBeInTheDocument();
   });
 
-//   it('shows classification table when button is clicked', async () => {
-//     const mockUser = { displayName: 'Test User' };
-//     localStorage.setItem('user', JSON.stringify(mockUser));
+  it('shows clasification table when button is clicked', async () => {
+    const mockUser = JSON.stringify({ _json: { username: 'testuser' } });
+    localStorage.setItem('user', mockUser);
 
-//     render(<CategorySelectionPage />);
+    render(<CategorySelectionPage />);
 
-//     // Simular clic en el botón de clasificación
-//     const classificationButton = screen.getByText('Ver clasificación');
-//     fireEvent.click(classificationButton);
+    const catButton = screen.getByRole('button', { name: 'solution cat.buttonClasification' });
+    fireEvent.click(catButton);
 
-//     // Verificar que se muestra la tabla de clasificación en un modal
-//     expect(await screen.findByText('Tabla de Clasificación')).toBeInTheDocument();
-//   });
+    expect(await screen.findByText('table.category')).toBeInTheDocument();
+  });
 
-//   it('checks authentication and sets user state correctly', async () => {
-//     const mockUser = { displayName: 'Test User' };
-//     localStorage.setItem('user', JSON.stringify(mockUser));
-
-//     render(<CategorySelectionPage />);
-
-//     // Verificar que la función de verificación de autenticación se llamó y estableció el estado de usuario correctamente
-//     await waitFor(() => {
-//       expect(localStorage.getItem('user')).toEqual(JSON.stringify(mockUser));
-//     });
-//   });
 });
