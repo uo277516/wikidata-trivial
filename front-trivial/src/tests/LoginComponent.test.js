@@ -19,6 +19,8 @@ describe('LoginComponent tests', () => {
     expect(screen.getByText('login.title')).toBeInTheDocument();
     //login button
     expect(screen.getAllByText('login.log_in')[1]).toBeInTheDocument(); //because the 0 is the butotn in the menu
+    expect(screen.getByText('menu.changeLanguage')).toBeInTheDocument();
+
   });
 
 
