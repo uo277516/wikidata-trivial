@@ -33,10 +33,10 @@ const CategorySelectionPage = () => {
         <>
           <p>{t('cat.modalStart1', { selectedCategory: t(`cat.${selectedCategory}`) })}</p>
           <div style={{ textAlign: 'right' }}>
-            <Button onClick={() =>  setChange(false)} type="primary">
+            <Button onClick={() =>  ok()} type="primary">
               OK
             </Button>
-            <Button style={{ marginLeft: 10 }}>
+            <Button onClick={() =>  cancel()} style={{ marginLeft: 10 }}>
               Cancelar
             </Button>
           </div>
@@ -47,6 +47,14 @@ const CategorySelectionPage = () => {
     });
   };
 
+  const ok = () => {
+    setChange(false);
+    cancel();
+  }
+
+  const cancel = () => {
+    Modal.destroyAll(); // Cerrar el modal después de hacer clic en Cancelar
+  };
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
