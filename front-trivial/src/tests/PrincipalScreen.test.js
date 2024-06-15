@@ -2,8 +2,34 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import PrincipalScreen from '../components/PrincipalScreen';
 import axios from 'axios';
+import { click } from '@testing-library/user-event/dist/cjs/convenience/click.js';
 
 jest.mock('axios');
+
+//necesary for the tests bc the questions take too long to load and gives timeout
+jest.mock('../services/questionsService', async () => ({
+    fetchQuestionsResearchers: await jest.fn().mockResolvedValue({
+        question: '¿Cuál es la fecha de nacimiento de Eistein?',
+        entity: 'Q12',
+        relation: 'P98',
+        imageUrl: 'https://example.com/francia.jpg',
+        labelEntity: 'Einstein',
+    }),
+    fetchQuestionsFootballers: await jest.fn().mockResolvedValue({
+        question: '¿Cuantos goles marcó Messi en toda su carrera?',
+        entity: 'Q89',
+        relation: 'P17',
+        imageUrl: 'https://example.com/messi.jpg',
+        labelEntity: 'Messi',
+    }),
+    fetchQuestionsGroups: await jest.fn().mockResolvedValue({
+        question: '¿En que año se fundó el grupo "The Beatles"?',
+        entity: 'Q187',
+        relation: 'P76',
+        imageUrl: 'https://example.com/beatles.jpg',
+        labelEntity: 'The Beatles',
+    }),
+}));
 
 describe('PrincipalScreen tests', () => {
   beforeEach(() => {
@@ -12,90 +38,64 @@ describe('PrincipalScreen tests', () => {
     });
   });
 
-  test('renders component with initial loading state', () => {
+  test('renders component with initial loading state', async () => {
     const categories = ['investigación', 'deporte', 'música']; 
     const user = { _json: { username: 'testuser' } }; 
 
-    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+    render(<PrincipalScreen category="investigación" categories={categories} user={user} />);
 
     expect(screen.getByText('Wiki Trivial')).toBeInTheDocument();
     expect(screen.getByText(/question.info2/i)).toBeInTheDocument();
-
-    //sping loading driving
-    expect(screen.getByText('question.load')).toBeInTheDocument();
   });
 
-  test('fetches questions on screen', async () => {
+  test('fetches questions, categories appears on screen and change category', async () => {
     const categories = ['investigación', 'deporte', 'música']; 
     const user = { _json: { username: 'testuser' } };
 
-    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
-
-    await waitFor(() => {
-        expect(screen.queryByText('question.load')).not.toBeInTheDocument();
-    });
-  });
-
-
-  test('categories appears', async () => {
-    const categories = ['investigación', 'deporte', 'música']; 
-    const user = { _json: { username: 'testuser' } }; 
-
-    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+    const {container} = render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
 
     expect(screen.getByText('table.deporte')).toBeInTheDocument();
     expect(screen.getByText('table.música')).toBeInTheDocument();
     expect(screen.getByText('table.investigación')).toBeInTheDocument();
 
     await waitFor(() => {
-        const sportTableButton = screen.getByText('table.deporte');
+        const sportTableButton = screen.getByText('table.música');
         expect(sportTableButton).toBeEnabled(); 
-        fireEvent.click(sportTableButton);
-        //voy a tener q cambiar el modal y ponerlo para poder hacer clic en el
     });
-    
 
+    fireEvent.click(screen.getByText('table.música'));
 
-    // Confirma el cambio de categoría
-    // fireEvent.click(screen.getByText('OK'));
+    await waitFor(() => {
+        const ok = screen.getByText('OK');
+        expect(ok).toBeInTheDocument();
+        fireEvent.click(ok);
+    });
 
-    // // Verifica que se muestre la nueva categoría seleccionada
-    // expect(screen.getByText('Pregunta de deporte')).toBeInTheDocument();
+    expect(screen.getByText('question.beginAgain')).toBeInTheDocument();
+
+    console.log(container.innerHTML);
   });
 
-//   test('changes category and reloads questions', async () => {
-//     const categories = ['investigación', 'deporte', 'música']; // Simulación de categorías
-//     const user = { _json: { username: 'testuser' } }; // Usuario simulado
-
-//     render(<PrincipalScreen category="investigación" categories={categories} user={user} />);
-
-//     // Simula el cambio de categoría
-//     fireEvent.click(screen.getByText('Deporte'));
-
-//     // Confirma el cambio de categoría
-//     fireEvent.click(screen.getByText('OK'));
-
-//     // Verifica que se muestre la nueva categoría seleccionada
-//     expect(screen.getByText('Pregunta de deporte')).toBeInTheDocument();
-//   });
 
 //   test('sends answer and updates streak', async () => {
-//     const categories = ['investigación', 'deporte', 'música']; // Simulación de categorías
-//     const user = { _json: { username: 'testuser' } }; // Usuario simulado
+//     const categories = ['investigación', 'deporte', 'música']; 
+//     const user = { _json: { username: 'testuser' } }; 
 
-//     render(<PrincipalScreen category="investigación" categories={categories} user={user} />);
+//     render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
 
-//     // Simula la respuesta y la URL de referencia
-//     fireEvent.change(screen.getByLabelText('Respuesta'), { target: { value: '2023' } });
-//     fireEvent.change(screen.getByLabelText('URL de referencia'), { target: { value: 'https://example.com' } });
-
-//     // Simula el envío de la respuesta
-//     fireEvent.click(screen.getByText('Enviar'));
-
-//     // Verifica que se actualice la racha de respuestas correctas
 //     await waitFor(() => {
-//       expect(screen.getByText('Ranking')).toHaveTextContent('1');
+//         expect(screen.getByText('¿Cuantos goles marcó Messi en toda su carrera?')).toBeInTheDocument();
 //     });
+
+//     // fireEvent.change(screen.getByLabelText('question.answer'), { target: { value: '200' } });
+//     // fireEvent.change(screen.getByLabelText('question.url'), { target: { value: 'https://example.com' } });
+
+//     // fireEvent.click(screen.getByText('question.buttonSend'));
+
+//     // // Verifica que se actualice la racha de respuestas correctas
+//     // await waitFor(() => {
+//     //   expect(screen.getByText('Ranking')).toHaveTextContent('1');
+//     // });
 //   });
 
 

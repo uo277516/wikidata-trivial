@@ -275,6 +275,7 @@ let PrincipalScreen = (props) => {
 
   //Categorias
   const handleCategoryChange = (value) => {
+    console.log("---");
     //Avisar que se cambia de categoría para que salte mensaje
     //si le da a que si quiere cambiar, hace todo esto. Si no, nada
     Modal.confirm({
@@ -367,11 +368,11 @@ let PrincipalScreen = (props) => {
                   }}>
                   <Radio.Group 
                     value={selectedCategory} 
-                    onChange={(e) => handleCategoryChange(e.target.value)}
+                    //onChange={(e) => handleCategoryChange(e.target.value)}
                     disabled={loading || loadingSend}>
 
                     {categories.map((category) => (
-                      <Radio.Button key={category} value={category}>
+                      <Radio.Button key={category} value={category} onClick={() => handleCategoryChange(category)}>
                         {t(`table.${category}`)}
                       </Radio.Button>
                     ))}
@@ -496,7 +497,7 @@ let PrincipalScreen = (props) => {
                         onCancel={handleSendButton}
                         okText={t('question.continueEntity')}
                         cancelText={t('question.changeEntity')}
-                        overlayStyle={popconfirmStyle} // Aplica el estilo en línea
+                        overlayStyle={popconfirmStyle} 
                       >
                       <Button type="primary" htmlType="submit" 
                         style={{ marginRight: '20px'}} loading={loadings[0]}>
