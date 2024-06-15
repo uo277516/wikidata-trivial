@@ -27,13 +27,23 @@ const CategorySelectionPage = () => {
 
 
   const handleStartGame = (selectedCategory) => {
-    Modal.confirm({
+    Modal.info({
       title: t('cat.startButton'),
-      content: t('cat.modalStart1', { selectedCategory: t(`cat.${selectedCategory}`) }),
-      onOk: () => {
-        setChange(false);
-      },
-      onCancel: () => {}
+      content: (
+        <>
+          <p>{t('cat.modalStart1', { selectedCategory: t(`cat.${selectedCategory}`) })}</p>
+          <div style={{ textAlign: 'right' }}>
+            <Button onClick={() =>  setChange(false)} type="primary">
+              OK
+            </Button>
+            <Button style={{ marginLeft: 10 }}>
+              Cancelar
+            </Button>
+          </div>
+        </>
+      ),
+      okButtonProps: { style: { display: 'none' } }, // Ocultar el botón OK predeterminado
+      cancelButtonProps: { style: { display: 'none' } }, // Ocultar el botón Cancelar predeterminado
     });
   };
 

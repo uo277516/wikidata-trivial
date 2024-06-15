@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen, act } from '@testing-library/react';
 import MenuComponent from '../components/MenuComponent';
-import userEvent from '@testing-library/user-event';
 
 
 test('renders MenuComponent without crashing', () => {
