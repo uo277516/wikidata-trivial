@@ -5,7 +5,7 @@ import QuestionCard from '../components/QuestionCard';
 import vars from '../vars';
 
 
-describe('QuestionCard Component', () => {
+describe('QuestionCard tests', () => {
   const mockProps = {
     imagenUrl: 'https://example.com/pepitogrillo.jpg',
     questionSelected: 'a question bla bla bla',

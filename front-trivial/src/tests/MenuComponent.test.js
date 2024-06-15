@@ -3,7 +3,7 @@ import { render, fireEvent, screen, act } from '@testing-library/react';
 import MenuComponent from '../components/MenuComponent';
 
 
-test('renders MenuComponent without crashing', () => {
+test('renders component without crashing', () => {
   render(<MenuComponent />);
 });
 
