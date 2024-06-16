@@ -88,8 +88,8 @@
     "question.changeEntity": "Change entity",
 
 
-    "/P19": "Where was researcher {{label}} born?",
-    "/P69": "Where did the researcher {{label}} study?",
+    "/P19": "Where was researcher {{label}} born? The answer must be a Wikidata entity (for example 'Q2807', that is Madrid)",
+    "/P69": "Where did the researcher {{label}} study? The answer must be a Wikidata entity (for example 'Q219694', that is UCM)",
     "/P2048": "What is the height in centimeters of the footballer {{label}}?",
     "/P6509": "How many goals has the footballer called {{label}} scored throughout their career?",
     "/P413": "What is one of the main positions that the footballer {{label}} usually plays on the field?",

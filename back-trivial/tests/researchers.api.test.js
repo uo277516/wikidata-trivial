@@ -21,13 +21,32 @@ describe("api researchers tests", () => {
 
 
     describe("save researcher", () => {
-      test("save researcher ok", async () => {
+      test("save researcher alma mater ok", async () => {
         //the id its for the wikidata sandbox, where you can put whatever you want, its for tests 
         //https://www.wikidata.org/wiki/Q4115189
         const data = {
           "researcherId": "Q4115189",
           "property": "P69",
           "value": "Q49123",
+          "referenceURL": "https://example.com",
+          "token": token,
+          "token_secret": token_secret
+        };
+
+        const response = await api.post("/researchers").send(data);
+    
+        expect(response.status).toBe(200);
+
+      }, 60000);
+
+
+      test("save researcher place of birth ok", async () => {
+        //the id its for the wikidata sandbox, where you can put whatever you want, its for tests 
+        //https://www.wikidata.org/wiki/Q4115189
+        const data = {
+          "researcherId": "Q4115189",
+          "property": "P19",
+          "value": "Q2807",
           "referenceURL": "https://example.com",
           "token": token,
           "token_secret": token_secret

@@ -89,8 +89,8 @@
     "question.changeEntity": "Cambiar de entidad",
 
     
-    "/P19": "¿Dónde nació el/la investigador/a {{label}}?",
-    "/P69": "¿Dónde estudió el/la investigador/a {{label}}?",
+    "/P19": "¿Dónde nació el/la investigador/a {{label}}? La respuesta debe ser una entidad de Wikidata (por ejemplo 'Q2807', que es Madrid)",
+    "/P69": "¿Dónde estudió el/la investigador/a {{label}}? La respuesta debe ser una entidad de Wikidata (por ejemplo 'Q219694', que es la UCM",
 
     "/P2048": "¿Cuál es la altura en centímetros de la/el futbolista {{label}}?",
     "/P6509": "¿Cuántos goles ha marcado a lo largo de su carrera el futbolista {{label}}?",
