@@ -17,7 +17,7 @@ describe('CategorySelectionPage', () => {
     expect(screen.getByText('login.title')).toBeInTheDocument();
   });
 
-  it('renders PrincipalScreen when user is logged in and change state is true', async () => {
+  it('renders PrincipalScreen when user is logged in', async () => {
     const mockUser = JSON.stringify({ _json: { username: 'testuser' } });
     localStorage.setItem('user', mockUser);
 

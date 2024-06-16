@@ -1,11 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
 import MenuComponent from '../components/MenuComponent';
-import { useTranslation } from 'react-i18next';
-import { I18nextProvider  } from 'react-i18next';
-
-const { i18n } = useTranslation();
-
 
 test('renders component without crashing', () => {
   render(<MenuComponent />);
@@ -38,7 +33,7 @@ describe('MenuComponent Tests', () => {
     });
 
     test('changes language when language button is clicked', async () => {
-      render(<MenuComponent user={null}/>);
+      render(<MenuComponent user={null} mode='vertical'/>);
 
       expect(screen.getByText('menu.changeLanguage')).toBeInTheDocument();
 
