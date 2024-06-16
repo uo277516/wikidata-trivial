@@ -13,7 +13,7 @@ researchersController = {
 		}
 		catch (errors) {
             console.log(errors);
-			return res.status(errors[0].code).json({ errors: errors} )
+			return res.status(500).json({ errors: errors} )
 		}
 
     },
@@ -27,7 +27,7 @@ researchersController = {
             }, 3000);
         }
         catch (errors) {
-            return res.status(errors[0].code).json({ errors: errors} )
+            return res.status(500).json({ errors: errors} )
         }
 
     },
@@ -40,7 +40,7 @@ researchersController = {
             }, 3000);
         }
         catch (errors) {
-            return res.status(errors[0].code).json({ errors: errors} )
+            return res.status(500).json({ errors: errors} )
         }
 
     }

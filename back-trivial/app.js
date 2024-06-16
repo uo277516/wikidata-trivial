@@ -27,14 +27,28 @@ initRouters(app);
 //Guardar racha
 app.post('/saveStreak', (req, res) => {
 	const { username, category, streak } = req.body;
+	if (Object.keys(req.body).length !== 3) {
+		console.error('Error saving streak: Incorrect number of parameters');
+		res.status(500).send('Error saving streak: Incorrect number of parameters');
+		return;
+	}
+
+	const validCategories = ['investigación', 'deporte', 'música'];
+	if (!validCategories.includes(category)) {
+		console.error('Error saving streak: Invalid category');
+		res.status(500).send('Error saving streak: Invalid category');
+		return;
+	}
+
 	const query = 'INSERT INTO rachas (username, category, streak) VALUES (?, ?, ?)';
 	connection.query(query, [username, category, streak], (err, result) => {
-	  if (err) {
+	if (err) {
 		console.error('Error saving streak:', err);
 		res.status(500).send('Error saving streak');
 		return;
-	  }
-	  res.send('Racha guardada');
+	}
+
+	res.send('Racha guardada');
 	});
 });
   
@@ -182,8 +196,8 @@ router.get("/checkAuth", function(req, res) {
 //-----
 
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log("Listening on port 3001");
 })
 
-
+module.exports = {app, server}

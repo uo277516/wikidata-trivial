@@ -110,10 +110,10 @@ const researchersRepository = {
     const wbEdit = WBEdit(generalConfig);
     try {
       console.log(wbEdit);
-      //los valores no son sobre eso, es en una de prueba
+      console.log("---"+researcherId);
       claim = wbEdit.claim.create({
-        id: researcherId, //id del investigador --> "researcherId"
-        property: property, //propiedad (lugar de nacimiento, lugar de estudio...) --> "property"
+        id: researcherId, //id del investigador --> "researcherId", Q...
+        property: property, //propiedad (lugar de nacimiento, lugar de estudio...) --> "property", P...
         value: value, //valor de la propiedad (oviedo, ucm) --> "value"
         references: [
           { P854: referenceURL, P813: date }

@@ -9,11 +9,12 @@ footballersController = {
             //req.body -> formulario html (deberán ser req.body el value, los demas no se)
 
 			const result = await footballersService.editFootballerById(footballerId, property, value, referenceURL, token, token_secret);
-			return res.json({"result": result})
+			console.log("patatita");
+            return res.json({"result": result})
 		}
 		catch (errors) {
             console.log(errors);
-			return res.status(errors[0].code).json({ errors: errors} )
+			return res.status(500).json({ errors: errors} )
 		}
 
     },

@@ -20,8 +20,8 @@ const groupsService = {
             errors.push(new InputError("referenceURL", "Undefined reference URL"));
         }
         console.log("--"+referenceURL);
-        if (referenceURL !== null && !referenceURL.startsWith("https://")) {
-            errors.push(new InputError("referenceURL", "Reference URL does not follow 'https://' scheme"));
+        if (referenceURL === null || (!referenceURL.startsWith("https://") && !referenceURL.startsWith("http://"))) {
+            errors.push(new InputError("referenceURL", "Reference URL does not follow 'http(s)://' scheme"));
         }
         
 
