@@ -65,6 +65,23 @@ describe("api footballers tests", () => {
       test("save footballer by goals", async () => {
         const data = {
           "footballerId": "Q4115189",
+          "property": "veintitrés",
+          "value": "34",
+          "referenceURL": "https://example.com",
+          "token": token,
+          "token_secret": token_secret
+        };
+
+        const response = await api.post("/footballers").send(data);
+    
+        expect(response.status).toBe(500);
+
+      }, 60000);
+
+
+      test("save footballer invalid args", async () => {
+        const data = {
+          "footballerId": "Q4115189",
           "property": "P6509",
           "value": "34",
           "referenceURL": "https://example.com",
