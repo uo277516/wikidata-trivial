@@ -32,6 +32,7 @@ const groupsRepository = {
       return transformJSON.transformJSONGroups(response.data); //devolver datos parseados
     } catch (error) {
       console.error('Something went wrong while processing your request: ', error);
+      return null;
     }
   },
 

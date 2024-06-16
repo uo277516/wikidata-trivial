@@ -92,9 +92,9 @@
     "/P69": "Where did the researcher {{label}} study? The answer must be a Wikidata entity (for example 'Q219694', that is UCM)",
     "/P2048": "What is the height in centimeters of the footballer {{label}}?",
     "/P6509": "How many goals has the footballer called {{label}} scored throughout their career?",
-    "/P413": "What is one of the main positions that the footballer {{label}} usually plays on the field?",
+    "/P413": "What is one of the positions of the footballer {{label}}? Rhe answer must be a Wikidata entity (for example, 'Q2583758' is centre)",
     "/P571": "When was the group {{label}} founded?",
-    "/P264": "What is the record label (or one of them) of the group {{label}}?",
+    "/P264": "What is the record label (or one of them) of the group {{label}}? The answer must be a Wikidata entity (for example, 'Q38903' is Universal)",
 
     "form.error": "Form error",
     "form.error.description": "The question could not be submitted due to errors in the form. Please review them and try again."

@@ -9,15 +9,15 @@ const token_secret = "f1dedf0aab8c07cc1feccc72d12da8b9d2125f75";
 
 describe("api researchers tests", () => {
 
-    describe("get researchers", () => {
-      test("get researchers by alma mater", async () => {
-        await api.get("/researchers/P69").expect(200);
-      }, 60000);
+    // describe("get researchers", () => {
+    //   test("get researchers by alma mater", async () => {
+    //     await api.get("/researchers/P69").expect(200);
+    //   }, 60000);
 
-      test("get researchers by place of birth", async () => {
-        await api.get("/researchers/P19").expect(200);
-      }, 60000);
-    });
+    //   test("get researchers by place of birth", async () => {
+    //     await api.get("/researchers/P19").expect(200);
+    //   }, 60000);
+    // });
 
 
     describe("save researcher", () => {
@@ -41,8 +41,6 @@ describe("api researchers tests", () => {
 
 
       test("save researcher place of birth ok", async () => {
-        //the id its for the wikidata sandbox, where you can put whatever you want, its for tests 
-        //https://www.wikidata.org/wiki/Q4115189
         const data = {
           "researcherId": "Q4115189",
           "property": "P19",

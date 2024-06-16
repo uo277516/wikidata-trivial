@@ -7,32 +7,46 @@ const token = "cce591040984e060f9ddbb47c6e5481e";
 const token_secret = "f1dedf0aab8c07cc1feccc72d12da8b9d2125f75";
 
 
-describe("api footballers tests", () => {
+describe("api groups tests", () => {
 
 
-    describe("get footballers", () => {
-      test("get footballers by height", async () => {
-        await api.get("/footballers/P2048").expect(200);
+    describe("get groups", () => {
+      test("get groups by inception date", async () => {
+        await api.get("/groups/P571").expect(200);
       }, 60000);
 
-      test("get footballers by position", async () => {
-        await api.get("/footballers/P413").expect(200);
+      test("get groups by discographic", async () => {
+        await api.get("/groups/P264").expect(200);
       }, 60000);
 
-      test("get footballers by goals", async () => {
-        await api.get("/footballers/P6509").expect(200);
-      }, 60000);
     });
 
 
-    describe("save footballers", () => {
-      test("save footballer by height", async () => {
+    describe("save groups", () => {
+      test("save groups by inception date", async () => {
         //the id its for the wikidata sandbox, where you can put whatever you want, its for tests 
         //https://www.wikidata.org/wiki/Q4115189
         const data = {
+          "groupId": "Q4115189",
+          "property": "P571",
+          "value": "1980",
+          "referenceURL": "https://example.com",
+          "token": token,
+          "token_secret": token_secret
+        };
+
+        const response = await api.post("/groups").send(data);
+    
+        expect(response.status).toBe(200);
+
+      }, 60000);
+
+
+      test("save group by discographic", async () => {
+        const data = {
           "footballerId": "Q4115189",
-          "property": "P2048",
-          "value": "177",
+          "property": "P264",
+          "value": "Q38903",
           "referenceURL": "https://example.com",
           "token": token,
           "token_secret": token_secret
@@ -45,11 +59,11 @@ describe("api footballers tests", () => {
       }, 60000);
 
 
-      test("save footballer by position", async () => {
+      test("invalid args", async () => {
         const data = {
           "footballerId": "Q4115189",
-          "property": "P413",
-          "value": "Q2583758",
+          "property": "P264",
+          "value": "invalid disco",
           "referenceURL": "https://example.com",
           "token": token,
           "token_secret": token_secret
@@ -57,24 +71,7 @@ describe("api footballers tests", () => {
 
         const response = await api.post("/footballers").send(data);
     
-        expect(response.status).toBe(200);
-
-      }, 60000);
-
-
-      test("save footballer by goals", async () => {
-        const data = {
-          "footballerId": "Q4115189",
-          "property": "P6509",
-          "value": "34",
-          "referenceURL": "https://example.com",
-          "token": token,
-          "token_secret": token_secret
-        };
-
-        const response = await api.post("/footballers").send(data);
-    
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(500);
 
       }, 60000);
     });

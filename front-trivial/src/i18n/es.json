@@ -94,10 +94,10 @@
 
     "/P2048": "¿Cuál es la altura en centímetros de la/el futbolista {{label}}?",
     "/P6509": "¿Cuántos goles ha marcado a lo largo de su carrera el futbolista {{label}}?",
-    "/P413": "¿Cuál es una de las posiciones principales en las que suele desempeñarse en el campo de juego el futbolista {{label}}?",
+    "/P413": "¿Cuál es una de las posiciones del futbolista {{label}}? La respuesta debe ser una entidad de Wikidata (por ejemplo, 'Q2583758' es centro)",
     
     "/P571": "¿Cuándo se fundó el grupo {{label}}?",
-    "/P264": "¿Cuál es el sello discográfico del grupo {{label}} (o uno de ellos)?",
+    "/P264": "¿Cuál es el sello discográfico del grupo {{label}} (o uno de ellos)? La respuesta debe ser una entidad de Wikidata (por ejemplo, 'Q38903' es Universal)",
 
     "form.error": "Error en el formulario",
     "form.error.description": "No es posible enviar la pregunta por errores en el formulario. Revíselos e inténtelo de nuevo.",

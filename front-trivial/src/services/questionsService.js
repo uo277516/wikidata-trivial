@@ -9,7 +9,7 @@ const editEntity = async (selCategory, footballerId, property, value, referenceU
   } else if (selCategory==="investigación") {
     endpoint='researchers';
   } else if (selCategory==="música") {
-    endpoint='footballers';
+    endpoint='groups';
   }
   console.log(endpoint);
   try {

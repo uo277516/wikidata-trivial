@@ -76,6 +76,7 @@ const researchersRepository = {
       return transformJSON.transformJSONResearchers(response.data); //devolver datos parseados
     } catch (error) {
       console.error('Something went wrong while processing your request: ', error);
+      return null;
     }
   },
 
