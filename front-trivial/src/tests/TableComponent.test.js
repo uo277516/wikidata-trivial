@@ -29,9 +29,11 @@ describe('TableComponent Tests', () => {
 
 
     test('displays classifications correctly', async () => {
+        const today = new Date().toISOString().split('T')[0];
+
         const streaksData = [
-            { id: 1, username: 'user1', streak: 5, category: 'deporte', date: '2024-06-15' },
-            { id: 2, username: 'user2', streak: 3, category: 'música', date: '2024-06-15' },
+            { id: 1, username: 'user1', streak: 5, category: 'deporte', date: today },
+            { id: 2, username: 'user2', streak: 3, category: 'música', date: today },
         ];
 
         axios.get.mockClear();
