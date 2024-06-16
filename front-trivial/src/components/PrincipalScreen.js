@@ -70,6 +70,7 @@ let PrincipalScreen = (props) => {
       setStreaks(response.data);
     } catch (error) {
       console.error('Error fetching streaks:', error);
+      notification.error({message: t('streak.error'), description: t('streak.error.description'), placement: 'top'});
     }
   };
 
@@ -82,6 +83,7 @@ let PrincipalScreen = (props) => {
       });
     } catch (error) {
       console.error('Error saving streak:', error);
+      notification.error({message: t('streak.error'), description: t('streak.error.description'), placement: 'top'});
     }
   };
 
@@ -191,7 +193,6 @@ let PrincipalScreen = (props) => {
         //---ENVIAR A LA API---
         //lo comento pa hacer pruebas, llamaria a este y no al siguiente
         try {
-          console.log("Holi");
           await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
           //await asyncTestFunction();
           notification.info({message: t('question.send'), 

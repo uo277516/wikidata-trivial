@@ -105,8 +105,9 @@
     "question.error.entity": "Actualmente no hay más sobre esa entidad",
     "question.error.entityDescrip": "Lo sentimos. Se cargarán preguntas de otra entidad y sobre esta misma categoría",
 
-    "footer.info": "Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo. Iconos de "
+    "footer.info": "Wiki Trivial - Natalia Fernández Riego, Universidad de Oviedo. Iconos de ",
 
-    
+    "streak.error": "Error manejando las rachas",
+    "streak.error.description": "Lo sentimos, las rachas no pueden ser mostradas ni guardadas en este momento"
 }
   

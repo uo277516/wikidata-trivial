@@ -102,6 +102,9 @@
     ,"question.error.entity": "There are currently no more questions about that entity",
     "question.error.entityDescrip": "We are sorry. Questions about another entity and about this same category will be loaded",
 
-    "footer.info": "Wiki Trivial - Natalia Fernández Riego, University of Oviedo. Icons by "
+    "footer.info": "Wiki Trivial - Natalia Fernández Riego, University of Oviedo. Icons by ",
+
+    "streak.error": "Error with the streaks",
+    "streak.error.description": "Sorry, streaks can not be shown either save in this moment"
 }
   
