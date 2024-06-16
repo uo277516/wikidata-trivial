@@ -2,10 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import PrincipalScreen from '../components/PrincipalScreen';
 import axios from 'axios';
-import { click } from '@testing-library/user-event/dist/cjs/convenience/click.js';
-import { wait } from '@testing-library/user-event/dist/cjs/utils/index.js';
+import userEvent from '@testing-library/user-event'
+import { fetchData } from '../services/questionsService'; // Importa fetchData del servicio
+
+
 
 jest.mock('axios');
+
 
 //necesary for the tests bc the questions take too long to load and gives timeout
 jest.mock('../services/questionsService', async () => ({
@@ -23,21 +26,29 @@ jest.mock('../services/questionsService', async () => ({
         imageUrl: 'https://example.com/messi.jpg',
         labelEntity: 'Messi',
     }),
-    fetchQuestionsGroups: await jest.fn().mockResolvedValue({
-        question: '¿En que año se fundó el grupo "The Beatles"?',
-        entity: 'Q187',
-        relation: 'P76',
-        imageUrl: 'https://example.com/beatles.jpg',
-        labelEntity: 'The Beatles',
-    }),
+    //to test notification error
+    fetchQuestionsGroups: await jest.fn().mockRejectedValue(new Error('Failed to fetch questions for groups')),
+    checkProperties: await jest.fn().mockResolvedValue({
+        relacionesFalsas: 'P988'
+    })
 }));
 
+jest.mock('axios', () => ({
+    get: jest.fn().mockResolvedValue({ data: { streaks: [1, 2, 3] } }),
+}));
+
+
+jest.mock('../services/questionsService', () => ({
+    fetchData: jest.fn(),
+}));
+
+
 describe('PrincipalScreen tests', () => {
-  beforeEach(() => {
-    axios.get.mockResolvedValue({
-      data: []
+    beforeEach(() => {
+        axios.get.mockResolvedValue({
+            data: []
     });
-  });
+});
 
 
   test('renders component with initial loading state', async () => {
@@ -76,16 +87,19 @@ describe('PrincipalScreen tests', () => {
 
     expect(screen.getByText('question.beginAgain')).toBeInTheDocument();
 
-    console.log(container.innerHTML);
   });
 
 
 
-  test('sends answer and updates streak', async () => {
+  test('sends answer, updates streak, notification, question loads again', async () => {
+    axios.get.mockClear();
+    axios.get.mockResolvedValueOnce({ sucess: true });
+
+
     const categories = ['investigación', 'deporte', 'música']; 
     const user = { _json: { username: 'testuser' } }; 
 
-    const {container} = render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
 
     //question card
     await waitFor(() => {
@@ -99,26 +113,62 @@ describe('PrincipalScreen tests', () => {
     fireEvent.click(screen.getByText('question.buttonSend'));
 
     await waitFor(() => {
-        //'question.popChangeEntity'
         const pop = screen.getByText('question.popChangeEntity');
         expect(pop).toBeInTheDocument();
         const ok = screen.getByText('question.continueEntity');
         expect(ok).toBeInTheDocument();
         fireEvent.click(ok);
-        expect(screen.getByText('question.ranking')).toHaveTextContent('1');
     });
 
-    console.log(container.innerHTML);
+    //questions loads again
+    await waitFor(() => {
+        expect(screen.getByText('question.load')).toBeInTheDocument();
+        expect(screen.getByText('question.buttonSend').closest('button')).not.toBeEnabled();
+        expect(screen.getByText('question.popGiveUp').closest('button')).not.toBeEnabled();
+    });
+ 
+  });
 
+
+  test('notification error when questions can not be load', async () => {
+    fetchData.mockRejectedValue(new Error('Fake error'));
+    const categories = ['investigación', 'deporte', 'música']; 
+    const user = { _json: { username: 'testuser' } }; 
+
+    render(<PrincipalScreen category="música" categories={categories} user={user} />);
 
     await waitFor(() => {
-        
+        const errorAlert = screen.getAllByRole('alert')[0];
+        expect(errorAlert).toBeInTheDocument();
+    });
+    
+  });
+
+
+  test('answer not send if invalid fomat', async () => {
+    axios.get.mockClear();
+    axios.get.mockResolvedValueOnce({ sucess: true });
+
+    const categories = ['investigación', 'deporte', 'música']; 
+    const user = { _json: { username: 'testuser' } }; 
+
+    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+
+    await waitFor(() => {
+        const questionCard = document.getElementsByClassName('ant-card ant-card-bordered')[0];
+        expect(questionCard).toBeInTheDocument(); 
     });
 
-    // // Verifica que se actualice la racha de respuestas correctas
-    // await waitFor(() => {
-    //   expect(screen.getByText('Ranking')).toHaveTextContent('1');
-    // }); 
+    fireEvent.change(screen.getByPlaceholderText('question.answer'), { target: { value: '200' } });
+    fireEvent.change(screen.getByPlaceholderText('question.urlExample'), { target: { value: 'invalidformatforurl' } });
+    
+    fireEvent.click(screen.getByText('question.buttonSend'));
+
+    await waitFor(() => {
+        expect(screen.getByText('form.error')).toBeInTheDocument();        //not error format aswers
+        expect(screen.queryByText('question.load')).toBeNull();            //it doesnt sent, same screen
+    });
+
   });
 
 

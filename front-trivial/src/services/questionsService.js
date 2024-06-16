@@ -3,7 +3,6 @@ const footballerRelations = ["/P2048", "/P6509", "/P413"]; //altura, goles, posi
 const groupRelations = ["/P571", "/P264"]; //fecha de fundacion (año)
 
 const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
-  console.log(selCategory);
   let endpoint=null;
   if (selCategory==="deporte") {
     endpoint='footballers';

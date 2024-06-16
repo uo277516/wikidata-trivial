@@ -186,10 +186,12 @@ let PrincipalScreen = (props) => {
         
         //activar rueda enviar
         handleLoadingState(true);
+
         
         //---ENVIAR A LA API---
         //lo comento pa hacer pruebas, llamaria a este y no al siguiente
         try {
+          console.log("Holi");
           await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
           //await asyncTestFunction();
           notification.info({message: t('question.send'), 
@@ -230,15 +232,19 @@ let PrincipalScreen = (props) => {
   };  
 
   const funcProperties = async () => {
-    const properties = await checkProperties(entitySelected, selectedCategory);
-    if (properties) {
-      console.log("entra?");
-      setRelationSelected(properties[0]);
-      setLoading(false);
-    } else {
-      notification.error({message: t('question.error.entity')
-      , description: t('question.error.entityDescrip'), placement: 'top'});
-      fetchQuestions();
+    try {
+      const properties = await checkProperties(entitySelected, selectedCategory);
+      if (properties) {
+        console.log("entra?");
+        setRelationSelected(properties[0]);
+        setLoading(false);
+      } else {
+        notification.error({message: t('question.error.entity')
+        , description: t('question.error.entityDescrip'), placement: 'top'});
+        fetchQuestions();
+      }
+    } catch (error) {
+      console.error('Error calling checkProperties:', error);
     }
   }; 
 
