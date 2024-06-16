@@ -332,7 +332,7 @@ let PrincipalScreen = (props) => {
     <Layout style={{ minHeight: "100vh" }}>
 
       {/* Menú */}
-      <MenuComponent user={user}></MenuComponent>
+      <MenuComponent user={user} mode='horizontal'></MenuComponent>
 
       <Header style={headerStyle}>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor , cleanup} from '@testing-library/react';
+import {screen, render, waitFor , cleanup, fireEvent} from '@testing-library/react';
 import TableComponent from '../components/TableComponent';
 import axios from 'axios';
 
@@ -28,12 +28,13 @@ describe('TableComponent Tests', () => {
     });
 
 
-    test('displays classifications correctly', async () => {
+    test('displays classifications correctly and all filters work ok', async () => {
         const today = new Date().toISOString().split('T')[0];
 
         const streaksData = [
             { id: 1, username: 'user1', streak: 5, category: 'deporte', date: today },
             { id: 2, username: 'user2', streak: 3, category: 'música', date: today },
+            { id: 3, username: 'testuser', streak: 2, category: 'investigación', date: today },
         ];
 
         axios.get.mockClear();
@@ -48,6 +49,16 @@ describe('TableComponent Tests', () => {
 
         expect(getByText('table.deporte')).toBeInTheDocument();
         expect(getByText('table.música')).toBeInTheDocument();
+
+        const buttonWeek = getByText('table.week');  
+        const buttonWeekInput = buttonWeek.previousElementSibling;
+        fireEvent.click(buttonWeekInput);
+
+        expect(getByText('table.deporte')).toBeInTheDocument();         //still shows in week
+        const onlyMine = getByText('table.myRanking');
+        fireEvent.click(onlyMine);
+        expect(getByText('table.investigación')).toBeInTheDocument();        //if only mine (testuser) only shows the streak of research
+        expect(screen.queryByText('table.deporte')).not.toBeInTheDocument();        //the rest dont show
     });
 
 

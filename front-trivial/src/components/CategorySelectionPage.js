@@ -84,7 +84,7 @@ const CategorySelectionPage = () => {
         <>
           {change ? (
             <Layout style={{ minHeight: "100vh" }}>
-              <MenuComponent user={user}></MenuComponent>
+              <MenuComponent user={user} mode='horizontal'></MenuComponent>
               <Header style={headerStyle}>
                 <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
                   <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>

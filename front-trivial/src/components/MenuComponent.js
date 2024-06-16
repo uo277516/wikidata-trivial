@@ -5,10 +5,7 @@ import { useTranslation } from 'react-i18next';
 import iconEnglish from '../icons8-circular-de-gran-bretaña-16.png';
 import iconSpanish from '../icons8-circular-españa-16.png';
 
-const MenuComponent = (props) => {
-    let { user } = props; 
-    const [current, setCurrent] = useState(null);
-
+const MenuComponent = ({user, mode}) => {
     const [language, setLanguage] = useState('es');
     const { t, i18n } = useTranslation();
 
@@ -28,7 +25,7 @@ const MenuComponent = (props) => {
       {
           key: 'language',
           label: (
-              <Button icon={React.createElement(TranslationOutlined)} type="link" style={{color: 'black'}} onClick={() => console.log("Language changed")}>
+              <Button icon={React.createElement(TranslationOutlined)} type="link" style={{color: 'black'}}>
                   {t('menu.changeLanguage')}
               </Button>
           ),
@@ -67,8 +64,11 @@ const MenuComponent = (props) => {
     };
 
     const changeLanguage = (lang) => {
-        i18n.changeLanguage(lang);
-        setLanguage(lang);
+        console.log("Language changed to "+lang);
+        if (i18n) {
+            i18n.changeLanguage(lang);
+            setLanguage(lang);
+        }
     };
 
     const log = () => {
@@ -114,7 +114,7 @@ const MenuComponent = (props) => {
         <div style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: 'white', width: '100%' }}>
             <Menu
                 selectedKeys={[]}
-                mode="horizontal"
+                mode={mode}
                 items={items}
                 style={{ 
                     flex: 1, 

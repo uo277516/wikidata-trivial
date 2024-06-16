@@ -1,6 +1,10 @@
 import React from 'react';
-import { render, fireEvent, screen, act } from '@testing-library/react';
+import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
 import MenuComponent from '../components/MenuComponent';
+import { useTranslation } from 'react-i18next';
+import { I18nextProvider  } from 'react-i18next';
+
+const { i18n } = useTranslation();
 
 
 test('renders component without crashing', () => {
@@ -17,16 +21,39 @@ jest.mock('react-i18next', () => ({
 }));
 
 describe('MenuComponent Tests', () => {
-    test('changes language when language button is clicked', async () => {
+
+    test('component renders options ok when not log', async () => {
       render(<MenuComponent />);
+      //profile option not show bc user is not log
+      expect(screen.getByText('menu.changeLanguage')).toBeInTheDocument();
+      expect(screen.getByText('login.log_in')).toBeInTheDocument();
+    });
+
+    test('component renders options when not log', async () => {
+      const user = { _json: { username: 'testuser' } };
+      render(<MenuComponent user={user}/>);
+      expect(screen.getByText('menu.changeLanguage')).toBeInTheDocument();
+      expect(screen.getByText('menu.profile')).toBeInTheDocument();
+      expect(screen.getByText('menu.logout')).toBeInTheDocument();
+    });
+
+    test('changes language when language button is clicked', async () => {
+      render(<MenuComponent user={null}/>);
 
       expect(screen.getByText('menu.changeLanguage')).toBeInTheDocument();
 
       const consoleSpy = jest.spyOn(console, 'log');
 
-      fireEvent.click(screen.getByText('menu.changeLanguage'));
+      const buttonLan = screen.getByText('menu.changeLanguage').closest('button');
+      fireEvent.mouseOver(buttonLan);
 
-      expect(consoleSpy).toHaveBeenCalledWith('Language changed');
+      await waitFor(() => {
+        expect(screen.getByText('menu.english')).toBeInTheDocument(); 
+        fireEvent.click(screen.getByText('menu.english'));
+      });
+
+      expect(consoleSpy).toHaveBeenCalledWith('Language changed to en');
+
     });
 
 
