@@ -79,6 +79,7 @@ const LoginComponent = () => {
                   width={200}
                   src={logo}
                   style={{ paddingLeft: '10px',marginBottom: '20px' }}
+                  alt='Logo image'
                 />
               </Sider>
                 <Content id='content' style={{ flex: 2, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>

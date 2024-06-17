@@ -11,6 +11,7 @@
   font-size: 3em;
 }
 
+
 @media screen and (max-width: 768px) {
 
     .ant-modal-content {

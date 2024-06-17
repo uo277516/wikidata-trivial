@@ -4,6 +4,8 @@ import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined } from
 import { useTranslation } from 'react-i18next';
 import iconEnglish from '../icons8-circular-de-gran-bretaña-16.png';
 import iconSpanish from '../icons8-circular-españa-16.png';
+import '../styles/styles.css'; 
+
 
 const MenuComponent = ({user, mode}) => {
     const [language, setLanguage] = useState('es');
