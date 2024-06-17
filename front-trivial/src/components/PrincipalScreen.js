@@ -13,6 +13,7 @@ import MenuComponent from './MenuComponent.js';
 import TableComponent from './TableComponent.js';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
+import '../styles/styles.css'; 
 
 
 //Layout y letras
@@ -337,7 +338,7 @@ let PrincipalScreen = (props) => {
       <Header style={headerStyle}>
 
 
-      <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
+      <Layout id='header' style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
         
         {/* Info y logo */}
         <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
@@ -347,7 +348,7 @@ let PrincipalScreen = (props) => {
             style={{ paddingLeft: '10px',marginBottom: '20px' }}
           />
         </Sider>
-        <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
+        <Content id='content' style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
           <Title level={1} style={{ marginTop: '20px', fontSize: '5vh', fontWeight: 'bold' }}>Wiki Trivial</Title>
           <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>{t('login.title')}</Title>
         </Content>

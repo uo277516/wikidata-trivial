@@ -83,25 +83,25 @@ const CategorySelectionPage = () => {
       ) : (
         <>
           {change ? (
-            <Layout style={{ minHeight: "100vh" }}>
+            <Layout style={{ minHeight: "100vh" , backgroundColor: 'white'}}>
               <MenuComponent user={user} mode='horizontal'></MenuComponent>
-              <Header style={headerStyle}>
-                <Layout style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
-                  <Sider style={{ width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
+              <Header  style={headerStyle}>
+                <Layout id='header' style={{ display: 'flex', alignItems: 'center', backgroundColor: 'white'}}>
+                  <Sider style={{ flex: 1, width: '20%', textAlign: 'center', lineHeight: '120px', color: '#fff', backgroundColor: 'white', paddingTop: '20px' }}>
                     <Image
                       width={200}
                       src={logo}
                       style={{ paddingLeft: '10px',marginBottom: '20px' }}
                     />
                   </Sider>
-                  <Content style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
+                  <Content id='content' style={{ flex: 2, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
                     <Title level={1} style={{ marginTop: '20px', fontSize: '5vh', fontWeight: 'bold' }}>Wiki Trivial</Title>
                     <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>{t('login.title')}</Title>
                   </Content>
                 </Layout>
               </Header>
               <Content style={contentStyle}>
-              <div style={{
+              <div id='login_div' style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',

@@ -7,7 +7,7 @@ const popconfirmStyle = {
 const headerStyle = {
     textAlign: 'center',
     color: 'white',
-    height: 250,
+    height: '100%',
     paddingInline: 0,
     lineHeight: '64px',
     backgroundColor: 'white'
