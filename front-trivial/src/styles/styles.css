@@ -12,7 +12,21 @@
 }
 
 @media screen and (max-width: 768px) {
+
+    .ant-modal-content {
+      width: 101vw;
+    }
+
+    .ant-table {
+      width: 95vw;
+    }
     .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .ant-space {
       display: flex;
       flex-direction: column;
       align-items: center;

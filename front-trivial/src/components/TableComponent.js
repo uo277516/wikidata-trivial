@@ -3,6 +3,7 @@ import { Table, Switch, Segmented, Space, notification } from 'antd';
 import moment from 'moment';
 import axios from 'axios'; 
 import { useTranslation } from 'react-i18next';
+import '../styles/styles.css'; 
 
 
 const TableComponent = (props) => {
