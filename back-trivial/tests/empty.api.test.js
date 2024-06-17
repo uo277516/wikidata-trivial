@@ -3,7 +3,7 @@ const {app, server} = require('../app');
 const api = request(app);
 
 
-describe("empty properties tests", () => { 
+describe("empty properties tests", () => {  
 
 
     describe("get empty properties", () => {
