@@ -26,6 +26,8 @@ let PrincipalScreen = (props) => {
   let {category, categories, user} = props;
   const { t } = useTranslation();
 
+  let [popOpen, setPopOpen] = useState(false);
+
 
   //cambiar question,entity,relation y imagenUrl a ITEM y que tenga esas propiedades
   const [answeredQuestions, setAnsweredQuestions] = useState(0); //Para el número de respuestas seguidas
@@ -176,6 +178,17 @@ let PrincipalScreen = (props) => {
       return newLoadings;
     });
     setLoadingSend(loading);
+  };
+
+  const openPop = async () => {
+    try {
+      const values = await form.validateFields(); 
+      if (values.respuesta && values.urldereferencia) {
+        setPopOpen(true);
+      }
+    } catch (error) {
+      notification.error({message: t('form.error'), description: t('form.error.description'), placement: 'top'});
+    }
   };
 
   const handleSend = async (func) => {
@@ -349,8 +362,8 @@ let PrincipalScreen = (props) => {
           />
         </Sider>
         <Content id='content' style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', color: 'black', backgroundColor: 'white'}}>
-          <Title level={1} style={{ marginTop: '20px', fontSize: '5vh', fontWeight: 'bold' }}>Wiki Trivial</Title>
-          <Title level={2} style={{ marginTop: '5px', fontSize: '40px'}}>{t('login.title')}</Title>
+          <Title level={1} style={{ marginTop: '20px' ,fontWeight: 'bold' }}>Wiki Trivial</Title>
+          <Title level={2} style={{ marginTop: '5px'}}>{t('login.title')}</Title>
         </Content>
       </Layout>
 
@@ -455,7 +468,7 @@ let PrincipalScreen = (props) => {
               />
               ): (              
               
-              <div style={{ paddingTop: '20px', display: 'flex', alignItems: 'flex-start' }}>
+              <div id='form' style={{ paddingTop: '20px', display: 'flex', alignItems: 'flex-start' }}>
                 <Form
                     form={form}
                     name="basic"
@@ -495,8 +508,8 @@ let PrincipalScreen = (props) => {
                     </Form.Item>
 
                     <Form.Item >
-                      {contextHolder}
-                      <Popconfirm
+                      
+                    <Popconfirm
                         placement='rightTop'
                         title={t('question.popChangeEntity')}
                         description={t('question.popChangeEntityDescription', {labelSelected})}
@@ -505,12 +518,12 @@ let PrincipalScreen = (props) => {
                         okText={t('question.continueEntity')}
                         cancelText={t('question.changeEntity')}
                         overlayStyle={popconfirmStyle} 
-                      >
+                        open={popOpen}
+                      ></Popconfirm>
                       <Button type="primary" htmlType="submit" 
-                        style={{ marginRight: '20px'}} loading={loadings[0]}>
+                        style={{ marginRight: '20px'}} loading={loadings[0]} onClick={openPop}>
                         {t('question.buttonSend')}
                       </Button>
-                      </Popconfirm>
 
 
                       <Popconfirm
@@ -530,7 +543,7 @@ let PrincipalScreen = (props) => {
 
                   </Form>
 
-                  <Card bordered={true} style={{marginLeft: '80px', width: '13vw'}}>
+                  <Card id='card' bordered={true} style={{marginLeft: '80px'}}>
                     <Statistic
                       title={t('question.ranking')}
                       value={answeredQuestions}
@@ -542,7 +555,7 @@ let PrincipalScreen = (props) => {
 
                   
 
-                </div>
+              </div>
             )}
 
             
