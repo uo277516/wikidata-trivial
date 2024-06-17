@@ -7,7 +7,7 @@ const token = "cce591040984e060f9ddbb47c6e5481e";
 const token_secret = "f1dedf0aab8c07cc1feccc72d12da8b9d2125f75";
 
 
-describe("api researchers tests", () => {
+describe("api researchers tests", () => { 
 
     //this tests can fail due to timeout of the query
     describe("get researchers", () => {
