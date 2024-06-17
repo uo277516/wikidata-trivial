@@ -92,7 +92,7 @@ const LoginComponent = () => {
             <Title level={1} style={{ color: '#004aad', margin: '0 auto' }}>{t('login.login')}</Title>
             <Paragraph style={{ fontSize: "20px", marginTop: '20px' }}> 
                   {t('login.info1')}
-                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
+                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}>Wikidata</Link>
                   {t('login.info2')}
             </Paragraph>
             <Button

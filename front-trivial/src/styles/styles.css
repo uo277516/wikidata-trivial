@@ -11,6 +11,24 @@
   font-size: 3em;
 }
 
+.ant-typography a {
+  color: #006EF5;
+  text-decoration: underline; 
+}
+
+.ant-layout-content .ant-btn, .ant-modal-confirm-content .ant-btn-primary {
+  background-color: #006EF5;
+}
+
+.ant-btn[disabled], .ant-btn:disabled {
+  background-color: #cccccc; 
+  color: #999999; 
+  border-color: #999999;
+}
+
+#btn_gu {
+  background-color: #526B75; 
+}
 
 @media screen and (max-width: 768px) {
 

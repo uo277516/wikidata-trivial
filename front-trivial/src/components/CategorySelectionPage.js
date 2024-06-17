@@ -125,7 +125,7 @@ const CategorySelectionPage = () => {
                 </div>
                 <Paragraph style={{ fontSize: "20px"}}>
                   {t('login.info1')}
-                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}> Wikidata. </Link>
+                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{ fontSize: "20px" }}>Wikidata</Link>
                   {t('cat.info')}
                 </Paragraph>
                 

@@ -1,14 +1,14 @@
 {
     "login.title": "Juego de preguntas y respuestas",
-    "login.info1": "La información de las siguientes preguntas se ha recogido de",
-    "login.info2": "Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.",
+    "login.info1": "La información de las siguientes preguntas se ha recogido de ",
+    "login.info2": " .Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.",
     "login.login": "Inicio de sesión",
     "login.log_in": "Iniciar sesión",
     "login.errorOAuth": "Error al iniciar sesión",
     "login.descErrorOAuth": "En este momento no es posible iniciar sesión. Por favor, inténtelo de nuevo más tarde",
     
     
-    "cat.info": "Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.",
+    "cat.info": ". Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.",
     "cat.welcome": "¡Bienvenid@,",
     "cat.tableTitle": "Clasificación de rachas de preguntas contestadas",
     "cat.buttonClasification": "Ver clasificación",
@@ -63,7 +63,7 @@
     "question.youChangeCatMsg": "Tu racha de preguntas empezará de 0 de nuevo. Número de respuestas acertadas seguidas: {{answeredQuestions}}",
     "question.yearNotValid": "La fecha que has introducido no es válido",
     "question.info": "La información de las siguientes preguntas sobre {{selectedCategory}} se ha recogido de ",
-    "question.info2": "Las respuestas que usted proporcione se utilizarán para enriquecer la misma.",
+    "question.info2": " .Las respuestas que usted proporcione se utilizarán para enriquecer la misma.",
     "question.load": "Cargando pregunta...",
     "question.wait": "Por favor espere. Se está cargando la pregunta.",
     "question.errorLoad": "Error al cargar las preguntas sobre {{selectedCategory}}.",

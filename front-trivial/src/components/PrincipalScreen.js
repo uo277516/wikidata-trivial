@@ -420,7 +420,7 @@ let PrincipalScreen = (props) => {
 
                 <Paragraph style={{fontSize:"20px"}}>
                 {t('question.info', { selectedCategory: t(`table.${selectedCategory}`) })}
-                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}> Wikidata. </Link>
+                  <Link href="https://www.wikidata.org/?uselang=es" target="_blank" style={{fontSize:"20px"}}>Wikidata</Link>
                   {t('question.info2')}
                 </Paragraph>
 
@@ -534,7 +534,7 @@ let PrincipalScreen = (props) => {
                         okText={t('yes')}
                         cancelText={t('no')}
                       >
-                        <Button type="primary" style={{ backgroundColor: '#607d8b' }}>
+                        <Button id='btn_gu' type="primary">
                           {t('question.popGiveUp')}
                         </Button>
                         
