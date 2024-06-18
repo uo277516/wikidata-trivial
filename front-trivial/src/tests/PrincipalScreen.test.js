@@ -68,7 +68,7 @@ describe('PrincipalScreen tests', () => {
     const categories = ['investigación', 'deporte', 'música']; 
     const user = { _json: { username: 'testuser' } };
 
-    const {container}=render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
 
     expect(screen.getByText('table.deporte')).toBeInTheDocument();
     expect(screen.getByText('table.música')).toBeInTheDocument();
@@ -87,7 +87,6 @@ describe('PrincipalScreen tests', () => {
         fireEvent.click(ok);
     });
 
-    console.log(container.innerHTML);
     expect(screen.getByText('question.beginAgain')).toBeInTheDocument();
     expect(screen.getByText('question.youChangeCat')).toBeInTheDocument();   //info that you change cat and the streak
   });
@@ -102,7 +101,7 @@ describe('PrincipalScreen tests', () => {
     const categories = ['investigación', 'deporte', 'música']; 
     const user = { _json: { username: 'testuser' } }; 
 
-    render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
+    const {container} = render(<PrincipalScreen category="deporte" categories={categories} user={user} />);
 
     //question card
     await waitFor(() => {
@@ -113,7 +112,11 @@ describe('PrincipalScreen tests', () => {
     fireEvent.change(screen.getByPlaceholderText('question.answer'), { target: { value: '200' } });
     fireEvent.change(screen.getByPlaceholderText('question.urlExample'), { target: { value: 'https://example.com' } });
 
-    fireEvent.click(screen.getByText('question.buttonSend'));
+    const btn = screen.getByText('question.buttonSend').closest('button');
+    console.log("-- " + btn);
+    fireEvent.click(btn);
+
+    console.log(container.innerHTML);
 
     await waitFor(() => {
         const pop = screen.getByText('question.popChangeEntity');
@@ -167,7 +170,7 @@ describe('PrincipalScreen tests', () => {
     fireEvent.click(screen.getByText('question.buttonSend'));
 
     await waitFor(() => {
-        expect(screen.getByText('form.error')).toBeInTheDocument();        //not error format aswers
+        expect(screen.getAllByText('form.error')[0]).toBeInTheDocument();        //not error format aswers
         expect(screen.queryByText('question.load')).toBeNull();            //it doesnt sent, same screen
     });
   });

@@ -181,12 +181,16 @@ let PrincipalScreen = (props) => {
   };
 
   const openPop = async () => {
+    console.log("aa");
     try {
       const values = await form.validateFields(); 
       if (values.respuesta && values.urldereferencia) {
         setPopOpen(true);
       }
     } catch (error) {
+      if (error.errorFields.length===0) {
+        setPopOpen(true);
+      }
       notification.error({message: t('form.error'), description: t('form.error.description'), placement: 'top'});
     }
   };
@@ -203,12 +207,12 @@ let PrincipalScreen = (props) => {
         //activar rueda enviar
         handleLoadingState(true);
 
-        
+        setPopOpen(false);
         //---ENVIAR A LA API---
         //lo comento pa hacer pruebas, llamaria a este y no al siguiente
         try {
-          await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
-          //await asyncTestFunction();
+          //await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+          await asyncTestFunction();
           notification.info({message: t('question.send'), 
             description: t('question.sendDescription'), placement: 'topRight'});
           setAnsweredQuestions(answeredQuestions + 1);
@@ -520,11 +524,11 @@ let PrincipalScreen = (props) => {
                         cancelText={t('question.changeEntity')}
                         overlayStyle={popconfirmStyle} 
                         open={popOpen}
-                      ></Popconfirm>
-                      <Button type="primary" htmlType="submit" 
-                        style={{ marginRight: '20px'}} loading={loadings[0]} onClick={openPop}>
-                        {t('question.buttonSend')}
-                      </Button>
+                    ></Popconfirm>
+                    <Button type="primary" htmlType="submit" 
+                      style={{ marginRight: '20px'}} loading={loadings[0]} onClick={openPop}>
+                      {t('question.buttonSend')}
+                    </Button>
 
 
                       <Popconfirm
