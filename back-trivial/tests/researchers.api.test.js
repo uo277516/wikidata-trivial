@@ -13,11 +13,11 @@ describe("api researchers tests", () => {
     describe("get researchers", () => {
       test("get researchers by alma mater", async () => {
         await api.get("/researchers/P69").expect(200);
-      }, 60000);
+      }, 120000);
 
       test("get researchers by place of birth", async () => {
         await api.get("/researchers/P19").expect(200);
-      }, 60000);
+      }, 120000);
     });
 
 

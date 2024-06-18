@@ -65,17 +65,6 @@ describe("database tests (rankings)", () => {
         });
     });
 
-    
-
-
-
-    // describe("get footballers", () => {
-    //   test("get footballers by height", async () => {
-    //     await api.get("/footballers/P2048").expect(200);
-    //   }, 30000);
-    // });
-
-
 
     afterAll(() => {
         server.close();
