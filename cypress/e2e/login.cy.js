@@ -1,4 +1,5 @@
-Cypress.config('experimentalSessionSupport', true)  // set this flag
+import userData from '../fixtures/userFixture.json';
+
 
 describe('e2e tests', () => {
   it('language changes', () => {
@@ -15,13 +16,13 @@ describe('e2e tests', () => {
 
   it('user log redirects', () => {
     cy.visit('http://localhost:3000/');
-    cy.contains('Iniciar sesión').click();   
-
-    cy.origin('https://meta.wikimedia.org', () => {
-      cy.contains("Wikimedia");
+    
+    cy.intercept('GET', 'http://localhost:3001/**', async (req) => {
+      localStorage.setItem('user', JSON.stringify(userData));
     });
-
-
+    cy.contains('Iniciar sesión').click();
+  
+    cy.visit('http://localhost:3000/');
 
   });
 
