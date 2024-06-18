@@ -1,7 +1,7 @@
 import userData from '../fixtures/userFixture.json';
 
 
-describe('e2e tests', () => {
+describe('login tests', () => {
   it('language changes', () => {
     cy.visit('http://localhost:3000/');
     cy.contains('Inicio de sesión');   
