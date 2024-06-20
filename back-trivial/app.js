@@ -98,7 +98,6 @@ app.use( session( {
 app.use( passport.initialize() );
 app.use( passport.session() );
 
-console.log(config.session_secret);
 
 
 
@@ -117,7 +116,6 @@ passport.use( new MediaWikiStrategy(
 			token: token,
 			token_secret: tokenSecret
 		};
-		//console.log(profile);
 		saveData(profile);
 		return done( null, profile );
 	}
@@ -158,7 +156,6 @@ router.get( "/login", function ( req, res ) {
  
 
 router.get( "/auth/mediawiki/callback", function( req, res, next ) {
-	console.log("hola");
 	passport.authenticate( "mediawiki", function( err, user ) {
 		if ( err ) {
 			return next( err );
@@ -169,7 +166,6 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 		}
 
 		req.session.user = user;
-        console.log(req.session.user);
 		//SI todo va bien ya redirijo a home
         res.redirect( "http://localhost:3000" );
 		

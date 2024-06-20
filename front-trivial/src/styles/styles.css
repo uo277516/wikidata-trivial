@@ -30,6 +30,10 @@
   background-color: #526B75; 
 }
 
+#card .ant-card-body .ant-statistic .ant-statistic-title {
+  color:#526B75;
+}
+
 @media screen and (max-width: 768px) {
 
     .ant-modal-content {

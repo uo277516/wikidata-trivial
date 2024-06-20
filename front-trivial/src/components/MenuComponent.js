@@ -35,7 +35,7 @@ const MenuComponent = ({user, mode}) => {
               {
                   key: 'language:1',
                   label: (
-                      <Button type="link" onClick={() => changeLanguage('es')}>
+                      <Button id='btn-Lan1' type="link" onClick={() => changeLanguage('es')}>
                           <img src={iconSpanish} alt="icon" style={{ width: '16px', height: '16px' }} /> {t('menu.spanish')}
                       </Button>
                   )
@@ -43,7 +43,7 @@ const MenuComponent = ({user, mode}) => {
               {
                   key: 'language:2',
                   label: (
-                      <Button type="link" onClick={() => changeLanguage('en')}>
+                      <Button id='btn-Lan2' type="link" onClick={() => changeLanguage('en')}>
                           <img src={iconEnglish} alt="icon" style={{ width: '16px', height: '16px' }} /> {t('menu.english')}
                       </Button>
                   )
