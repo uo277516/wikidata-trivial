@@ -14,7 +14,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
   </React.StrictMode>
 );*/
 
-
+/**
+ * Render the root React component wrapped in BrowserRouter.
+ * @function render
+ * @returns {void}
+ */
 root.render(
   <BrowserRouter>
     <App />

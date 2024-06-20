@@ -19,7 +19,7 @@ const headerStyle = {
     minHeight: 120,
     lineHeight: '120px',
     color: 'black',
-    backgroundColor: 'white', //color de fondo de donde tengo todo lo que ye la app
+    backgroundColor: 'white', 
   };
   const headerRightStyle = {
     textAlign: 'left',

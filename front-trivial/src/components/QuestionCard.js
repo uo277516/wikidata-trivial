@@ -8,6 +8,18 @@ import { useTranslation } from 'react-i18next';
 const {Title, Paragraph, Link} = Typography;
 
 
+/**
+ * QuestionCard component to display a question with its image and related information.
+ *
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {string} props.imagenUrl - URL of the image.
+ * @param {string} props.questionSelected - The selected question.
+ * @param {string} props.entity - The Wikidata entity of the question.
+ * @param {string} props.label - The label for the question.
+ * @param {string} props.relationSelected - The selected relation (Wikidata property).
+ * @returns {React.JSX.Element} Rendered component.
+ */
 let QuestionCard = (props) => {
 
     let {imagenUrl, questionSelected, entity, label, relationSelected} = props;
@@ -25,10 +37,7 @@ let QuestionCard = (props) => {
     };
 
     const { t } = useTranslation();
-
-
     const error_url = vars.fallback;
-      
     const url = getSitelinkUrl({ site: 'wikidata', title: entity });
 
     return (
@@ -63,7 +72,6 @@ let QuestionCard = (props) => {
                 </Flex>
             </Flex>
         </Card>
-
     </>
     );
 };

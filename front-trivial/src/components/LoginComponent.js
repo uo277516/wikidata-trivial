@@ -10,35 +10,57 @@ import { useTranslation } from 'react-i18next';
 import '../styles/styles.css'; 
 
 
-
-
 const { Title, Paragraph, Link} = Typography;
 const { Header, Content, Footer, Sider } = Layout;
 
-
+/**
+ * Login component for the web application.
+ * @component
+ * @returns {React.JSX.Element} Rendered component.
+ */
 const LoginComponent = () => {
 
   const { t } = useTranslation();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  /**
+   * Lifecycle hook for checking user authentication on component mount.
+   * @function useEffect
+   * @returns {void}
+   */
   useEffect(() => {
     checkAuthentication();
   }, []);
 
+
+  /**
+   * Handles login by redirecting the user to the authentication URL and
+   * getting the user's data.
+   * @function handleLogin
+   * @async
+   * @returns {void}
+   */
   const handleLogin = async () => {
     console.log("User logged in");
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
-    const userData = await fetchUserData(); //datos del usuario
+    const userData = await fetchUserData(); //user data
 
     if (userData===null) {
       notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
     } else {
-      localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
+      localStorage.setItem('user', JSON.stringify(userData)); //save data in localStorage
     }
   };
 
+
+  /**
+   * Verifies user authentication by checking if there is user data in localStorage.
+   * @function checkAuthentication
+   * @async
+   * @returns {Promise<Void>}
+   */
   const checkAuthentication = async () => {
     if (localStorage.getItem("user")) {
       setIsLoggedIn(true);
@@ -47,7 +69,13 @@ const LoginComponent = () => {
     }
   };
   
-  
+
+  /**
+   * Obtains the user data from the backend after authentication.
+   * @function fetchUserData
+   * @async
+   * @returns {Object|null} The user data or null on error.
+   */
   const fetchUserData = async () => {
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");

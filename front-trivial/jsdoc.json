@@ -1,0 +1,14 @@
+{
+    "source": {
+      "include": ["src"],
+      "includePattern": ".js$",
+      "excludePattern": "(node_modules/|docs)"
+    },
+    "opts": {
+      "encoding": "utf8",
+      "destination": "../docs/front-doc",
+      "recurse": true,
+      "verbose": true
+    }
+  }
+  

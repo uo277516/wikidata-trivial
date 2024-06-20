@@ -15,6 +15,13 @@ import { useTranslation } from 'react-i18next';
 const { Title, Paragraph, Link} = Typography;
 const { Header, Content, Footer, Sider } = Layout;
 
+
+/**
+ * Category selection component for the game.
+ * 
+ * @component
+ * @returns {React.JSX.Element} Rendered component.
+ */
 const CategorySelectionPage = () => {
   const [change, setChange] = useState(true);
   const categories = ['investigación', 'deporte', 'música']; 
@@ -25,7 +32,12 @@ const CategorySelectionPage = () => {
 
 
 
-
+  /**
+   * Handles the start of the game by displaying a confirmation modal.
+   * @function handleStartGame
+   * @param {string} selectedCategory - The selected category
+   * @returns {void}
+   */
   const handleStartGame = (selectedCategory) => {
     Modal.info({
       title: t('cat.startButton'),
@@ -47,19 +59,43 @@ const CategorySelectionPage = () => {
     });
   };
 
+  /**
+   * Function that is executed when the start of the game is confirmed.
+   * @function ok
+   * @returns {void}
+   */
   const ok = () => {
     setChange(false);
     cancel();
   }
 
+  /**
+   * Function that is executed when the game start modal is cancelled.
+   * @function cancel
+   * @returns {void}
+   */
   const cancel = () => {
-    Modal.destroyAll(); // Cerrar el modal después de hacer clic en Cancelar
+    Modal.destroyAll(); 
   };
 
+
+  /**
+   * Handles the change of the selected category.
+   * @function handleCategoryChange
+   * @param {Event} e - Category change event.
+   * @returns {void}
+   */
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
 
+
+  /**
+   * Verify user authentication by getting the localStorage user.
+   * @function checkAuthentication
+   * @async
+   * @return {void}
+   */
   const checkAuthentication = async () => {
     const userGet = localStorage.getItem("user");
     if (userGet !== null) {
@@ -67,13 +103,15 @@ const CategorySelectionPage = () => {
     }
   };
 
+
+  /**
+   * Lifecycle hook for checking user on component mount.
+   * @function useEffect
+   * @returns {void}
+   */
   useEffect(() => {    
     checkAuthentication();
   }, []);
-
-  
-  
-
 
 
   return (
