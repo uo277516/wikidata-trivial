@@ -1,0 +1,15 @@
+{
+    "source": {
+      "include": ["./controllers", "./errors", "./repositories", "./routers", "./services", 
+                  "./utils", "./app.js", "./config.js", "./db.js"],
+      "includePattern": ".js$",
+      "excludePattern": "(./node_modules/|docs)"
+    },
+    "opts": {
+      "encoding": "utf8",
+      "destination": "../docs/back-doc",
+      "recurse": true,
+      "verbose": true
+    }
+  }
+  

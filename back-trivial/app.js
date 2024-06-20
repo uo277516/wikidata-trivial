@@ -5,12 +5,9 @@ var MediaWikiStrategy = require( "passport-mediawiki-oauth" ).OAuthStrategy;
 var config = require( "./config" );
 const fs = require('fs');
 const path = require('path');
-
 const cors = require('cors');
 const initRouters = require("./routers/routers");
-
 const connection = require("./db");
-
 
 const app = express();
 const PORT = 3001;
@@ -22,9 +19,18 @@ app.use(express.json());
 initRouters(app);
 
 
-//-----BASE DE DATOS
+//----- DATABASE ROUTES -----
 
-//Guardar racha
+/**
+ * Endpoint to save streak data into the database.
+ * @name POST/saveStreak
+ * @function
+ * @memberof app
+ * @param {string} username - The username associated with the streak.
+ * @param {string} category - The category of the streak ('investigación', 'deporte', 'música').
+ * @param {number} streak - The streak value to be saved.
+ * @returns {string} Success message or error message if parameters are incorrect.
+ */
 app.post('/saveStreak', (req, res) => {
 	const { username, category, streak } = req.body;
 	if (Object.keys(req.body).length !== 3) {
@@ -52,7 +58,14 @@ app.post('/saveStreak', (req, res) => {
 	});
 });
   
-//Rachas por usuario
+/**
+ * Endpoint to fetch streaks for a specific user from the database.
+ * @name GET/getStreaks/:username
+ * @function
+ * @memberof app
+ * @param {string} username - The username to fetch streaks for.
+ * @returns {Object[]} Array of streak objects ordered by streak value.
+ */
 app.get('/getStreaks/:username', (req, res) => {
 	const { username } = req.params;
 	const query = 'SELECT * FROM rachas WHERE username = ? ORDER BY streak DESC';
@@ -66,7 +79,13 @@ app.get('/getStreaks/:username', (req, res) => {
 	});
 });
 
-//Todas las rachas
+/**
+ * Endpoint to fetch all streaks from the database.
+ * @name GET/getAllStreaks
+ * @function
+ * @memberof app
+ * @returns {Object[]} Array of all streak objects ordered by streak value.
+ */
 app.get('/getAllStreaks', (req, res) => {
 	const query = 'SELECT * FROM rachas ORDER BY streak DESC';
 	connection.query(query, (err, results) => {
@@ -80,14 +99,10 @@ app.get('/getAllStreaks', (req, res) => {
 });
 
 
-  
 
-
-//-------OAUTH
+//------- OAUTH SETUP -------
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-  
 
 app.use( session( {
     secret: config.session_secret,
@@ -97,13 +112,14 @@ app.use( session( {
 
 app.use( passport.initialize() );
 app.use( passport.session() );
-
-
-
-
 app.use( "/", router );
 
-
+/**
+ * MediaWiki OAuth Strategy configuration for Passport.
+ * @name MediaWikiStrategy
+ * @memberof app
+ * @instance
+ */
 passport.use( new MediaWikiStrategy(
     {
 		consumerKey: config.consumer_key,
@@ -121,6 +137,13 @@ passport.use( new MediaWikiStrategy(
 	}
 ) );
 
+/**
+ * Saves user data to a JSON file.
+ * @name saveData
+ * @function
+ * @memberof app
+ * @param {Object} data - The user data to save.
+ */
 const saveData = (data) => {
 	const jsonData = JSON.stringify(data);
 	const filePath = path.join(__dirname, 'public', 'data.json');
@@ -134,17 +157,30 @@ const saveData = (data) => {
 	});
 }
 
+/**
+ * Serialize user object into the session.
+ * @name serializeUser
+ * @function
+ * @memberof app
+ * @param {Function} done - Callback function.
+ */
 passport.serializeUser(	function ( user, done ) {
 	done( null, user );
 } );
 
+/**
+ * Deserialize user object from the session.
+ * @name deserializeUser
+ * @function
+ * @memberof app
+ * @param {Function} done - Callback function.
+ */
 passport.deserializeUser( function ( obj, done ) {
 	done( null, obj );
 } );
 
 router.get( "/", function ( req, res ) {
 	res.render( "index", {
-		//user: req && req.session && req.session.user,
 		user: req.session.user,
 		url: req.baseUrl
 	} );
@@ -166,7 +202,7 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 		}
 
 		req.session.user = user;
-		//SI todo va bien ya redirijo a home
+		//if everything ok to home
         res.redirect( "http://localhost:3000" );
 		
 	} )( req, res, next );
@@ -188,8 +224,6 @@ router.get("/checkAuth", function(req, res) {
 	}
 });
 
-
-//-----
 
 
 const server = app.listen(PORT, () => {

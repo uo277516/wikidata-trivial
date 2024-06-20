@@ -22,11 +22,13 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "jest --verbose --watchAll"
+    "test": "jest --verbose --watchAll",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
     "@testing-library/react": "^16.0.0",
     "jest": "^29.7.0",
+    "jsdoc": "^4.0.3",
     "react-test-renderer": "^18.3.1",
     "supertest": "^7.0.0"
   }

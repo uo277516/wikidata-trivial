@@ -1,3 +1,9 @@
+/**
+ * Retrieves the current date and time adjusted by subtracting 5 minutes,
+ * formatted to comply with the date format required for references in Wikidata.
+ * @function getDate
+ * @returns {string} Formatted date string in the format `+YYYY-MM-DDT00:00:00Z`.
+ */
 function getDate() {
     const actualDate = new Date();
 

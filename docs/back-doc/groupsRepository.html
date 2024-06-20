@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Namespace: groupsRepository</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Namespace: groupsRepository</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>groupsRepository</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Repository object for handling operations related to groups in Wikidata.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="repositories_groupsRepository.js.html">repositories/groupsRepository.js</a>, <a href="repositories_groupsRepository.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".editGroupById"><span class="type-signature">(async, static) </span>editGroupById<span class="signature">(groupId, property, value, referenceURL, token, token_secret)</span><span class="type-signature"> &rarr; {Promise.&lt;(object|null)>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Edits a group entity on Wikidata by adding or updating a specific property value.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>groupId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The Wikidata ID of the group entity.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>property</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The property ID to edit.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new value for the specified property.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>referenceURL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The reference URL of the information of the entity.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">OAuth token for authorization.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token_secret</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">OAuth token secret for authorization.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="repositories_groupsRepository.js.html">repositories/groupsRepository.js</a>, <a href="repositories_groupsRepository.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise that resolves to the edited claim object or null if an error occurs.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(object|null)></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getGroupsRelation"><span class="type-signature">(async, static) </span>getGroupsRelation<span class="signature">(relacion)</span><span class="type-signature"> &rarr; {Promise.&lt;(Array.&lt;object>|null)>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieves groups based on a specified relation using a SPARQL query.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>relacion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The relation ID to query groups.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="repositories_groupsRepository.js.html">repositories/groupsRepository.js</a>, <a href="repositories_groupsRepository.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise that resolves to an array of parsed group data or null if an error occurs.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(Array.&lt;object>|null)></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-emptyPropertiesService.html">emptyPropertiesService</a></li></ul><h3>Namespaces</h3><ul><li><a href="emptyPropertiesController.html">emptyPropertiesController</a></li><li><a href="emptyPropertiesRepository.html">emptyPropertiesRepository</a></li><li><a href="footballersController.html">footballersController</a></li><li><a href="footballersRepository.html">footballersRepository</a></li><li><a href="footballersService.html">footballersService</a></li><li><a href="groupsController.html">groupsController</a></li><li><a href="groupsRepository.html">groupsRepository</a></li><li><a href="groupsService.html">groupsService</a></li><li><a href="researchersRepository.html">researchersRepository</a></li><li><a href="researchersService.html">researchersService</a></li></ul><h3>Classes</h3><ul><li><a href="InputError.html">InputError</a></li><li><a href="LogicError.html">LogicError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDate">getDate</a></li><li><a href="global.html#getResearcherIds">getResearcherIds</a></li><li><a href="global.html#getResearcherLabelValues">getResearcherLabelValues</a></li><li><a href="global.html#initRouters">initRouters</a></li><li><a href="global.html#transformJSONFootballers">transformJSONFootballers</a></li><li><a href="global.html#transformJSONGroups">transformJSONGroups</a></li><li><a href="global.html#transformJSONProperties">transformJSONProperties</a></li><li><a href="global.html#transformJSONResearchers">transformJSONResearchers</a></li><li><a href="global.html#wdk">wdk</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jun 20 2024 23:52:16 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
