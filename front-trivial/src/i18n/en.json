@@ -54,6 +54,7 @@
     "question.sendDescription": "The information provided in your answer has been added to Wikidata.",
     "question.noSend": "Error sending response",
     "question.noSendDescription": "The answer could not be sent to Wikidata at this time. The question streak has not been increased. Another question will be re-uploaded.",
+    "question.noSendFormat": "The answer could not be sent. The answer value is not valid for this question.",
     "question.giveup": "You have given up.",
     "question.msgGiveUp": "Number of consecutive correct answers: {{answeredQuestions}}",
     "question.changeCat": "You are about to change category",
@@ -88,8 +89,8 @@
     "question.changeEntity": "Change entity",
 
 
-    "/P19": "Where was researcher {{label}} born? The answer must be a Wikidata entity (for example 'Q2807', that is Madrid)",
-    "/P69": "Where did the researcher {{label}} study? The answer must be a Wikidata entity (for example 'Q219694', that is UCM)",
+    "/P19": "In which city was researcher {{label}} born? The answer must be a Wikidata entity.",
+    "/P69": "At which university did researcher {{label}} study? The answer must be a Wikidata entity.",
     "/P2048": "What is the height in centimeters of the footballer {{label}}?",
     "/P6509": "How many goals has the footballer called {{label}} scored throughout their career?",
     "/P413": "What is one of the positions of the footballer {{label}}? Rhe answer must be a Wikidata entity (for example, 'Q2583758' is centre)",
@@ -97,7 +98,7 @@
     "/P264": "What is the record label (or one of them) of the group {{label}}? The answer must be a Wikidata entity (for example, 'Q38903' is Universal)",
 
     "form.error": "Form error",
-    "form.error.description": "The question could not be submitted due to errors in the form. Please review them and try again."
+    "form.error.description": "The question could not be submitted due to format errors in the form. Please review them and try again."
 
     ,"question.error.entity": "There are currently no more questions about that entity",
     "question.error.entityDescrip": "We are sorry. Questions about another entity and about this same category will be loaded",

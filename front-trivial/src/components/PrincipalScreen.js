@@ -1,11 +1,11 @@
 import '../App.css';
 import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Radio, Modal, notification, Popconfirm,
-   Card, Statistic, DatePicker
+   Card, Statistic, DatePicker, InputNumber
 } from 'antd';
 import logo from '../logo.png'; 
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
-import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups, checkProperties } from '../services/questionsService.js';
+import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups, checkProperties, searchEntityForValue , getEntityForValue} from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle , popconfirmStyle} from '../styles/appStyle.js';
 import QuestionCard from './QuestionCard.js';
 import axios from 'axios';
@@ -67,10 +67,11 @@ let PrincipalScreen = (props) => {
   const [streaks, setStreaks] = useState([])
   const [seeStreaks, setSeeStreaks] = useState(false);
 
-  //for the date picker
+  //for validation
   const [answerIsYear, setAnswerIsYear] = useState(false);
   const minDate = dayjs(`1900-01-01`);
   const maxDate = dayjs(`2024-12-31`);
+  const [answerIsNumber, setAnswerIsNumber] = useState(false);
   
 
   /**
@@ -157,6 +158,8 @@ let PrincipalScreen = (props) => {
    * @returns {Promise<void>}
    */
   const fetchQuestions = () => {
+    setAnswerIsNumber(false);  //eeverytime a new question is load 
+    setAnswerIsYear(false);
 
     const categoryToFetchFunction = {
       investigación: fetchQuestionsResearchers,
@@ -176,11 +179,10 @@ let PrincipalScreen = (props) => {
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
           setLabelSelected(labelEntity);
-          if (question.includes('año') || question.includes('year')) {
+          if (question.includes('año')) 
             setAnswerIsYear(true);
-          } else {
-            setAnswerIsYear(false);
-          }
+          if (question.includes('goles') || question.includes('altura')) 
+            setAnswerIsNumber(true);
         })
         .catch(error => {
           notification.error({message: t('question.error'), description: t('question.error.description'), placement: 'top'});
@@ -260,14 +262,31 @@ let PrincipalScreen = (props) => {
 
         // Example of API call (commented out for testing purposes)
         try {
+          const entitiesAnswer = getEntityForValue(relationSelected);
+          if (entitiesAnswer) {
+            const selectedValue = await searchEntityForValue(values.respuesta, entitiesAnswer);
+            console.log("Entity for the value"+selectedValue);
+            if (selectedValue) {
+              //await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), selectedValue, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+            } else {
+              throw new Error(t('question.noSendFormat'));
+            }
+          } 
           //await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
           await asyncTestFunction();
           notification.info({message: t('question.send'), 
             description: t('question.sendDescription'), placement: 'topRight'});
           setAnsweredQuestions(answeredQuestions + 1);
         } catch (error) {
-          notification.error({message: t('question.noSend'), 
-            description: t('question.noSendDescription'), placement: 'topRight'});
+          console.log(error.message);
+          if (error.message===t('question.noSendFormat')) {
+            notification.error({message: t('question.noSend'), 
+              description: t('question.noSendFormat'), placement: 'topRight'});
+          } else {
+            notification.error({message: t('question.noSend'), 
+              description: t('question.noSendDescription'), placement: 'topRight'});
+          }
+          
         }
 
         handleLoadingState(false);
@@ -406,6 +425,19 @@ let PrincipalScreen = (props) => {
   };
 
 
+  /**
+   * Handles key down when the answer is a number
+   * @function handleKeyDown
+   * @param {Event} e
+   * @returns {void}
+   */
+  const handleKeyDown = (e) => {
+    if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
+      e.preventDefault();
+    }
+  };
+
+
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -540,24 +572,34 @@ let PrincipalScreen = (props) => {
                     autoComplete="off"
                     disabled={loading || questionError || loadingSend}
                   >
-                    <Form.Item style={formStyle}
-                      label={t('answer')}
-                      name="respuesta"
-                      rules={[
-                        { required: true, message: t('question.required') }
-                      ]}
-                      >
-                      {answerIsYear ? (
-                        <DatePicker 
-                          placeholder={t('question.selectYear')} 
-                          minDate={minDate}
-                          maxDate={maxDate}
-                          style={{ width: '300px' }} 
-                          />
-                      ) : (
-                        <Input placeholder={t('question.answer')} />
-                      )}
+                    <Form.Item 
+                        style={formStyle}
+                        label={t('answer')}
+                        name="respuesta"
+                        rules={[
+                            { required: true, message: t('question.required') }
+                        ]}
+                    >
+                        {answerIsYear ? (
+                            <DatePicker 
+                                placeholder={t('question.selectYear')} 
+                                minDate={minDate}
+                                maxDate={maxDate}
+                                style={{ width: '300px' }} 
+                            />
+                        ) : answerIsNumber ? (
+                            <InputNumber 
+                                placeholder={t('question.answer')} 
+                                min={0} 
+                                step={1}
+                                onKeyDown={handleKeyDown} 
+                                style={{ width: '300px' }} 
+                            />
+                        ) : (
+                            <Input placeholder={t('question.answer')} />
+                        )}
                     </Form.Item>
+
 
                     <Form.Item style={formStyle}
                       label={t('question.url')}

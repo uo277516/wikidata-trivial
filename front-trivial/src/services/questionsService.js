@@ -1,3 +1,9 @@
+import { WBK } from 'wikibase-sdk'
+const wdk = WBK({
+  instance: 'https://www.wikidata.org',
+  sparqlEndpoint: 'https://query.wikidata.org/sparql'
+});
+
 /**
  * Array of relations specific to researchers. Born and Study
  * @constant {string[]}
@@ -15,6 +21,8 @@ const footballerRelations = ["/P2048", "/P6509", "/P413"];
  * @constant {string[]}
  */
 const groupRelations = ["/P571", "/P264"]; 
+
+
 
 
 /**
@@ -228,7 +236,7 @@ const createQuestions = async (relations, messages, entitiesName, jsonName, json
  * @returns {Promise<Object>} Randomly selected question details.
  */
 const fetchQuestionsResearchers = async () => {
-  const messages = ["Dónde nació el/la investigador/a", "Dónde estudió el/la investigador/a"];
+  const messages = ["En qué ciudad nació el/la investigador/a", "En qué universidad estudió el/la investigador/a"];
   return createQuestions(researcherRelations, messages, "researchers", 'investigador', 'investigadorLabel');
 };
 
@@ -255,4 +263,70 @@ const fetchQuestionsGroups = async () => {
 };
 
 
-export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsGroups, editEntity, checkProperties};
+/**
+ * Search entites for a value
+ * @async
+ * @function searchEntityForValue
+ * @returns {Promise<Object>} 
+ */
+const searchEntityForValue = async (value, entities) => {
+  const urlSearch = wdk.searchEntities({
+      search: value,
+      language: 'es',  
+      limit: 8  
+  });
+  const searchResults = await fetch(urlSearch).then(res => res.json());
+  for (let result of searchResults.search) {
+      const entityId = result.id;
+
+      const url = wdk.getEntities({
+          ids: entityId,
+          language: ['es']  
+      });
+      const  entitiesDetails  = await fetch(url).then(res => res.json());
+      const key = Object.keys(entitiesDetails.entities)[0];
+      const entityClaims = entitiesDetails.entities[key].claims;
+      console.log("las entities"+entities);
+      if (entityClaims && entityClaims['P31']) {
+        for (let entityClaim of entityClaims['P31']) {
+          const id = entityClaim.mainsnak.datavalue.value.id;
+          console.log("una entity es "+id);
+          for (let entity of entities) {
+            if (entity===id) {
+              console.log(id);
+              return id;
+            }
+          }
+        }
+      }
+  }
+  return null;
+}
+
+
+/**
+ * Get entity for a value
+ * @async
+ * @function getEntityForValue
+ * @returns {any[]} 
+ */
+const getEntityForValue = (relation) => {
+  if (footballerRelations.includes(relation)) { //it is footballer 
+    if (relation===footballerRelations[2]) { //position 
+      return ["Q4611891"];
+    } 
+  } else if (groupRelations.includes(relation)) {
+    if (relation===groupRelations[1]) {
+      return ["Q2442401", "Q1660312", "Q116453729", "Q18127"];
+    }
+  } else if (researcherRelations.includes(relation)) {
+    if (relation===researcherRelations[0]) {
+      return ["Q515"];
+    } else {
+      return ["Q875538"];
+    }
+  }
+  return null; //it doesnt need any of that
+};
+
+export { fetchQuestionsFootballers, fetchQuestionsResearchers , fetchQuestionsGroups, editEntity, checkProperties, getEntityForValue, searchEntityForValue};

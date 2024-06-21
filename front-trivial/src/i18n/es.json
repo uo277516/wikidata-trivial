@@ -55,6 +55,7 @@
     "question.sendDescription": "La información aportada en su respuesta se ha añadido a Wikidata.",
     "question.noSend": "Error al enviar respuesta",
     "question.noSendDescription": "No ha podido enviarse la respuesta a Wikidata en este momento. La racha de preguntas no se ha aumentado. Se volverá a cargar otra pregunta.",
+    "question.noSendFormat": "No ha podido enviarse la respuesta. El valor de la respuesta no es válido para esta pregunta.",
     "question.giveup": "Te has rendido.",
     "question.msgGiveUp": "Número de respuestas correctas seguidas: {{answeredQuestions}}",
     "question.changeCat": "Vas a cambiar de categoría",
@@ -89,18 +90,18 @@
     "question.changeEntity": "Cambiar de entidad",
 
     
-    "/P19": "¿Dónde nació el/la investigador/a {{label}}? La respuesta debe ser una entidad de Wikidata.",
-    "/P69": "¿Dónde estudió el/la investigador/a {{label}}? La respuesta debe ser una entidad de Wikidata.",
+    "/P19": "En qué ciudad nació el/la investigador/a {{label}}?",
+    "/P69": "¿En qué universidad estudió estudió el/la investigador/a {{label}}?",
 
     "/P2048": "¿Cuál es la altura en centímetros de el/la futbolista {{label}}?",
     "/P6509": "¿Cuántos goles ha marcado a lo largo de su carrera el/la futbolista {{label}}?",
-    "/P413": "¿Cuál es una de las posiciones de el/la futbolista {{label}}? La respuesta debe ser una entidad de Wikidata.",
+    "/P413": "¿Cuál es una de las posiciones de el/la futbolista {{label}}?",
     
     "/P571": "¿Cuándo se fundó el grupo {{label}}?",
-    "/P264": "¿Cuál es el sello discográfico del grupo {{label}} (o uno de ellos)? La respuesta debe ser una entidad de Wikidata.",
+    "/P264": "¿Cuál es el sello discográfico del grupo {{label}} (o uno de ellos)?",
 
     "form.error": "Error en el formulario",
-    "form.error.description": "No es posible enviar la pregunta por errores en el formulario. Revíselos e inténtelo de nuevo.",
+    "form.error.description": "No es posible enviar la pregunta por errores de formato en el formulario. Revíselos e inténtelo de nuevo.",
     
     "question.error.entity": "Actualmente no hay más sobre esa entidad",
     "question.error.entityDescrip": "Lo sentimos. Se cargarán preguntas de otra entidad y sobre esta misma categoría",
