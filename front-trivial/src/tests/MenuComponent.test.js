@@ -55,13 +55,15 @@ describe('MenuComponent Tests', () => {
     test('log put functionality', async () => {
       const user = { _json: { username: 'testuser' } };
 
-      const { getByText } = render(<MenuComponent user={user} />);
+      const {container, getByText } = render(<MenuComponent user={user} />);
       
       expect(getByText('menu.logout')).toBeInTheDocument();
 
       const consoleSpy = jest.spyOn(console, 'log');
 
       fireEvent.click(getByText('menu.logout'));
+
+      console.log(container.innerHTML);
 
       expect(consoleSpy).toHaveBeenCalledWith('User logged out');
     });

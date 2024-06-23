@@ -102,6 +102,7 @@ const MenuComponent = ({user, mode}) => {
           console.log("User logged in");
           handleLogin();
         } else {
+          console.log('User logged out');
           setIsLogoutModalVisible(true);
         }
     };
@@ -113,7 +114,6 @@ const MenuComponent = ({user, mode}) => {
     * @returns {void}
     */
     const handleLogout = () => {
-        console.log('User logged out');
         localStorage.removeItem('user');
         const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
         window.location.href = redirectUrl;
