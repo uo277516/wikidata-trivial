@@ -49,7 +49,7 @@ const CategorySelectionPage = () => {
               OK
             </Button>
             <Button onClick={() =>  cancel()} style={{ marginLeft: 10 }}>
-              Cancelar
+              Cancel
             </Button>
           </div>
         </>

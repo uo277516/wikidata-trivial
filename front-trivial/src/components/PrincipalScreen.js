@@ -70,7 +70,7 @@ let PrincipalScreen = (props) => {
   //for validation
   const [answerIsYear, setAnswerIsYear] = useState(false);
   const minDate = dayjs(`1900-01-01`);
-  const maxDate = dayjs(`2024-12-31`);
+  const maxDate = dayjs().subtract(1, 'day');  
   const [answerIsNumber, setAnswerIsNumber] = useState(false);
   
 

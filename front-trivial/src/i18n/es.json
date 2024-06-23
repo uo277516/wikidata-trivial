@@ -1,7 +1,7 @@
 {
     "login.title": "Juego de preguntas y respuestas",
     "login.info1": "La información de las siguientes preguntas se ha recogido de ",
-    "login.info2": " .Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.",
+    "login.info2": ". Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.",
     "login.login": "Inicio de sesión",
     "login.log_in": "Iniciar sesión",
     "login.errorOAuth": "Error al iniciar sesión",
