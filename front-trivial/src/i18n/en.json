@@ -106,6 +106,10 @@
     "footer.info": "Wiki Trivial - Natalia Fernández Riego, University of Oviedo. Icons by ",
 
     "streak.error": "Error with the streaks",
-    "streak.error.description": "Sorry, streaks can not be shown either save in this moment"
+    "streak.error.description": "Sorry, streaks can not be shown either save in this moment",
+
+    "logout.confirmTitle": "Logout",
+    "logout.confirmMessage": "You are about to log out, are you sure?",
+    "cancel": "Cancel"
 }
   

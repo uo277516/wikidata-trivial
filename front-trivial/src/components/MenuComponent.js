@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Menu, notification } from 'antd';
-import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined } from '@ant-design/icons';
+import { Button, Menu, notification, Modal } from 'antd';
+import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import iconEnglish from '../icons8-circular-de-gran-bretaña-16.png';
 import iconSpanish from '../icons8-circular-españa-16.png';
@@ -19,6 +19,7 @@ import '../styles/styles.css';
 const MenuComponent = ({user, mode}) => {
     const [language, setLanguage] = useState('es');
     const { t, i18n } = useTranslation();
+    const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
 
     const href = user ? 'https://meta.wikimedia.org/wiki/Special:MyLanguage/User:' + user._json.username : '#';
     const labelLog = user ? t('menu.logout') : t('login.log_in');
@@ -101,11 +102,21 @@ const MenuComponent = ({user, mode}) => {
           console.log("User logged in");
           handleLogin();
         } else {
-          console.log('User logged out');
-          localStorage.removeItem('user');
-          const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
-          window.location.href = redirectUrl;
+          setIsLogoutModalVisible(true);
         }
+    };
+
+
+    /**
+    * Handles user logout confirmation.
+    * @function handleLogout
+    * @returns {void}
+    */
+    const handleLogout = () => {
+        console.log('User logged out');
+        localStorage.removeItem('user');
+        const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
+        window.location.href = redirectUrl;
     };
 
 
@@ -119,12 +130,12 @@ const MenuComponent = ({user, mode}) => {
     const handleLogin = async () => {
       const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
       window.location.href = redirectUrl;
-      const userData = await fetchUserData(); //datos del usuario
+      const userData = await fetchUserData(); 
   
       if (userData===null) {
         notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
       } else {
-        localStorage.setItem('user', JSON.stringify(userData)); //almacenar datos en localStorage
+        localStorage.setItem('user', JSON.stringify(userData)); 
       }
     };
 
@@ -161,6 +172,21 @@ const MenuComponent = ({user, mode}) => {
                     justifyContent: 'flex-end'
                 }}
             />        
+            <Modal
+                title={
+                    <span>
+                        <ExclamationCircleOutlined style={{ color: '#faad14', marginRight: '8px' }} />
+                        {t('logout.confirmTitle')}
+                    </span>
+                }
+                open={isLogoutModalVisible}
+                onOk={handleLogout}
+                onCancel={() => setIsLogoutModalVisible(false)}
+                okText="OK"
+                cancelText={t('cancel')}
+            >
+                <p>{t('logout.confirmMessage')}</p>
+            </Modal>
         </div>
     );
 };
