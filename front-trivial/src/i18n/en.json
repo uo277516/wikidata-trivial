@@ -51,7 +51,7 @@
     "question.error": "Error loading questions",
     "question.error.description": "An error has occurred. Please try again later.",
     "question.send": "Answer Sent",
-    "question.sendDescription": "The information provided in your answer has been added to Wikidata.",
+    "question.sendDescription": "The information provided in your answer has been added to Wikidata. Now another question will be loaded about the same category.",
     "question.noSend": "Error sending response",
     "question.noSendDescription": "The answer could not be sent to Wikidata at this time. The question streak has not been increased. Another question will be re-uploaded.",
     "question.noSendFormat": "The answer could not be sent. The answer value is not valid for this question.",

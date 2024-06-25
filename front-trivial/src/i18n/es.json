@@ -52,7 +52,7 @@
     "question.error": "Error al cargar preguntas.",
     "question.error.description": "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
     "question.send": "Respuesta enviada",
-    "question.sendDescription": "La información aportada en su respuesta se ha añadido a Wikidata.",
+    "question.sendDescription": "La información aportada en su respuesta se ha añadido a Wikidata. Se cargará otra pregunta de esta misma categoría.",
     "question.noSend": "Error al enviar respuesta",
     "question.noSendDescription": "No ha podido enviarse la respuesta a Wikidata en este momento. La racha de preguntas no se ha aumentado. Se volverá a cargar otra pregunta.",
     "question.noSendFormat": "No ha podido enviarse la respuesta. El valor de la respuesta no es válido para esta pregunta.",
