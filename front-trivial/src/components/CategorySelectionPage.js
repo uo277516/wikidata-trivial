@@ -90,19 +90,13 @@ const CategorySelectionPage = () => {
   };
 
 
+
   /**
-   * Verify user authentication by getting the localStorage user.
+   * Add user authentication by getting the data from the back and setting it in local storage
    * @function checkAuthentication
    * @async
    * @return {void}
    */
-  const checkAuthentication = async () => {
-    const userGet = localStorage.getItem("user");
-    if (userGet !== null) {
-      setUser(JSON.parse(userGet));
-    }
-  };
-
   const addUser = async () => {
     const userData = await fetchUserData(); //user data
 
@@ -143,7 +137,6 @@ const CategorySelectionPage = () => {
    */
   useEffect(() => {    
     addUser();
-    // checkAuthentication();
   }, []);
 
 
