@@ -1,7 +1,7 @@
 {
     "login.title": "Questions and answers game",
     "login.info1": "The information of the following questions has been collected from ",
-    "login.info2": " .The answers you give will be used to enrich Wikidata itself. In order to start playing you need to log in in the platform with your username.",
+    "login.info2": ". The answers you give will be used to enrich Wikidata itself. In order to start playing you need to log in in the platform with your username.",
     "login.login": "Login",
     "login.log_in": "Log in",
     "login.errorOAuth": "Login failed",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Button, Menu, notification, Modal } from 'antd';
 import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
@@ -88,6 +88,7 @@ const MenuComponent = ({user, mode}) => {
         if (i18n) {
             i18n.changeLanguage(lang);
             setLanguage(lang);
+            localStorage.setItem('language', lang); 
         }
     };
 
@@ -160,6 +161,19 @@ const MenuComponent = ({user, mode}) => {
         return null;
       }
     };
+
+    /**
+    * Change language when you render the menu if its saved from previous
+    * @function useEffect
+    * @returns {void}
+    */
+    useEffect(() => {
+        const savedLanguage = localStorage.getItem('language');
+        if (savedLanguage) {
+            i18n.changeLanguage(savedLanguage);
+            setLanguage(savedLanguage);
+        }
+    }, [i18n]);
 
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: 'white', width: '100%' }}>
