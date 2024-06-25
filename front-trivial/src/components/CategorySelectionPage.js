@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Typography, Radio, Button, Modal, Image } from 'antd';
+import { Layout, Typography, Radio, Button, Modal, Image, notification } from 'antd';
 import { headerStyle, contentStyle, footerStyle} from '../styles/appStyle.js';
 import logo from '../logo.jpg'; 
 import PrincipalScreen from './PrincipalScreen.js';
@@ -103,6 +103,38 @@ const CategorySelectionPage = () => {
     }
   };
 
+  const addUser = async () => {
+    const userData = await fetchUserData(); //user data
+
+    if (userData===null) {
+      notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
+    } else {
+      localStorage.setItem('user', JSON.stringify(userData)); //save data in localStorage
+      setUser(userData);
+    }
+  }
+
+  /**
+   * Obtains the user data from the backend after authentication.
+   * @function fetchUserData
+   * @async
+   * @returns {Object|null} The user data or null on error.
+   */
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
+      if (response.ok) {
+        return await response.json();
+      } else {
+        console.error('Error fetching user data', response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching the data of the user', error);
+      return null;
+    }
+  };
+
 
   /**
    * Lifecycle hook for checking user on component mount.
@@ -110,7 +142,8 @@ const CategorySelectionPage = () => {
    * @returns {void}
    */
   useEffect(() => {    
-    checkAuthentication();
+    addUser();
+    // checkAuthentication();
   }, []);
 
 
