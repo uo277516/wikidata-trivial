@@ -111,6 +111,20 @@
 
     "logout.confirmTitle": "Logout",
     "logout.confirmMessage": "You are about to log out, are you sure?",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+
+    "menu.help": "Help",
+    "help.title": "Help about the application",
+    "help.slide1.title": "Welcome",
+    "help.slide1.description": "This application allows you to answer questions based on data extracted from Wikidata. The answers you provide will be used to enrich Wikidata and, therefore, your answers are not validated in the application.",
+    "help.slide2.title": "Log in",
+    "help.slide2.description": "To start, log in with your Wikimedia account. If you don't have one, you will need to register.",
+    "help.slide3.title": "Choose a category to start",
+    "help.slide3.description": "Once you log in, you need to choose a category to start playing. You can also change this category once you begin.",
+    "help.slide4.title": "Start playing",
+    "help.slide4.description": "You must browse the web to find the answers. Once you find it, you must also add the source where you found it. You always have the option to give up or change the category, but in both cases, you will start from scratch.",
+    "help.slide5.title": "Other functionalities",
+    "help.slide5.description": "You can also check the game rankings, continue with the same entity or change it when submitting your answer, change the language, view your profile on Wikimedia, and log out."
+
 }
   

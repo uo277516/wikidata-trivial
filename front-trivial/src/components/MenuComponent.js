@@ -1,11 +1,10 @@
 import React, { useState , useEffect} from 'react';
-import { Button, Menu, notification, Modal } from 'antd';
+import { Button, Menu, notification, Modal, Carousel } from 'antd';
 import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import iconEnglish from '../icons8-circular-de-gran-bretaña-16.png';
 import iconSpanish from '../icons8-circular-españa-16.png';
 import '../styles/styles.css'; 
-
 
 /**
  * Menu component for the application.
@@ -20,6 +19,7 @@ const MenuComponent = ({user, mode}) => {
     const [language, setLanguage] = useState('es');
     const { t, i18n } = useTranslation();
     const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+    const [isHelpModalVisible, setIsHelpModalVisible] = useState(false);
 
     const href = user ? 'https://meta.wikimedia.org/wiki/Special:MyLanguage/User:' + user._json.username : '#';
     const labelLog = user ? t('menu.logout') : t('login.log_in');
@@ -61,7 +61,15 @@ const MenuComponent = ({user, mode}) => {
                   )
               }
           ]
-      }
+      },
+      {
+        key: 'help',
+        label: (
+            <Button icon={React.createElement(ExclamationCircleOutlined)} type="link" style={{color: 'black'}} onClick={() => setIsHelpModalVisible(true)}>
+                {t('menu.help')}
+            </Button>
+        )
+        }
     ];
 
     //show profile only if user is authenticated
@@ -175,6 +183,9 @@ const MenuComponent = ({user, mode}) => {
         }
     }, [i18n]);
 
+
+    
+
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: 'white', width: '100%' }}>
             <Menu
@@ -186,6 +197,41 @@ const MenuComponent = ({user, mode}) => {
                     justifyContent: 'flex-end'
                 }}
             />        
+            <Modal id="modal_help"
+                title={
+                    <span>
+                    <ExclamationCircleOutlined style={{ color: '#faad14', marginRight: '8px' }} />
+                    {t('help.title')}
+                    </span>
+                }
+                open={isHelpModalVisible}
+                onCancel={() => setIsHelpModalVisible(false)}
+                footer={null}
+                >
+                <Carousel arrows>
+                    <div>
+                        <h3>{t('help.slide1.title')}</h3>
+                        <p>{t('help.slide1.description')}</p>
+                    </div>
+                    <div>
+                        <h3>{t('help.slide2.title')}</h3>
+                        <p>{t('help.slide2.description')}</p>
+                    </div>
+                    <div>
+                        <h3>{t('help.slide3.title')}</h3>
+                        <p>{t('help.slide3.description')}</p>
+                    </div>
+                    <div>
+                        <h3>{t('help.slide4.title')}</h3>
+                        <p>{t('help.slide4.description')}</p>
+                    </div>
+                    <div>
+                        <h3>{t('help.slide5.title')}</h3>
+                        <p>{t('help.slide5.description')}</p>
+                    </div>
+                </Carousel>
+            </Modal>
+
             <Modal
                 title={
                     <span>

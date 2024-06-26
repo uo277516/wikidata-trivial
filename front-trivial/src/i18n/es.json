@@ -115,6 +115,20 @@
 
     "logout.confirmTitle": "Cerrar sesión",
     "logout.confirmMessage": "Vas a cerrar sesión, ¿estás seguro?",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+
+    "menu.help": "Ayuda",
+    "help.title": "Ayuda sobre la aplicación",
+    "help.slide1.title": "Bienvenido/a",
+    "help.slide1.description": "Esta aplicación te permite responder preguntas basadas en datos extraídos de Wikidata. Las respuestas que proporciones se utilizarán para enriquecer Wikidata y, por lo tanto, tus respuestas no se validan en la aplicación.",
+    "help.slide2.title": "Iniciar sesión",
+    "help.slide2.description": "Para comenzar, inicia sesión con tu cuenta de Wikimedia. Si no tienes una, deberás registrarte.",
+    "help.slide3.title": "Elegir la categoría para empezar",
+    "help.slide3.description": "Una vez inicies sesión, deberás elegir la categoría para empezar a jugar. Esta categoría puedes cambiarla también una vez empieces.",
+    "help.slide4.title": "Empieza a jugar",
+    "help.slide4.description": "Debes navegar por la web para encontrar las respuestas. Una vez la encuentres, debes también añadir la fuente donde la has encontrado. Siempre tienes la opción de rendirte o de cambiar de categoría, pero en ambos casos empezarás de cero.",
+    "help.slide5.title": "Otras funcionalidades",
+    "help.slide5.description": "También puedes consultar las clasificaciones del juego, continuar con la misma entidad o cambiar al enviar tu respuesta, cambiar el idioma, consultar tu perfil en Wikimedia y cerrar sesión."
+      
 }
   
