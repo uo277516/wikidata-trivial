@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import { Button, Menu, notification, Modal, Carousel } from 'antd';
-import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
+import { MailOutlined, LogoutOutlined, LoginOutlined, TranslationOutlined, ExclamationCircleOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import iconEnglish from '../icons8-circular-de-gran-bretaña-16.png';
 import iconSpanish from '../icons8-circular-españa-16.png';
@@ -65,7 +65,7 @@ const MenuComponent = ({user, mode}) => {
       {
         key: 'help',
         label: (
-            <Button icon={React.createElement(ExclamationCircleOutlined)} type="link" style={{color: 'black'}} onClick={() => setIsHelpModalVisible(true)}>
+            <Button icon={React.createElement(QuestionCircleOutlined)} type="link" style={{color: 'black'}} onClick={() => setIsHelpModalVisible(true)}>
                 {t('menu.help')}
             </Button>
         )
