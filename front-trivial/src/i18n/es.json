@@ -1,7 +1,9 @@
 {
     "login.title": "Juego de preguntas y respuestas",
-    "login.info1": "La información de las siguientes preguntas se ha recogido de ",
-    "login.info2": ". Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Para poder empezar a jugar, necesitas iniciar sesión en la plataforma con tu usuario.",
+    "login.info": "La información de las siguientes preguntas se ha recogido de ",
+    "login.info1": "Bienvenido/a a nuestra aplicación. Aquí, utilizamos datos de ",
+    "login.info2": " para generar preguntas sobre diversos temas. Tus respuestas no solo te permitirán jugar y aprender, sino que también contribuirán a mejorar y enriquecer la base de datos de Wikidata con información valiosa. Para comenzar a jugar, por favor inicia sesión en la plataforma con tu usuario de Wikimedia.",
+
     "login.login": "Inicio de sesión",
     "login.log_in": "Iniciar sesión",
     "login.errorOAuth": "Error al iniciar sesión",
@@ -9,7 +11,7 @@
     
     
     "cat.info": ". Las respuestas que usted proporcione se utilizarán para enriquecer la misma. Selecciona la categoría con la que quieres empezar a jugar.",
-    "cat.welcome": "¡Bienvenid@,",
+    "cat.welcome": "¡Bienvenido/a,",
     "cat.tableTitle": "Clasificación de rachas de preguntas contestadas",
     "cat.buttonClasification": "Ver clasificación",
     "cat.startButton": "Comenzar juego",

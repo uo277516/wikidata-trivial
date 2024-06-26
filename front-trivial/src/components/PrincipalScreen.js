@@ -3,7 +3,7 @@ import {Layout, Typography, Image, Input, Form, Button, Alert, Spin, Result, Rad
    Card, Statistic, DatePicker, InputNumber
 } from 'antd';
 import logo from '../logo.png'; 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { SmileOutlined,SolutionOutlined,FireOutlined } from '@ant-design/icons';
 import { fetchQuestionsFootballers, fetchQuestionsResearchers, editEntity, fetchQuestionsGroups, checkProperties, searchEntityForValue , getEntityForValue} from '../services/questionsService.js';
 import { headerStyle, contentStyle, footerStyle, formStyle , popconfirmStyle} from '../styles/appStyle.js';
@@ -47,6 +47,7 @@ let PrincipalScreen = (props) => {
 
   const [loading, setLoading] = useState(false); //check if the question is loading
   const [form] = Form.useForm();
+  const popconfirmRef = useRef(null);
 
   //to check give up
   const [msgChangeGiveUp, setMsgChangeGiveUp] = useState(null);
@@ -120,6 +121,24 @@ let PrincipalScreen = (props) => {
     if (answeredQuestions>0)
       saveStreak();
   }, []);
+
+  /**
+   * Lifecycle hook for fetching initial data on component mount.
+   * @function useEffect
+   * @returns {void}
+   */
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+        if (popconfirmRef.current && !popconfirmRef.current.contains(event.target)) {
+            setPopOpen(false);
+        }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [popconfirmRef]);
 
 
   /**
@@ -613,22 +632,24 @@ let PrincipalScreen = (props) => {
                     </Form.Item>
 
                     <Form.Item >
-                      
-                    <Popconfirm
-                        placement='rightTop'
-                        title={t('question.popChangeEntity')}
-                        description={t('question.popChangeEntityDescription', {labelSelected})}
-                        onConfirm={handleSendSameEntityButton}
-                        onCancel={handleSendButton}
-                        okText={t('question.continueEntity')}
-                        cancelText={t('question.changeEntity')}
-                        overlayStyle={popconfirmStyle} 
-                        open={popOpen}
-                    ></Popconfirm>
+                    <div ref={popconfirmRef}>
+                      <Popconfirm
+                          placement='rightTop'
+                          title={t('question.popChangeEntity')}
+                          description={t('question.popChangeEntityDescription', {labelSelected})}
+                          onConfirm={handleSendSameEntityButton}
+                          onCancel={handleSendButton}
+                          okText={t('question.continueEntity')}
+                          cancelText={t('question.changeEntity')}
+                          overlayStyle={popconfirmStyle} 
+                          open={popOpen}
+                      ></Popconfirm>
+                    </div>
                     <Button type="primary" htmlType="submit" 
                       style={{ marginRight: '20px'}} loading={loadings[0]} onClick={openPop}>
                       {t('question.buttonSend')}
                     </Button>
+                    
 
 
                       <Popconfirm
