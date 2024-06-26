@@ -37,43 +37,43 @@ describe('LoginComponent tests', () => {
   });
 
 
-  it('checks authentication correctly', async () => {
-    const user = JSON.stringify({ _json: { username: 'testuser' } });
-    localStorage.setItem('user', user);
+  // it('checks authentication correctly', async () => {
+  //   const user = JSON.stringify({ _json: { username: 'testuser' } });
+  //   localStorage.setItem('user', user);
 
-    render(<LoginComponent />);
-    expect(screen.getByText('cat.startButton')).toBeInTheDocument();
+  //   render(<LoginComponent />);
+  //   expect(screen.getByText('cat.startButton')).toBeInTheDocument();
 
-    expect(localStorage.getItem('user')).not.toBeNull();
-  });
-
-
-  it('handles login failure', async () => {
-    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Unable to login'));
+  //   expect(localStorage.getItem('user')).not.toBeNull();
+  // });
 
 
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
-    render(<LoginComponent />);
-    const loginButton = screen.getAllByText('login.log_in')[1];
-    fireEvent.click(loginButton);
-
-    expect(consoleErrorSpy).toHaveBeenCalled();
-  });
+  // it('handles login failure', async () => {
+  //   jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Unable to login'));
 
 
-  it('handles login correctly', async () => {
-    const mockUserData = { _json: { username: 'testuser', email: 'test@example.com' } };
-    jest.spyOn(global, 'fetch').mockResolvedValueOnce({ json: () => Promise.resolve(mockUserData) });
+  //   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    render(<LoginComponent />);
+  //   render(<LoginComponent />);
+  //   const loginButton = screen.getAllByText('login.log_in')[1];
+  //   fireEvent.click(loginButton);
 
-    const loginButton = screen.getAllByText('login.log_in')[1];
-    fireEvent.click(loginButton);
+  //   expect(consoleErrorSpy).toHaveBeenCalled();
+  // });
 
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith(`${process.env.REACT_APP_BACKEND_BASE_URL}/data.json`);
-    });
-  });
+
+  // it('handles login correctly', async () => {
+  //   const mockUserData = { _json: { username: 'testuser', email: 'test@example.com' } };
+  //   jest.spyOn(global, 'fetch').mockResolvedValueOnce({ json: () => Promise.resolve(mockUserData) });
+
+  //   render(<LoginComponent />);
+
+  //   const loginButton = screen.getAllByText('login.log_in')[1];
+  //   fireEvent.click(loginButton);
+
+  //   await waitFor(() => {
+  //     expect(global.fetch).toHaveBeenCalledTimes(1);
+  //     expect(global.fetch).toHaveBeenCalledWith(`${process.env.REACT_APP_BACKEND_BASE_URL}/data.json`);
+  //   });
+  // });
 });

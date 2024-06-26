@@ -89,43 +89,16 @@ const CategorySelectionPage = () => {
     setSelectedCategory(e.target.value);
   };
 
-
-
   /**
-   * Add user authentication by getting the data from the back and setting it in local storage
+   * Verify user authentication by getting the localStorage user.
    * @function checkAuthentication
    * @async
    * @return {void}
    */
-  const addUser = async () => {
-    const userData = await fetchUserData(); //user data
-
-    if (userData===null) {
-      notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
-    } else {
-      localStorage.setItem('user', JSON.stringify(userData)); //save data in localStorage
-      setUser(userData);
-    }
-  }
-
-  /**
-   * Obtains the user data from the backend after authentication.
-   * @function fetchUserData
-   * @async
-   * @returns {Object|null} The user data or null on error.
-   */
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
-      if (response.ok) {
-        return await response.json();
-      } else {
-        console.error('Error fetching user data', response.statusText);
-        return null;
-      }
-    } catch (error) {
-      console.error('Error fetching the data of the user', error);
-      return null;
+  const checkAuthentication = async () => {
+    const userGet = localStorage.getItem("user");
+    if (userGet !== null) {
+      setUser(JSON.parse(userGet));
     }
   };
 
@@ -136,7 +109,7 @@ const CategorySelectionPage = () => {
    * @returns {void}
    */
   useEffect(() => {    
-    addUser();
+    checkAuthentication();
   }, []);
 
 
