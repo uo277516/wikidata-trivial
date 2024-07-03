@@ -34,7 +34,6 @@ const LoginComponent = () => {
    */
   useEffect(() => {
     if (localStorage.getItem("from")==="nothing") {
-      console.log("Hola?");
       setIsLoggedIn(false);
     } else {
       if (localStorage.getItem("isLogged")==="true") {
