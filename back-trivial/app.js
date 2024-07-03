@@ -17,6 +17,9 @@ app.use(cors());
 app.use(express.json());
 
 initRouters(app);
+require('dotenv').config();
+
+const FRONTEND_BASE_URL = process.env.REACT_APP_FRONTEND_BASE_URL;
 
 
 //----- DATABASE ROUTES -----
@@ -203,7 +206,7 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 
 		req.session.user = user;
 		//if everything ok to home
-        res.redirect( "http://localhost:3000/" );
+        res.redirect( FRONTEND_BASE_URL );
 		
 	} )( req, res, next );
 } );
@@ -211,7 +214,7 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 router.get( "/logout" , function ( req, res ) {
 
 	delete req.session.user;
-	res.redirect("http://localhost:3000" );
+	res.redirect( FRONTEND_BASE_URL );
 
 } );
 
