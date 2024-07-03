@@ -24,16 +24,25 @@ const LoginComponent = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  if (!localStorage.getItem("from", "login"))
+    localStorage.setItem("from", "nothing");
+  
   /**
    * Lifecycle hook for checking user authentication on component mount.
    * @function useEffect
    * @returns {void}
    */
   useEffect(() => {
-    if (localStorage.getItem("isLogged")==="true") {
-      setIsLoggedIn(true);
-    } else {
+    if (localStorage.getItem("from")==="nothing") {
+      console.log("Hola?");
       setIsLoggedIn(false);
+    } else {
+      if (localStorage.getItem("isLogged")==="true") {
+        localStorage.setItem("from", "nothing");
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
     }
   }, []);
 
@@ -51,41 +60,7 @@ const LoginComponent = () => {
     window.location.href = redirectUrl;
     
     localStorage.setItem("isLogged", "true");
-  };
-
-  /**
-   * Verifies user authentication by checking if there is user data in localStorage.
-   * @function checkAuthentication
-   * @async
-   * @returns {Promise<Void>}
-   */
-  const checkAuthentication = async () => {
-    if (localStorage.getItem("user")) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  };
-
-  /**
-   * Obtains the user data from the backend after authentication.
-   * @function fetchUserData
-   * @async
-   * @returns {Object|null} The user data or null on error.
-   */
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/data.json");
-      if (response.ok) {
-        return await response.json();
-      } else {
-        console.error('Error fetching user data', response.statusText);
-        return null;
-      }
-    } catch (error) {
-      console.error('Error fetching the data of the user', error);
-      return null;
-    }
+    localStorage.setItem("from", "login");
   };
 
 
