@@ -83,7 +83,7 @@ let PrincipalScreen = (props) => {
    */
   const fetchStreaks = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/getStreaks/${user._json.username}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/getStreaks/${user._json.username}`);
       setStreaks(response.data);
     } catch (error) {
       console.error('Error fetching streaks:', error);
@@ -122,23 +122,6 @@ let PrincipalScreen = (props) => {
       saveStreak();
   }, []);
 
-  /**
-   * Lifecycle hook for fetching initial data on component mount.
-   * @function useEffect
-   * @returns {void}
-   */
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-        if (popconfirmRef.current && !popconfirmRef.current.contains(event.target)) {
-            setPopOpen(false);
-        }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [popconfirmRef]);
 
 
   /**
@@ -327,6 +310,7 @@ let PrincipalScreen = (props) => {
    * @returns {Promise<void>}
    */
   const handleSendButton = async () => {
+    console.log("Entrs");
     handleSend(fetchQuestions);
   };
 
@@ -337,6 +321,7 @@ let PrincipalScreen = (props) => {
    * @returns {Promise<void>}
    */
   const handleSendSameEntityButton = async () => {
+    console.log("Entra");
     setLoading(true);
     handleSend(funcProperties);
   };  
