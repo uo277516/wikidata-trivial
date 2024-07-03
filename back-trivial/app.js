@@ -203,7 +203,7 @@ router.get( "/auth/mediawiki/callback", function( req, res, next ) {
 
 		req.session.user = user;
 		//if everything ok to home
-        res.redirect( "http://localhost:3000" );
+        res.redirect( "http://localhost:3000/" );
 		
 	} )( req, res, next );
 } );

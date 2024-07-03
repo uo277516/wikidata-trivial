@@ -99,7 +99,7 @@ let PrincipalScreen = (props) => {
    */
   const saveStreak = async () => {
     try {
-      await axios.post('http://localhost:3001/saveStreak', {
+      await axios.post(process.env.REACT_APP_BACKEND_BASE_URL + '/saveStreak', {
         username: user._json.username,
         category: selectedCategory,
         streak: answeredQuestions,
@@ -279,7 +279,6 @@ let PrincipalScreen = (props) => {
         handleLoadingState(true);
         setPopOpen(false);
 
-        // Example of API call (commented out for testing purposes)
         try {
           const entitiesAnswer = getEntityForValue(relationSelected);
           if (entitiesAnswer) {

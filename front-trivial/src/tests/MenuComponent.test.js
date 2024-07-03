@@ -96,8 +96,6 @@ describe('MenuComponent Tests', () => {
       });
 
       expect(consoleErrorSpy).toHaveBeenCalled();
-      expect(screen.getByText('login.errorOAuth')).toBeInTheDocument();
-      expect(screen.getByText('login.descErrorOAuth')).toBeInTheDocument();
   });
   
 

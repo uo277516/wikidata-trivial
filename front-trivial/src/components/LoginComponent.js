@@ -30,7 +30,11 @@ const LoginComponent = () => {
    * @returns {void}
    */
   useEffect(() => {
-    checkAuthentication();
+    if (localStorage.getItem("isLogged")==="true") {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
 
@@ -45,13 +49,8 @@ const LoginComponent = () => {
     console.log("User logged in");
     const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
     window.location.href = redirectUrl;
-    const userData = await fetchUserData(); //user data
-
-    if (userData===null) {
-      notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
-    } else {
-      localStorage.setItem('user', JSON.stringify(userData)); //save data in localStorage
-    }
+    
+    localStorage.setItem("isLogged", "true");
   };
 
   /**
@@ -90,9 +89,6 @@ const LoginComponent = () => {
   };
 
 
-
-  
-  
 
   return (
     <>

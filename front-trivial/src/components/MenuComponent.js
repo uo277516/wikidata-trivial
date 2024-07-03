@@ -126,6 +126,7 @@ const MenuComponent = ({user, mode}) => {
         localStorage.removeItem('user');
         const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/logout";
         window.location.href = redirectUrl;
+        localStorage.removeItem("isLogged");
     };
 
 
@@ -139,13 +140,14 @@ const MenuComponent = ({user, mode}) => {
     const handleLogin = async () => {
       const redirectUrl = process.env.REACT_APP_BACKEND_BASE_URL + "/login";
       window.location.href = redirectUrl;
-      const userData = await fetchUserData(); 
+    //   const userData = await fetchUserData(); 
   
-      if (userData===null) {
-        notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
-      } else {
-        localStorage.setItem('user', JSON.stringify(userData)); 
-      }
+    //   if (userData===null) {
+    //     notification.error({message: t('login.errorOAuth'), description: t('login.descErrorOAuth'), placement: 'top'});
+    //   } else {
+    //     localStorage.setItem('user', JSON.stringify(userData)); 
+    //   }
+        localStorage.setItem("isLogged", true);
     };
 
 

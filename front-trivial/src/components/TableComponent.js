@@ -48,7 +48,7 @@ const TableComponent = (props) => {
      */
     const fetchStreaks = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/getAllStreaks');
+            const response = await axios.get(process.env.REACT_APP_BACKEND_BASE_URL +'/getAllStreaks');
             setStreaks(response.data);
         } catch (error) {
             notification.error({message: t('table.error'), description: t('table.errorDesc'), placement: 'top'});
