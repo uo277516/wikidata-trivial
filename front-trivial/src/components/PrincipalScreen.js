@@ -122,6 +122,11 @@ let PrincipalScreen = (props) => {
       saveStreak();
   }, []);
 
+  useEffect(() => {
+    console.log("CADA VEZ QUE CAMBIA LA ENTIDAD");
+    setRelArray([]);
+  }, [entitySelected]);
+
   const [notiRecord, setNotiRecord] = useState(false);
 
   /**
@@ -156,7 +161,7 @@ let PrincipalScreen = (props) => {
    * @function fetchQuestions
    * @returns {Promise<void>}
    */
-  const fetchQuestions = () => {
+  const fetchQuestions = async () => {
     setAnswerIsNumber(false);  //eeverytime a new question is load 
     setAnswerIsYear(false);
 
@@ -205,6 +210,7 @@ let PrincipalScreen = (props) => {
       fetchQuestions();
       console.log("Loading page... :P");
   }, []);
+
   
 
   /**
@@ -254,7 +260,6 @@ let PrincipalScreen = (props) => {
       const values = await form.validateFields(); 
       if (values.respuesta && values.urldereferencia) {
         if (answerIsYear) {
-          //console.log(values.respuesta);
           values.respuesta = values.respuesta.year();
         }
         
@@ -324,6 +329,7 @@ let PrincipalScreen = (props) => {
     handleSend(funcProperties);
   };  
 
+  const [relArray, setRelArray] = useState([]); 
 
   /**
    * Checks entity properties and updates the relation selected.
@@ -333,15 +339,28 @@ let PrincipalScreen = (props) => {
    */
   const funcProperties = async () => {
     try {
-      const properties = await checkProperties(entitySelected, selectedCategory, relationSelected);
+      console.log(relationSelected);
+      relArray.push(relationSelected);
+      console.log(relArray);
+      const properties = await checkProperties(entitySelected, selectedCategory, relArray);
       if (properties && properties.length>0) {
         console.log(properties);
         setRelationSelected(properties[0]);
         setLoading(false);
+        console.log(properties[0]);
+        if (properties[0]==="/P2048" || properties[0]==="/P6509") {
+          setAnswerIsNumber(true);
+        } else if (properties[0]==="/P571") {
+          setAnswerIsYear(true);
+        } else {
+          setAnswerIsNumber(false);
+          setAnswerIsYear(false);
+        }
+
       } else {
         notification.error({message: t('question.error.entity')
         , description: t('question.error.entityDescrip'), placement: 'top'});
-        fetchQuestions();
+        await fetchQuestions();
       }
     } catch (error) {
       console.error('Error calling checkProperties:', error);

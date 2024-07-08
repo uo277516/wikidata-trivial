@@ -39,7 +39,6 @@ const groupRelations = ["/P571", "/P264"];
  * @returns {Promise<any>} Result of the edit operation.
  */
 const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
-  console.log("eee" + value);
   let endpoint=null;
   if (selCategory==="deporte") {
     endpoint='footballers';
@@ -48,7 +47,6 @@ const editEntity = async (selCategory, footballerId, property, value, referenceU
   } else if (selCategory==="música") {
     endpoint='footballers';
   }
-  console.log(endpoint);
   try {
     const response = await fetch(process.env.REACT_APP_BACKEND_BASE_URL + "/" + endpoint, {
       method: 'POST',
@@ -116,7 +114,6 @@ const fetchProperties = async (entity, relations) => {
     console.log(response);
     if (response.ok) {
       const json = await response.json();
-      console.log(json);
       return json;
     } else {
       console.error("Error fetching data:", response.statusText);
@@ -137,7 +134,7 @@ const fetchProperties = async (entity, relations) => {
  * @param {string} category - Category name (investigación, deporte, música).
  * @returns {Promise<string[] | null>} Array of false properties or null if error.
  */
-const checkProperties = async (entity, category, relationSelected) => {
+const checkProperties = async (entity, category, relArray) => {
   let relations=null;
   if (category==="investigación") {
      relations = researcherRelations;
@@ -148,23 +145,34 @@ const checkProperties = async (entity, category, relationSelected) => {
   }
 
 
-  const propertiesJSON = await fetchProperties(entity, relations);
-  console.log(propertiesJSON);
-  if (!propertiesJSON) {
-    return null;
-  } else {
-    const lista = JSON.parse(propertiesJSON);
-    const propiedadesFalsas = [];
-    lista.forEach(objeto => {
-      for (const propiedad in objeto) {
-        if (objeto[propiedad] === false && propiedad !== relationSelected.split("/")[1]) {
-          propiedadesFalsas.push(`/${propiedad}`);
-        }
-      }
-    });
+  // const propertiesJSON = await fetchProperties(entity, relations);
+  // if (!propertiesJSON) {
+  //   return null;
+  // } else {
+  //   const lista = JSON.parse(propertiesJSON);
+  //   const propiedadesFalsas = [];
+  //   lista.forEach(objeto => {
+  //     for (const propiedad in objeto) {
+  //       for (const rel in relArray) {
+  //         if (objeto[propiedad] === false && propiedad !== rel.split("/")[1]) {
+  //           propiedadesFalsas.push(`/${propiedad}`);
+  //         }
+  //       }
+  //     }
+  //   });
 
-    return propiedadesFalsas;
+  //   return propiedadesFalsas;
+  // }
+
+  const propiedadesFalsas = [];
+  for (const relation of relations) {
+    if (!relArray.includes(relation)) {
+      propiedadesFalsas.push(relation);
+    }
   }
+  console.log(propiedadesFalsas);
+  return propiedadesFalsas;
+  
 };
 
 
@@ -181,8 +189,6 @@ const checkProperties = async (entity, category, relationSelected) => {
  */
 const generateQuestions = (data, labelPrefix, entityProperty, labelProperty, relation) => {
   if (!data) return [];
-
-  console.log(data);
   
   return data.map((item) => ({
     question: `¿${labelPrefix} ${item[labelProperty]}?`,
@@ -294,7 +300,6 @@ const searchEntityForValue = async (value, entities) => {
           const id = entityClaim.mainsnak.datavalue.value.id;
           for (let entity of entities) {
             if (entity===id) {
-              console.log(entityId);
               return entityId;
             }
           }
