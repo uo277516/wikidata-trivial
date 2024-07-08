@@ -46,7 +46,7 @@ const editEntity = async (selCategory, footballerId, property, value, referenceU
   } else if (selCategory==="investigación") {
     endpoint='researchers';
   } else if (selCategory==="música") {
-    endpoint='groups';
+    endpoint='footballers';
   }
   console.log(endpoint);
   try {

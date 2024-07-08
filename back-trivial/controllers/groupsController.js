@@ -32,7 +32,7 @@ groupsController = {
 		}
 		catch (errors) {
             console.log(errors);
-			return res.status(errors[0].code).json({ errors: errors} )
+			return res.status(errors).json({ errors: errors} )
 		}
 
     },

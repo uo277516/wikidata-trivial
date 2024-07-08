@@ -178,6 +178,7 @@ let PrincipalScreen = (props) => {
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
           setLabelSelected(labelEntity);
+          console.log(question);
           if (question.includes('año')) 
             setAnswerIsYear(true);
           if (question.includes('goles') || question.includes('altura')) 
@@ -253,6 +254,7 @@ let PrincipalScreen = (props) => {
       const values = await form.validateFields(); 
       if (values.respuesta && values.urldereferencia) {
         if (answerIsYear) {
+          //console.log(values.respuesta);
           values.respuesta = values.respuesta.year();
         }
         
@@ -332,7 +334,8 @@ let PrincipalScreen = (props) => {
   const funcProperties = async () => {
     try {
       const properties = await checkProperties(entitySelected, selectedCategory, relationSelected);
-      if (properties) {
+      if (properties && properties.length>0) {
+        console.log(properties);
         setRelationSelected(properties[0]);
         setLoading(false);
       } else {
