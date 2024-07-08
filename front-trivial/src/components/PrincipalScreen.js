@@ -130,11 +130,8 @@ let PrincipalScreen = (props) => {
    * @returns {void}
    */
   const checkStreak = () => {
-    console.log("Entra a comprobar");
     fetchStreaks();
     const firstStreak = streaks.length > 0 ? streaks[0].streak : null;
-    console.log(firstStreak);
-    console.log(answeredQuestions+1);
     if (firstStreak!==null && firstStreak<answeredQuestions+1 && !notiRecord) {
       notification.success({message: t('question.record'), 
         description: t('question.record.description', { firstStreak }), placement: 'bottom'});
@@ -268,18 +265,17 @@ let PrincipalScreen = (props) => {
             const selectedValue = await searchEntityForValue(values.respuesta, entitiesAnswer);
             console.log("Entity for the value"+selectedValue);
             if (selectedValue) {
-              //await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), selectedValue, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+              await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), selectedValue, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
             } else {
               throw new Error(t('question.noSendFormat'));
             }
           } 
-          //await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
-          await asyncTestFunction();
+          await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+          //await asyncTestFunction();
           notification.info({message: t('question.send'), 
             description: t('question.sendDescription'), placement: 'topRight'});
           setAnsweredQuestions(answeredQuestions + 1);
         } catch (error) {
-          console.log(error.message);
           if (error.message===t('question.noSendFormat')) {
             notification.error({message: t('question.noSend'), 
               description: t('question.noSendFormat'), placement: 'topRight'});

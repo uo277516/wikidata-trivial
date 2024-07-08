@@ -157,6 +157,7 @@ const checkProperties = async (entity, category) => {
     lista.forEach(objeto => {
       for (const propiedad in objeto) {
         if (objeto[propiedad] === false) {
+          console.log("Aqui!" + objeto[propiedad]);
           propiedadesFalsas.push(`/${propiedad}`);
         }
       }
