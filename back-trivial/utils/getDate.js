@@ -1,5 +1,5 @@
 /**
- * Retrieves the current date and time adjusted by subtracting 5 minutes,
+ * Retrieves the current date and time adjusted by subtracting 5 minutes and 1 day,
  * formatted to comply with the date format required for references in Wikidata.
  * @function getDate
  * @returns {string} Formatted date string in the format `+YYYY-MM-DDT00:00:00Z`.
@@ -11,7 +11,7 @@ function getDate() {
 
     const year = actualDate.getFullYear();
     const month = actualDate.getMonth() + 1;
-    const day = actualDate.getDate();
+    const day = actualDate.getDate() - 1;
     
     const formattedMonth = month < 10 ? '0' + month : month;
     const formattedDay = day < 10 ? '0' + day : day;
