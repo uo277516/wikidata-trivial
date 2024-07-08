@@ -39,6 +39,7 @@ const groupRelations = ["/P571", "/P264"];
  * @returns {Promise<any>} Result of the edit operation.
  */
 const editEntity = async (selCategory, footballerId, property, value, referenceURL, token, token_secret) => {
+  console.log("eee" + value);
   let endpoint=null;
   if (selCategory==="deporte") {
     endpoint='footballers';
@@ -270,31 +271,31 @@ const fetchQuestionsGroups = async () => {
  * @returns {Promise<Object>} 
  */
 const searchEntityForValue = async (value, entities) => {
+  //search entities for the value
   const urlSearch = wdk.searchEntities({
       search: value,
       language: 'es',  
       limit: 8  
   });
   const searchResults = await fetch(urlSearch).then(res => res.json());
+  //for the results, i get the ID
   for (let result of searchResults.search) {
       const entityId = result.id;
-
+      //obtein details of the entity
       const url = wdk.getEntities({
           ids: entityId,
           language: ['es']  
       });
-      const  entitiesDetails  = await fetch(url).then(res => res.json());
+      const entitiesDetails  = await fetch(url).then(res => res.json());
       const key = Object.keys(entitiesDetails.entities)[0];
       const entityClaims = entitiesDetails.entities[key].claims;
-      console.log("las entities"+entities);
       if (entityClaims && entityClaims['P31']) {
         for (let entityClaim of entityClaims['P31']) {
           const id = entityClaim.mainsnak.datavalue.value.id;
-          console.log("una entity es "+id);
           for (let entity of entities) {
             if (entity===id) {
-              console.log(id);
-              return id;
+              console.log(entityId);
+              return entityId;
             }
           }
         }

@@ -270,7 +270,9 @@ let PrincipalScreen = (props) => {
               throw new Error(t('question.noSendFormat'));
             }
           } 
-          await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+          else { //if its null the answer can be send like it is
+            await editEntity(selectedCategory, entitySelected, relationSelected.substring(1), values.respuesta, values.urldereferencia, user.oauth.token, user.oauth.token_secret);
+          }
           //await asyncTestFunction();
           notification.info({message: t('question.send'), 
             description: t('question.sendDescription'), placement: 'topRight'});
