@@ -73,6 +73,9 @@ let PrincipalScreen = (props) => {
   const minDate = dayjs(`1900-01-01`);
   const maxDate = dayjs().subtract(1, 'day');  
   const [answerIsNumber, setAnswerIsNumber] = useState(false);
+
+  const [relArray, setRelArray] = useState([]); 
+
   
 
   /**
@@ -123,7 +126,6 @@ let PrincipalScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("CADA VEZ QUE CAMBIA LA ENTIDAD");
     setRelArray([]);
   }, [entitySelected]);
 
@@ -183,7 +185,6 @@ let PrincipalScreen = (props) => {
           setRelationSelected(relation);
           setImagenUrl(imagenUrl);
           setLabelSelected(labelEntity);
-          console.log(question);
           if (question.includes('año')) 
             setAnswerIsYear(true);
           if (question.includes('goles') || question.includes('altura')) 
@@ -329,7 +330,6 @@ let PrincipalScreen = (props) => {
     handleSend(funcProperties);
   };  
 
-  const [relArray, setRelArray] = useState([]); 
 
   /**
    * Checks entity properties and updates the relation selected.
@@ -339,15 +339,11 @@ let PrincipalScreen = (props) => {
    */
   const funcProperties = async () => {
     try {
-      console.log(relationSelected);
       relArray.push(relationSelected);
-      console.log(relArray);
       const properties = await checkProperties(entitySelected, selectedCategory, relArray);
       if (properties && properties.length>0) {
-        console.log(properties);
         setRelationSelected(properties[0]);
         setLoading(false);
-        console.log(properties[0]);
         if (properties[0]==="/P2048" || properties[0]==="/P6509") {
           setAnswerIsNumber(true);
         } else if (properties[0]==="/P571") {
