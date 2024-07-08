@@ -136,7 +136,7 @@ const fetchProperties = async (entity, relations) => {
  * @param {string} category - Category name (investigación, deporte, música).
  * @returns {Promise<string[] | null>} Array of false properties or null if error.
  */
-const checkProperties = async (entity, category) => {
+const checkProperties = async (entity, category, relationSelected) => {
   let relations=null;
   if (category==="investigación") {
      relations = researcherRelations;
@@ -156,8 +156,7 @@ const checkProperties = async (entity, category) => {
     const propiedadesFalsas = [];
     lista.forEach(objeto => {
       for (const propiedad in objeto) {
-        if (objeto[propiedad] === false) {
-          console.log("Aqui!" + objeto[propiedad]);
+        if (objeto[propiedad] === false && propiedad !== relationSelected.split("/")[1]) {
           propiedadesFalsas.push(`/${propiedad}`);
         }
       }

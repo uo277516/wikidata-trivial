@@ -329,7 +329,7 @@ let PrincipalScreen = (props) => {
    */
   const funcProperties = async () => {
     try {
-      const properties = await checkProperties(entitySelected, selectedCategory);
+      const properties = await checkProperties(entitySelected, selectedCategory, relationSelected);
       if (properties) {
         setRelationSelected(properties[0]);
         setLoading(false);
