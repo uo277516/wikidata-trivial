@@ -122,7 +122,7 @@ let PrincipalScreen = (props) => {
       saveStreak();
   }, []);
 
-
+  const [notiRecord, setNotiRecord] = useState(false);
 
   /**
    * Checks user's streak and shows a notification if a new record is achieved.
@@ -130,15 +130,15 @@ let PrincipalScreen = (props) => {
    * @returns {void}
    */
   const checkStreak = () => {
+    console.log("Entra a comprobar");
     fetchStreaks();
     const firstStreak = streaks.length > 0 ? streaks[0].streak : null;
-    let placement='bottom';
-    if (firstStreak<answeredQuestions+1) {
-      api.success({
-        message: t('question.record'),
-        description: t('question.record.description', { firstStreak }), 
-        placement,
-      });
+    console.log(firstStreak);
+    console.log(answeredQuestions+1);
+    if (firstStreak!==null && firstStreak<answeredQuestions+1 && !notiRecord) {
+      notification.success({message: t('question.record'), 
+        description: t('question.record.description', { firstStreak }), placement: 'bottom'});
+      setNotiRecord(true);
     }
   }
 
@@ -310,7 +310,6 @@ let PrincipalScreen = (props) => {
    * @returns {Promise<void>}
    */
   const handleSendButton = async () => {
-    console.log("Entrs");
     handleSend(fetchQuestions);
   };
 
@@ -321,7 +320,6 @@ let PrincipalScreen = (props) => {
    * @returns {Promise<void>}
    */
   const handleSendSameEntityButton = async () => {
-    console.log("Entra");
     setLoading(true);
     handleSend(funcProperties);
   };  
@@ -373,6 +371,7 @@ let PrincipalScreen = (props) => {
   const handleGiveUp = () => {
     setTitleChangeGiveUp(t('question.giveup'))
     setMsgChangeGiveUp(t('question.msgGiveUp', { answeredQuestions }));
+    setNotiRecord(false);
     if (answeredQuestions>0) {
       saveStreak();
       fetchStreaks();
@@ -406,6 +405,7 @@ let PrincipalScreen = (props) => {
         setGiveUp(true);
         setSelectedCategory(value);
         setSelCategory(value);
+        setNotiRecord(false);
         setTitleChangeGiveUp(t('question.youChangeCat'))
         setMsgChangeGiveUp(t('question.youChangeCatMsg', { answeredQuestions }));
 
